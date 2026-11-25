@@ -1,0 +1,169 @@
+/* ==========================================================================
+   ACCREDITATION & PARTNERS SECTION - CLEAN WHITE INFINITE CAROUSEL
+   (NO BOXES, NO CARDS, PURE LOGO MARQUEE)
+   ========================================================================== */
+
+.accreditation-white-section {
+  width: 100%;
+  background-color: #ffffff;
+  color: #0f172a;
+  padding: 4.5rem 1.5rem 5rem;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  overflow: hidden;
+  position: relative;
+}
+
+.accreditation-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   HEADER ON WHITE
+   -------------------------------------------------------------------------- */
+.accreditation-title-wrap {
+  text-align: center;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.accreditation-eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--primary, #0101ff);
+  text-transform: uppercase;
+  margin-bottom: 0.65rem;
+}
+
+.accreditation-heading {
+  font-size: clamp(1.85rem, 3vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+  line-height: 1.2;
+  margin-bottom: 0.65rem;
+}
+
+.accreditation-subheading {
+  font-size: 1.02rem;
+  color: #64748b;
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+/* --------------------------------------------------------------------------
+   SEAMLESS INFINITE LOGO CAROUSEL (NO BOXES, NO BORDERS)
+   -------------------------------------------------------------------------- */
+.logo-carousel-viewport {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding: 2.25rem 0;
+}
+
+/* Soft Edge Fade Masks */
+.carousel-fade-left,
+.carousel-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 160px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.carousel-fade-left {
+  left: 0;
+  background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.carousel-fade-right {
+  right: 0;
+  background: linear-gradient(to left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* Marquee Track */
+.logo-carousel-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: 7.5rem;
+  animation: infiniteLogoScroll 34s linear infinite;
+  will-change: transform;
+}
+
+.logo-carousel-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes infiniteLogoScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Logo Item (Zero Box Layout - Pure floating logos) */
+.logo-carousel-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0.85rem 1.5rem;
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+
+.carousel-partner-logo {
+  height: 102px;
+  max-width: 290px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  opacity: 0.96;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.logo-carousel-item:hover .carousel-partner-logo {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+@media (max-width: 768px) {
+  .accreditation-white-section {
+    padding: 3.5rem 1.25rem 4rem;
+  }
+
+  .logo-carousel-viewport {
+    padding: 1.5rem 0;
+  }
+
+  .logo-carousel-track {
+    gap: 5rem;
+    animation-duration: 25s;
+  }
+
+  .carousel-partner-logo {
+    height: 72px;
+    max-width: 210px;
+  }
+
+  .carousel-fade-left,
+  .carousel-fade-right {
+    width: 70px;
+  }
+}

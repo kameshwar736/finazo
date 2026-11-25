@@ -1,0 +1,376 @@
+/* ==========================================================================
+   HERO SECTION - FOCUSED, MODERN & CLEAN (NO STOCK IMAGES / NO WATERMARK)
+   ========================================================================== */
+
+.finanzo-hero {
+  position: relative;
+  width: 100%;
+  background-color: #0c0c0e;
+  color: #ffffff;
+  padding: 5rem 1.5rem 6rem;
+  overflow: hidden;
+  border-bottom: 1px solid #1f1f24;
+}
+
+/* Background Ambient Lighting */
+.finanzo-hero-glow {
+  position: absolute;
+  top: -20%;
+  right: 15%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(1, 1, 255, 0.22) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  animation: ambientGlowPulse 7s infinite ease-in-out;
+}
+
+.finanzo-hero-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   LEFT COLUMN: CONTENT & HEADLINE (Smooth Initial Animations)
+   ========================================================================== */
+.finanzo-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.finanzo-hero-heading {
+  font-size: clamp(2.6rem, 4.2vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  margin-bottom: 1.35rem;
+  animation: heroSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Dynamic Changing Word (Career, Future, Success) */
+.dynamic-word-container {
+  display: inline-block;
+  min-width: 180px;
+  position: relative;
+}
+
+.dynamic-word-text {
+  display: inline-block;
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dynamic-word-text.fading-out {
+  opacity: 0;
+  transform: translateY(-10px);
+  filter: blur(4px);
+}
+
+.dynamic-word-text.fading-in {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.finanzo-hero-subtext {
+  font-size: 1.12rem;
+  line-height: 1.65;
+  color: #a1a1aa;
+  max-width: 540px;
+  margin-bottom: 2.25rem;
+  font-weight: 400;
+  animation: heroSlideUp 0.8s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* CTA Button */
+.finanzo-hero-actions {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  animation: heroSlideUp 0.8s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.finanzo-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.5rem 0.5rem 0.5rem 1.65rem;
+  background-color: #ffffff;
+  color: #0c0c0e;
+  font-size: 1.02rem;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+  transition: all 0.25s ease;
+}
+
+.finanzo-explore-btn:hover {
+  background-color: #f4f4f5;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(255, 255, 255, 0.25);
+}
+
+.btn-arrow-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: var(--primary, #0101ff);
+  color: #ffffff;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-arrow-box svg {
+  width: 17px;
+  height: 17px;
+}
+
+.finanzo-explore-btn:hover .btn-arrow-box {
+  background-color: #0000d6;
+  transform: translateX(3px);
+}
+
+/* Practical Feature Pills */
+.finanzo-feature-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  animation: heroSlideUp 0.8s 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.85rem;
+  background-color: #141417;
+  border: 1px solid #232328;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #d4d4d8;
+  transition: all 0.25s ease;
+  cursor: default;
+}
+
+.feature-pill:hover {
+  background-color: #1a1a20;
+  border-color: #3b3b44;
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.feature-pill svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--accent, #10b981);
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: TALLY PARTNERSHIP CARD
+   ========================================================================== */
+.finanzo-hero-partner-col {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.partner-card-glow {
+  position: absolute;
+  inset: -10%;
+  background: radial-gradient(circle, rgba(1, 1, 255, 0.35) 0%, rgba(1, 1, 255, 0.05) 55%, transparent 75%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 1;
+  animation: ambientGlowPulse 5.5s infinite ease-in-out;
+}
+
+.partner-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(145deg, #0101ff 0%, #0000bf 100%);
+  border-radius: 12px;
+  padding: 2.5rem;
+  color: #ffffff;
+  box-shadow: 0 20px 50px -10px rgba(1, 1, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  animation: heroSlideUp 0.85s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.partner-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 24px 60px -10px rgba(1, 1, 255, 0.6);
+}
+
+.partner-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.partner-finanzo-logo {
+  height: 32px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+.partner-verified-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background-color: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.partner-card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.partner-eyebrow {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.5rem;
+}
+
+.partner-heading {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.5rem;
+}
+
+/* Tally Branding Box */
+.tally-box {
+  background-color: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tally-logo-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.tally-logo-text {
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.tally-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.tally-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #93c5fd;
+}
+
+.tally-desc {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.35;
+}
+
+/* Partner Card Footer */
+.partner-card-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer-bullet {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.bullet-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #38bdf8;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 992px) {
+  .finanzo-hero {
+    padding: 3.5rem 1.5rem 4.5rem;
+  }
+
+  .finanzo-hero-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .finanzo-hero-partner-col {
+    justify-content: flex-start;
+  }
+
+  .partner-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .finanzo-hero-heading {
+    font-size: 2.3rem;
+  }
+
+  .dynamic-word-container {
+    min-width: 140px;
+  }
+
+  .partner-card {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .partner-heading {
+    font-size: 1.8rem;
+  }
+}

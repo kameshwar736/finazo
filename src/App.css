@@ -1,0 +1,45 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9fafb;
+  position: relative;
+}
+
+/* Optional vertical brand guideline matching template structure */
+.brand-accent-line {
+  position: fixed;
+  left: 0;
+  top: 64px;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--primary, #0101ff);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ==========================================================================
+   PAGE-TO-PAGE TRANSITION WRAPPER
+   ========================================================================== */
+.page-transition-wrapper {
+  animation: pageFadeSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+}
+
+@keyframes pageFadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}

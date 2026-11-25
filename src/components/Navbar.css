@@ -1,0 +1,400 @@
+/* Main Navbar Container adhering to the Prime Reference UI Template */
+.prime-navbar-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #27272a;
+}
+
+.prime-navbar-bar {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  width: 100%;
+  background-color: #1a1a1a;
+  position: relative;
+}
+
+/* Brand Block: Bold electric blue block on far left matching template */
+.prime-brand-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  padding: 0 1.75rem;
+  background-color: var(--primary, #0101ff);
+  text-decoration: none;
+  flex-shrink: 0;
+  position: relative;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.prime-brand-block:hover {
+  background-color: #0000e6;
+}
+
+/* Invert the blue logo to pure crisp white inside the electric blue block */
+.prime-brand-logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.prime-brand-block:hover .prime-brand-logo {
+  transform: scale(1.03);
+}
+
+/* Navigation Links Container */
+.prime-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.85rem;
+  padding-left: 2.25rem;
+  flex: 1;
+}
+
+.prime-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.prime-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #d4d4d8;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+}
+
+.prime-link:hover,
+.prime-link.active {
+  color: #ffffff;
+}
+
+/* Subtle chevron icon next to dropdown items */
+.chevron-icon {
+  width: 13px;
+  height: 13px;
+  stroke: #a1a1aa;
+  transition: transform 0.2s ease, stroke 0.2s ease;
+}
+
+.prime-nav-item:hover .chevron-icon {
+  stroke: #ffffff;
+}
+
+.chevron-icon.rotate {
+  transform: rotate(180deg);
+}
+
+/* Red Pulsing "Live" Indicator Pill matching reference */
+.live-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.45rem;
+  background-color: #dc2626;
+  color: #ffffff;
+  border-radius: 999px;
+  margin-left: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(220, 38, 38, 0.6);
+  animation: liveGlow 1.8s infinite ease-in-out;
+}
+
+@keyframes liveGlow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Dropdown Menu */
+.prime-dropdown-menu {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  min-width: 280px;
+  background-color: #202022;
+  border: 1px solid #333336;
+  border-top: 2px solid var(--primary, #0101ff);
+  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.45);
+  border-radius: 0 0 8px 8px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: 1010;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.prime-dropdown-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.prime-dropdown-item:hover {
+  background-color: #2c2c30;
+}
+
+.dropdown-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #f4f4f5;
+  margin-bottom: 2px;
+}
+
+.dropdown-desc {
+  font-size: 0.75rem;
+  color: #a1a1aa;
+  line-height: 1.3;
+}
+
+/* Right Action Section */
+.prime-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-left: auto;
+  padding-right: 1.75rem;
+}
+
+/* Account Button placed to the left of Login */
+.prime-account-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.prime-account-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #d4d4d8;
+  border-radius: 6px;
+  background-color: #242427;
+  border: 1px solid #333338;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.prime-account-btn:hover,
+.prime-account-btn.active {
+  color: #ffffff;
+  background-color: #2c2c31;
+  border-color: #4a4a52;
+}
+
+.prime-account-icon {
+  width: 15px;
+  height: 15px;
+  stroke: #a1a1aa;
+  transition: stroke 0.2s ease;
+}
+
+.prime-account-btn:hover .prime-account-icon {
+  stroke: #ffffff;
+}
+
+.prime-account-dropdown {
+  right: 0;
+  left: auto;
+  min-width: 260px;
+}
+
+/* Signature CTA Button exactly like reference: light rounded pill with primary arrow box */
+.prime-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.35rem 0.4rem 0.35rem 1.15rem;
+  background-color: #ffffff;
+  color: #111111;
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.prime-cta-btn:hover {
+  background-color: #f4f4f5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.prime-cta-arrow-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: var(--primary, #0101ff);
+  color: #ffffff;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.prime-cta-arrow-box svg {
+  width: 15px;
+  height: 15px;
+}
+
+.prime-cta-btn:hover .prime-cta-arrow-box {
+  background-color: #0000d6;
+  transform: translateX(2px);
+}
+
+/* Mobile Toggle Hamburger */
+.prime-mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.prime-mobile-toggle span {
+  display: block;
+  width: 19px;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.prime-mobile-toggle.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.prime-mobile-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.prime-mobile-toggle.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile Drawer */
+.prime-mobile-drawer {
+  display: none;
+  background-color: #1a1a1a;
+  border-top: 1px solid #27272a;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.prime-mobile-drawer.open {
+  max-height: 580px;
+}
+
+.prime-mobile-drawer-inner {
+  padding: 1rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.prime-mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.85rem;
+  color: #e4e4e7;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.prime-mobile-link:hover,
+.prime-mobile-link.active {
+  background-color: #27272a;
+  color: #ffffff;
+}
+
+.prime-mobile-action {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #27272a;
+}
+
+.prime-mobile-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  color: #111111;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Responsive Rules */
+@media (max-width: 1040px) {
+  .prime-nav-links {
+    display: none;
+  }
+
+  .prime-nav-actions .prime-account-wrapper {
+    display: none;
+  }
+
+  .prime-nav-actions .prime-cta-btn {
+    display: none;
+  }
+
+  .prime-mobile-toggle {
+    display: flex;
+  }
+
+  .prime-mobile-drawer {
+    display: block;
+  }
+}

@@ -1,0 +1,568 @@
+/* ==========================================================================
+   COURSES SECTION - CLEAN, PROFESSIONAL & HIGH-CONVERTING DESIGN
+   ========================================================================== */
+
+.courses-section {
+  width: 100%;
+  background-color: #f8fafc;
+  color: #0f172a;
+  padding: 5.5rem 1.5rem 6.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  position: relative;
+}
+
+.courses-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   HEADER
+   -------------------------------------------------------------------------- */
+.courses-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.courses-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--primary, #0101ff);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  background-color: #eef2ff;
+  padding: 0.35rem 0.95rem;
+  border-radius: 9999px;
+  border: 1px solid #dbeafe;
+}
+
+.eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--primary, #0101ff);
+}
+
+.courses-title {
+  font-size: clamp(2.1rem, 3.4vw, 2.9rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: #0f172a;
+  line-height: 1.18;
+  margin-bottom: 0.85rem;
+}
+
+.courses-subtitle {
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: #64748b;
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+/* Category Filter Tabs */
+.courses-filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.filter-tab-btn {
+  padding: 0.55rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.filter-tab-btn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+.filter-tab-btn.active {
+  background-color: var(--primary, #0101ff);
+  color: #ffffff;
+  border-color: var(--primary, #0101ff);
+  box-shadow: 0 4px 14px rgba(1, 1, 255, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   3-COLUMN COURSE CARDS GRID
+   -------------------------------------------------------------------------- */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.course-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 20px -4px rgba(15, 23, 42, 0.05);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.course-card:hover {
+  transform: translateY(-6px);
+  border-color: #cbd5e1;
+  box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(1, 1, 255, 0.08);
+}
+
+/* Card Top Visual Banner */
+.course-card-top {
+  padding: 1.5rem;
+  min-height: 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+.gradient-blue-violet {
+  background: linear-gradient(135deg, #1e1b4b 0%, #0101ff 100%);
+}
+
+.gradient-emerald {
+  background: linear-gradient(135deg, #064e3b 0%, #047857 70%, #10b981 100%);
+}
+
+.gradient-indigo {
+  background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+}
+
+.course-banner-badges {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.course-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.course-badge.internship {
+  background-color: #f59e0b;
+  color: #000000;
+}
+
+.course-badge.popular {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.course-badge.starter {
+  background-color: #38bdf8;
+  color: #0f172a;
+}
+
+.tally-tepl-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.tally-text-mark {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+}
+
+.tally-auth-pill {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #93c5fd;
+}
+
+.course-banner-content {
+  position: relative;
+  z-index: 2;
+  margin-top: 1rem;
+}
+
+.banner-tagline {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Body */
+.course-card-body {
+  padding: 1.75rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Certificate Pill */
+.certificate-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--primary, #0101ff);
+  background-color: #eef2ff;
+  border: 1px solid #dbeafe;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  width: fit-content;
+  margin-bottom: 0.85rem;
+}
+
+.certificate-pill svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Course Name */
+.course-name {
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.45rem;
+  min-height: 54px;
+}
+
+/* Provider Byline */
+.course-provider {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-bottom: 0.85rem;
+}
+
+.provider-brand {
+  color: #0f172a;
+}
+
+.verified-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  background-color: var(--primary, #0101ff);
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 0.6rem;
+  font-weight: 900;
+}
+
+/* Description */
+.course-desc {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #475569;
+  margin-bottom: 1.15rem;
+  min-height: 64px;
+}
+
+/* Highlights List */
+.course-highlights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #334155;
+  font-weight: 500;
+}
+
+.check-bullet {
+  color: #10b981;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+/* Stats Bar */
+.course-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.stat-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: #475569;
+}
+
+.stat-meta svg {
+  width: 14px;
+  height: 14px;
+  stroke: #64748b;
+}
+
+.stat-meta.rating {
+  color: #0f172a;
+}
+
+.star-icon {
+  color: #f59e0b;
+  font-size: 1rem;
+}
+
+.count {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+/* Footer: Price & Explore CTA */
+.course-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.price-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.fee-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+}
+
+.prices-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.original-price {
+  font-size: 0.88rem;
+  text-decoration: line-through;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.discounted-price {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.discount-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #10b981;
+  background-color: #ecfdf5;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.explore-course-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.25rem;
+  background-color: var(--primary, #0101ff);
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(1, 1, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.explore-course-btn svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.2s ease;
+}
+
+.explore-course-btn:hover {
+  background-color: #0000d6;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(1, 1, 255, 0.35);
+}
+
+.explore-course-btn:hover svg {
+  transform: translateX(3px);
+}
+
+/* --------------------------------------------------------------------------
+   BOTTOM FEATURE RIBBON: 30-DAY FREE TALLY SOFTWARE ACCESS
+   -------------------------------------------------------------------------- */
+.tally-software-ribbon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, #0101ff 0%, #0000bf 100%);
+  color: #ffffff;
+  padding: 1.35rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px -5px rgba(1, 1, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.ribbon-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ribbon-icon-box svg {
+  width: 22px;
+  height: 22px;
+  stroke: #ffffff;
+}
+
+.ribbon-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+}
+
+.ribbon-main-text {
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.ribbon-subtext {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 400;
+}
+
+.ribbon-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.25rem;
+  background-color: #ffffff;
+  color: #0101ff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border-radius: 6px;
+  text-decoration: none;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.ribbon-cta-link:hover {
+  background-color: #f4f4f5;
+  transform: translateY(-2px);
+}
+
+.arrow-sym {
+  transition: transform 0.2s ease;
+}
+
+.ribbon-cta-link:hover .arrow-sym {
+  transform: translateX(3px);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE LAYOUT
+   ========================================================================== */
+@media (max-width: 1080px) {
+  .courses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .courses-section {
+    padding: 4rem 1.25rem 5rem;
+  }
+
+  .courses-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .tally-software-ribbon {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .ribbon-cta-link {
+    width: 100%;
+    justify-content: center;
+  }
+}

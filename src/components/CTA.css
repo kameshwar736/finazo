@@ -1,0 +1,201 @@
+/* ==========================================================================
+   CALL TO ACTION (CTA) SECTION
+   ========================================================================== */
+
+.cta-section {
+  width: 100%;
+  background-color: #09090c;
+  color: #ffffff;
+  padding: 5.5rem 1.5rem 6.5rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #1a1a24;
+}
+
+.cta-ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(1, 1, 255, 0.22) 0%, rgba(1, 1, 255, 0.05) 55%, transparent 75%);
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.cta-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-card {
+  background: linear-gradient(135deg, rgba(20, 20, 30, 0.95) 0%, rgba(14, 14, 22, 0.98) 100%);
+  border: 1px solid rgba(1, 1, 255, 0.35);
+  border-radius: 24px;
+  padding: 4.5rem 3.5rem;
+  box-shadow: 0 20px 60px -15px rgba(1, 1, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.cta-content {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cta-title {
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+}
+
+.cta-description {
+  font-size: 1.12rem;
+  line-height: 1.65;
+  color: #a1a1aa;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+}
+
+/* Action Buttons */
+.cta-action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 2.75rem;
+}
+
+.cta-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.5rem 0.5rem 0.5rem 1.75rem;
+  background-color: #ffffff;
+  color: #09090c;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+  transition: all 0.25s ease;
+}
+
+.cta-btn-primary:hover {
+  background-color: #f4f4f5;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(255, 255, 255, 0.3);
+}
+
+.cta-btn-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: var(--primary, #0101ff);
+  color: #ffffff;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.cta-btn-arrow svg {
+  width: 17px;
+  height: 17px;
+}
+
+.cta-btn-primary:hover .cta-btn-arrow {
+  background-color: #0000d6;
+  transform: translateX(3px);
+}
+
+.cta-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.65rem;
+  background-color: #1a1a24;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid #333345;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cta-btn-secondary svg {
+  width: 18px;
+  height: 18px;
+  stroke: #60a5fa;
+}
+
+.cta-btn-secondary:hover {
+  background-color: #242434;
+  border-color: #4a4a62;
+  transform: translateY(-2px);
+}
+
+/* Trust Checklist */
+.cta-trust-checklist {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.92rem;
+  color: #d4d4d8;
+  font-weight: 500;
+}
+
+.check-dot {
+  color: #10b981;
+  font-weight: 900;
+  font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 768px) {
+  .cta-section {
+    padding: 4.5rem 1.25rem 5rem;
+  }
+
+  .cta-card {
+    padding: 3rem 1.5rem;
+    border-radius: 18px;
+  }
+
+  .cta-action-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-btn-primary,
+  .cta-btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cta-trust-checklist {
+    flex-direction: column;
+    gap: 0.85rem;
+    align-items: flex-start;
+  }
+}

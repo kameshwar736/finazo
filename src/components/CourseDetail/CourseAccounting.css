@@ -1,0 +1,1902 @@
+/* ==========================================================================
+   FINANZO ARCHITECTURAL EDITORIAL DESIGN SYSTEM
+   INSPIRED BY CTBUH / SWISS MODERNIST ARCHITECTURAL EDITORIAL LAYOUT
+   (FULL-WIDTH EDITORIAL RHYTHM + ELECTRIC LIME BANNER + BENTO GRIDS)
+   ========================================================================== */
+
+:root {
+  /* Architectural Dark Palette */
+  --arch-bg-main: #0c0c0f;
+  --arch-bg-surface: #121217;
+  --arch-bg-card: #16161c;
+  --arch-bg-card-hover: #1c1c24;
+  --arch-bg-elevated: #1f1f28;
+  --arch-border: #23232c;
+  --arch-border-light: #2e2e3a;
+
+  /* Typography Colors */
+  --arch-text-primary: #ffffff;
+  --arch-text-heading: #f4f4f5;
+  --arch-text-secondary: #a1a1aa;
+  --arch-text-muted: #71717a;
+
+  /* Signature Electric Lime & High-Contrast Colors */
+  --arch-lime: #b8f000;
+  --arch-lime-hover: #ccff00;
+  --arch-lime-text: #09090b;
+
+  /* Transitions */
+  --arch-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --arch-duration: 0.22s;
+}
+
+.finanzo-editorial-page {
+  width: 100%;
+  background-color: var(--arch-bg-main);
+  color: var(--arch-text-secondary);
+  font-family: inherit;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.arch-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ==========================================================================
+   1. HERO SECTION
+   ========================================================================== */
+.arch-hero-section {
+  background-color: var(--arch-bg-main);
+  padding: 2.75rem 0 4rem;
+  border-bottom: 1px solid var(--arch-border);
+}
+
+.arch-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--arch-border);
+}
+
+.arch-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: 1px solid var(--arch-border);
+  color: var(--arch-text-primary);
+  padding: 0.45rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.arch-back-btn:hover {
+  border-color: var(--arch-lime);
+  color: var(--arch-lime);
+  background-color: rgba(184, 240, 0, 0.05);
+}
+
+.arch-org-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--arch-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.arch-hero-statement-wrap {
+  max-width: 980px;
+}
+
+.arch-eyebrow-line {
+  font-size: 0.85rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--arch-lime);
+  margin-bottom: 1.25rem;
+}
+
+.arch-hero-title {
+  font-size: clamp(2.2rem, 4.2vw, 3.8rem);
+  font-weight: 850;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  color: var(--arch-text-primary);
+  margin: 0 0 1.5rem 0;
+}
+
+.arch-title-highlight {
+  color: var(--arch-lime);
+  background: linear-gradient(90deg, #b8f000 0%, #ffffff 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.arch-hero-desc {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--arch-text-secondary);
+  max-width: 780px;
+  margin: 0 0 2.25rem 0;
+}
+
+/* Hero Pricing & CTA */
+.arch-hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.arch-price-group {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+}
+
+.arch-price-val {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--arch-text-primary);
+  letter-spacing: -0.03em;
+}
+
+.arch-price-old {
+  font-size: 1.2rem;
+  color: var(--arch-text-muted);
+  text-decoration: line-through;
+}
+
+.arch-discount-tag {
+  background-color: var(--arch-lime);
+  color: var(--arch-lime-text);
+  font-size: 0.8rem;
+  font-weight: 850;
+  padding: 0.25rem 0.65rem;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+.arch-btn-primary {
+  background-color: var(--arch-lime);
+  color: var(--arch-lime-text);
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 850;
+  padding: 0.85rem 2.25rem;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.arch-btn-primary:hover {
+  background-color: var(--arch-lime-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(184, 240, 0, 0.35);
+}
+
+/* ==========================================================================
+   2. STATS RIBBON STRIP
+   ========================================================================== */
+.arch-stats-ribbon {
+  background-color: #101014;
+  border-bottom: 1px solid var(--arch-border);
+  padding: 1.65rem 0;
+}
+
+.arch-stats-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.arch-stat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-num {
+  font-size: 1.95rem;
+  font-weight: 850;
+  color: var(--arch-text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.stat-sub {
+  font-size: 0.82rem;
+  color: var(--arch-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.arch-stat-divider {
+  width: 1px;
+  height: 36px;
+  background-color: var(--arch-border);
+}
+
+/* ==========================================================================
+   3. HORIZONTAL VISUAL FEATURE STRIP (TEMPLATE MIRROR)
+   ========================================================================== */
+.arch-feature-strip {
+  background-color: #08080a;
+  border-bottom: 1px solid var(--arch-border);
+  padding: 2.5rem 0;
+}
+
+.strip-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.strip-card {
+  border: 1px solid var(--arch-border);
+  background-color: var(--arch-bg-surface);
+  transition: all var(--arch-duration) var(--arch-ease);
+  cursor: pointer;
+}
+
+.strip-card:hover {
+  border-color: var(--arch-lime);
+  transform: translateY(-3px);
+}
+
+.strip-thumb {
+  height: 110px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0.75rem;
+}
+
+.thumb-tally {
+  background: linear-gradient(135deg, #181b2a 0%, #29304a 100%);
+}
+
+.thumb-gst {
+  background: linear-gradient(135deg, #102419 0%, #1e452f 100%);
+}
+
+.thumb-internship {
+  background: linear-gradient(135deg, #2b1f13 0%, #4a341e 100%);
+}
+
+.thumb-tepl {
+  background: linear-gradient(135deg, #1d1829 0%, #372d4e 100%);
+}
+
+.strip-badge {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+}
+
+.strip-info {
+  padding: 1.15rem 1.25rem;
+}
+
+.strip-cat {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 750;
+  color: var(--arch-lime);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+
+.strip-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+  margin: 0;
+}
+
+/* ==========================================================================
+   UNIVERSAL FULL-WIDTH SECTION STYLING
+   ========================================================================== */
+.arch-content-section {
+  padding: 5rem 0;
+  border-bottom: 1px solid var(--arch-border);
+}
+
+.arch-kicker-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  color: var(--arch-lime);
+  margin-bottom: 0.5rem;
+}
+
+.arch-section-title {
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  color: var(--arch-text-primary);
+  margin: 0;
+}
+
+.arch-section-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.75rem;
+  flex-wrap: wrap;
+}
+
+.arch-header-desc {
+  font-size: 0.98rem;
+  color: var(--arch-text-secondary);
+  max-width: 580px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   4. SECTION: COURSE OVERVIEW & ABOUT FINANZO (ASYMMETRIC SPLIT)
+   ========================================================================== */
+.arch-split-2col {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.arch-col-left .arch-section-title {
+  margin-bottom: 1.5rem;
+}
+
+.arch-body-lead {
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: var(--arch-text-primary);
+  margin: 0 0 1.25rem 0;
+}
+
+.arch-body-lead-wide {
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: var(--arch-text-primary);
+  max-width: 900px;
+  margin: 0 0 2.5rem 0;
+}
+
+.arch-body-text {
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: var(--arch-text-secondary);
+  margin: 0;
+}
+
+.arch-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.arch-pillar-box {
+  background-color: var(--arch-bg-surface);
+  border: 1px solid var(--arch-border);
+  padding: 1.65rem 1.5rem;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.arch-pillar-box:hover {
+  border-color: var(--arch-lime);
+  transform: translateY(-2px);
+}
+
+.pillar-num {
+  font-size: 0.85rem;
+  font-family: monospace;
+  font-weight: 850;
+  color: var(--arch-lime);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.pillar-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+  margin: 0 0 0.35rem 0;
+}
+
+.pillar-desc {
+  font-size: 0.86rem;
+  color: var(--arch-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ==========================================================================
+   5. SECTION: EXCLUSIVE COURSE OFFERINGS (BENTO GRID)
+   ========================================================================== */
+.arch-offerings-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.offering-bento-card {
+  background-color: var(--arch-bg-surface);
+  border: 1px solid var(--arch-border);
+  padding: 1.65rem;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.offering-bento-card:hover {
+  border-color: var(--arch-lime);
+  transform: translateY(-2px);
+}
+
+.bento-indicator {
+  color: var(--arch-lime);
+  font-size: 0.95rem;
+  margin-bottom: 0.65rem;
+  display: block;
+}
+
+.bento-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+  margin: 0 0 0.35rem 0;
+}
+
+.bento-desc {
+  font-size: 0.85rem;
+  color: var(--arch-text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ==========================================================================
+   6. ⚡ ELECTRIC LIME MID-PAGE STATEMENT BANNER
+   ========================================================================== */
+.arch-lime-banner {
+  background-color: var(--arch-lime);
+  color: #000000;
+  padding: 5rem 0;
+  text-align: center;
+}
+
+.arch-lime-inner {
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.lime-main-title {
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: #000000;
+  margin: 0;
+  line-height: 1.12;
+}
+
+.lime-main-desc {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: rgba(0, 0, 0, 0.85);
+  margin: 0;
+}
+
+.lime-action-btn {
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 1rem 2.75rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.lime-action-btn:hover {
+  background-color: #1a1a1a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* ==========================================================================
+   7. SECTION: INTERNSHIP PROGRAM INTEGRATION (ASYMMETRIC SPLIT)
+   ========================================================================== */
+.arch-tag-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.arch-lime-tag {
+  background-color: var(--arch-lime);
+  color: var(--arch-lime-text);
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  padding: 0.35rem 0.75rem;
+}
+
+.arch-dark-tag {
+  background-color: #272733;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 0.35rem 0.75rem;
+}
+
+.arch-internship-asymmetric-split {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.sub-section-kicker {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+  margin: 0 0 1.25rem 0;
+}
+
+.arch-steps-editorial {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.arch-step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.35rem;
+  background-color: var(--arch-bg-surface);
+  border: 1px solid var(--arch-border);
+  padding: 1.25rem 1.5rem;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.arch-step-row:hover {
+  border-color: var(--arch-border-light);
+  transform: translateX(4px);
+}
+
+.step-index {
+  font-size: 1.2rem;
+  font-weight: 850;
+  color: var(--arch-lime);
+  font-family: monospace;
+  min-width: 32px;
+}
+
+.step-headline {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+  margin: 0 0 0.35rem 0;
+}
+
+.step-text {
+  font-size: 0.88rem;
+  color: var(--arch-text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Featured 3 Case Studies Card (Like "Featured tall building" in template) */
+.internship-featured-case-box {
+  background-color: var(--arch-bg-surface);
+  border: 1px solid var(--arch-border);
+  padding: 2.25rem;
+}
+
+.case-kicker {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--arch-lime);
+  margin-bottom: 0.5rem;
+}
+
+.case-main-title {
+  font-size: 1.45rem;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  color: var(--arch-text-primary);
+  margin: 0 0 1.75rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--arch-border);
+}
+
+.case-entry-item {
+  margin-bottom: 1.35rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.case-num {
+  font-size: 0.78rem;
+  font-weight: 750;
+  color: var(--arch-lime);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.case-title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+  margin: 0 0 0.3rem 0;
+}
+
+.case-desc {
+  font-size: 0.85rem;
+  color: var(--arch-text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.case-box-footer {
+  padding-top: 0.5rem;
+}
+
+.case-footer-tag {
+  font-size: 0.78rem;
+  font-weight: 750;
+  color: var(--arch-lime);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ==========================================================================
+   8. SECTION: WHY CHOOSE THIS COURSE? (BENTO GRID)
+   ========================================================================== */
+.arch-why-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.arch-why-card {
+  background-color: var(--arch-bg-surface);
+  border: 1px solid var(--arch-border);
+  padding: 1.75rem;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.arch-why-card:hover {
+  border-color: var(--arch-border-light);
+  transform: translateY(-2px);
+}
+
+.arch-why-card.full-span {
+  grid-column: 1 / -1;
+  border-left: 3px solid var(--arch-lime);
+}
+
+.why-marker {
+  display: inline-block;
+  color: var(--arch-lime);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.why-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+  margin: 0 0 0.35rem 0;
+}
+
+.why-desc {
+  font-size: 0.88rem;
+  color: var(--arch-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ==========================================================================
+   9. SECTION: OUR CURRICULUM GUIDE (EDITORIAL ACCORDION SPLIT)
+   ========================================================================== */
+.arch-curriculum-split {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.curriculum-intro-col {
+  position: sticky;
+  top: 90px;
+}
+
+.curriculum-badge-pill {
+  display: inline-block;
+  background-color: #1a1a24;
+  border: 1px solid var(--arch-border);
+  color: var(--arch-lime);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.85rem;
+  margin: 1rem 0 1.25rem 0;
+}
+
+.arch-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: none;
+  border: 1px solid var(--arch-border);
+  color: var(--arch-text-primary);
+  font-size: 0.88rem;
+  font-weight: 750;
+  padding: 0.8rem 1.65rem;
+  cursor: pointer;
+  margin-top: 1.75rem;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.arch-btn-outline:hover {
+  border-color: var(--arch-lime);
+  color: var(--arch-lime);
+  background-color: rgba(184, 240, 0, 0.05);
+}
+
+.arch-accordion-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.arch-drawer-item {
+  background-color: var(--arch-bg-surface);
+  border: 1px solid var(--arch-border);
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.arch-drawer-item.active {
+  border-color: var(--arch-border-light);
+  background-color: #15151b;
+}
+
+.drawer-trigger-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.drawer-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.drawer-num {
+  font-size: 0.82rem;
+  font-family: monospace;
+  font-weight: 850;
+  color: var(--arch-lime);
+}
+
+.drawer-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+}
+
+.drawer-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.drawer-lessons {
+  font-size: 0.82rem;
+  color: var(--arch-text-muted);
+}
+
+.drawer-toggle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--arch-lime);
+  min-width: 16px;
+  text-align: center;
+}
+
+.drawer-body-content {
+  border-top: 1px solid var(--arch-border);
+  padding: 1.25rem 1.5rem 1.25rem 3.5rem;
+  background-color: #0b0b0e;
+}
+
+.drawer-subtopics-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.subtopic-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+  color: var(--arch-text-secondary);
+  line-height: 1.5;
+}
+
+.subtopic-dash {
+  color: var(--arch-lime);
+  font-weight: 900;
+}
+
+/* ==========================================================================
+   10. SECTION: ELIGIBILITY & DUAL CERTIFICATION SHOWCASE
+   ========================================================================== */
+.arch-eligibility-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2.75rem;
+}
+
+.arch-elig-box {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background-color: var(--arch-bg-surface);
+  border: 1px solid var(--arch-border);
+  padding: 1.25rem 1.4rem;
+}
+
+.box-check {
+  color: var(--arch-lime);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.box-text {
+  font-size: 0.9rem;
+  font-weight: 650;
+  color: var(--arch-text-primary);
+  line-height: 1.45;
+}
+
+/* Full Width Credential Banner */
+.arch-cert-showcase {
+  background: linear-gradient(135deg, #171720 0%, #0d0d12 100%);
+  border: 1px solid var(--arch-border-light);
+  padding: 2.5rem;
+  position: relative;
+}
+
+.cert-top-pill {
+  display: inline-block;
+  background-color: rgba(184, 240, 0, 0.1);
+  border: 1px solid var(--arch-lime);
+  color: var(--arch-lime);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.cert-title {
+  font-size: 1.75rem;
+  font-weight: 850;
+  letter-spacing: -0.025em;
+  color: var(--arch-text-primary);
+  margin: 0 0 0.75rem 0;
+  line-height: 1.25;
+}
+
+.cert-lead {
+  font-size: 0.98rem;
+  color: var(--arch-text-secondary);
+  line-height: 1.7;
+  margin: 0 0 2rem 0;
+  max-width: 860px;
+}
+
+.cert-details-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2rem;
+  align-items: center;
+  background-color: #0b0b0e;
+  border: 1px solid var(--arch-border);
+  padding: 1.75rem;
+}
+
+.cert-graphic-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cert-svg-frame {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cert-caption {
+  font-size: 0.72rem;
+  font-family: monospace;
+  color: var(--arch-text-muted);
+}
+
+.cert-spec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cert-spec-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--arch-text-primary);
+  font-size: 0.98rem;
+}
+
+.lime-dot {
+  color: var(--arch-lime);
+  font-size: 0.85rem;
+}
+
+.cert-spec-desc {
+  font-size: 0.88rem;
+  color: var(--arch-text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.cert-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.86rem;
+  color: var(--arch-text-primary);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   11. SECTION: COURSE FEE & COMPLETE ENROLLMENT PACKAGE (FULL WIDTH)
+   ========================================================================== */
+.arch-pricing-package-card {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 3rem;
+  background-color: var(--arch-bg-surface);
+  border: 1px solid var(--arch-border);
+  padding: 3rem;
+}
+
+.pricing-col-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-right: 1px solid var(--arch-border);
+  padding-right: 3rem;
+}
+
+.package-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--arch-lime);
+}
+
+.package-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pkg-curr {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--arch-text-primary);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.pkg-old {
+  font-size: 1.35rem;
+  color: var(--arch-text-muted);
+  text-decoration: line-through;
+}
+
+.pkg-discount {
+  background-color: rgba(184, 240, 0, 0.12);
+  border: 1px solid var(--arch-lime);
+  color: var(--arch-lime);
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.6rem;
+}
+
+.pkg-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  border-top: 1px solid var(--arch-border);
+  border-bottom: 1px solid var(--arch-border);
+  padding: 1.25rem 0;
+}
+
+.spec-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.spec-box .label {
+  font-size: 0.72rem;
+  color: var(--arch-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.spec-box .val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+}
+
+.package-enroll-btn {
+  background-color: var(--arch-lime);
+  color: var(--arch-lime-text);
+  border: none;
+  padding: 1.15rem 2rem;
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.package-enroll-btn:hover {
+  background-color: var(--arch-lime-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(184, 240, 0, 0.35);
+}
+
+.pricing-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inclusions-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+  margin: 0;
+}
+
+.inclusions-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem 1.5rem;
+}
+
+.inclusions-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+  color: var(--arch-text-secondary);
+  line-height: 1.45;
+}
+
+.inclusions-checklist .chk {
+  color: var(--arch-lime);
+  font-weight: 900;
+}
+
+.advisor-strip {
+  border-top: 1px solid var(--arch-border);
+  padding-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.advisor-note {
+  font-size: 0.86rem;
+  color: var(--arch-text-muted);
+}
+
+.advisor-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.pkg-advisor-link {
+  text-decoration: none;
+  border: 1px solid var(--arch-border);
+  color: var(--arch-text-primary);
+  font-size: 0.82rem;
+  font-weight: 750;
+  padding: 0.5rem 1rem;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.pkg-advisor-link:hover {
+  border-color: var(--arch-lime);
+  color: var(--arch-lime);
+}
+
+/* ==========================================================================
+   12. SECTION: STUDENT REVIEWS & FEEDBACK (3-COLUMN GRID)
+   ========================================================================== */
+.score-pill-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #1a1a24;
+  border: 1px solid var(--arch-border);
+  color: var(--arch-text-primary);
+  font-size: 0.88rem;
+  font-weight: 800;
+  padding: 0.4rem 1rem;
+}
+
+.lime-star {
+  color: var(--arch-lime);
+}
+
+.arch-reviews-3col-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.arch-review-card {
+  background-color: var(--arch-bg-surface);
+  border: 1px solid var(--arch-border);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.arch-review-card:hover {
+  border-color: var(--arch-border-light);
+  transform: translateY(-3px);
+}
+
+.review-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stars-gold {
+  color: #fbbf24;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.review-time {
+  font-size: 0.76rem;
+  color: var(--arch-text-muted);
+}
+
+.review-body {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--arch-text-secondary);
+  font-style: italic;
+  margin: 0;
+  flex: 1;
+}
+
+.review-author-meta {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 0.85rem;
+}
+
+.author-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+  margin: 0 0 0.15rem 0;
+}
+
+.author-role {
+  font-size: 0.8rem;
+  color: var(--arch-text-muted);
+}
+
+/* ==========================================================================
+   13. SECTION: FAQS (2-COLUMN SPLIT ACCORDION)
+   ========================================================================== */
+.arch-faq-count-pill {
+  background-color: #1a1a24;
+  border: 1px solid var(--arch-border);
+  color: var(--arch-text-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.85rem;
+}
+
+.arch-faq-2col-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.faq-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faq-question-label {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+}
+
+.faq-answer-p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--arch-text-secondary);
+  margin: 0;
+}
+
+/* ==========================================================================
+   14. SECTION: RELATED CERTIFICATION COURSES
+   ========================================================================== */
+.arch-view-all {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--arch-lime);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+
+.arch-view-all:hover {
+  text-decoration: underline;
+}
+
+.arch-related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+}
+
+.arch-course-item {
+  border: 1px solid var(--arch-border);
+  background-color: var(--arch-bg-surface);
+  transition: all var(--arch-duration) var(--arch-ease);
+}
+
+.arch-course-item:hover {
+  border-color: var(--arch-lime);
+  transform: translateY(-3px);
+}
+
+.course-thumb {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.thumb-one {
+  background: linear-gradient(135deg, #181822 0%, #2b2b3d 100%);
+}
+
+.thumb-two {
+  background: linear-gradient(135deg, #111d17 0%, #1c3628 100%);
+}
+
+.thumb-tag {
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 850;
+  text-align: center;
+}
+
+.course-meta {
+  padding: 1.5rem;
+}
+
+.course-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--arch-text-primary);
+  margin: 0 0 0.85rem 0;
+}
+
+.course-pricing {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.course-pricing .old {
+  font-size: 0.95rem;
+  color: var(--arch-text-muted);
+  text-decoration: line-through;
+}
+
+.course-pricing .curr {
+  font-size: 1.25rem;
+  font-weight: 850;
+  color: var(--arch-lime);
+}
+
+/* ==========================================================================
+   15. CONTRAST WHITE ACCREDITATION & PROGRAM PARTNERS BAND
+   ========================================================================== */
+.arch-partners-white-section {
+  background-color: #ffffff;
+  color: #09090b;
+  padding: 4.5rem 0;
+}
+
+.partners-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.partners-title {
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #09090b;
+  margin: 0 0 0.4rem 0;
+}
+
+.partners-desc {
+  font-size: 0.96rem;
+  color: #52525b;
+  margin: 0;
+}
+
+.partners-link {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #09090b;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.partners-logo-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.partner-logo-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 0;
+  border-top: 2px solid #09090b;
+}
+
+.p-brand {
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #09090b;
+  margin-bottom: 0.25rem;
+}
+
+.p-sub {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   16. ARCHITECTURAL MINIMALIST FOOTER & CHEVRON STRIP
+   ========================================================================== */
+.arch-footer {
+  background-color: #08080a;
+  color: #71717a;
+  border-top: 1px solid var(--arch-border);
+  padding: 5rem 0 0;
+}
+
+.arch-footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.25fr;
+  gap: 3.5rem;
+  padding-bottom: 4rem;
+}
+
+.footer-logo {
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  margin: 0 0 0.85rem 0;
+}
+
+.footer-tagline {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #a1a1aa;
+}
+
+.footer-heading {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 0 1.25rem 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.footer-links a,
+.footer-links li {
+  font-size: 0.86rem;
+  color: #a1a1aa;
+  text-decoration: none;
+  transition: color var(--arch-duration) var(--arch-ease);
+}
+
+.footer-links a:hover {
+  color: var(--arch-lime);
+}
+
+/* Geometric Architectural Chevron Bottom Pattern Strip */
+.arch-bottom-chevron-pattern {
+  background-color: #050507;
+  border-top: 1px solid var(--arch-border);
+  padding: 1.15rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.chevron-repeater {
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #272733;
+  letter-spacing: 0.25em;
+  user-select: none;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .strip-grid,
+  .arch-offerings-bento-grid,
+  .partners-logo-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .arch-split-2col,
+  .arch-internship-asymmetric-split,
+  .arch-curriculum-split,
+  .arch-pricing-package-card {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .pricing-col-left {
+    border-right: none;
+    border-bottom: 1px solid var(--arch-border);
+    padding-right: 0;
+    padding-bottom: 2rem;
+  }
+
+  .curriculum-intro-col {
+    position: static;
+  }
+
+  .arch-reviews-3col-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .arch-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .partners-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .strip-grid,
+  .arch-pillars-grid,
+  .arch-offerings-bento-grid,
+  .arch-why-bento-grid,
+  .arch-eligibility-grid,
+  .inclusions-checklist,
+  .arch-faq-2col-grid,
+  .arch-related-grid,
+  .partners-logo-row {
+    grid-template-columns: 1fr;
+  }
+
+  .arch-stats-grid {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .arch-stat-divider {
+    display: none;
+  }
+
+  .arch-pricing-package-card {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .cert-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .arch-footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .arch-top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .advisor-strip {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ==========================================================================
+   FLOATING ISLAND BOTTOM QUICK-LINK DOCK
+   ========================================================================== */
+.course-floating-island {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.island-inner-dock {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.5rem;
+  background-color: rgba(14, 14, 18, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 9999px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+
+.island-nav-link {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #a1a1aa;
+  text-decoration: none;
+  padding: 0.45rem 0.85rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+.island-nav-link:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.island-nav-link.active {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.14);
+  font-weight: 600;
+}
+
+/* Middle Highlight Enroll Button in Bold Brand Blue */
+.island-enroll-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: var(--primary, #0101ff);
+  color: #ffffff;
+  border: none;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 0.52rem 1.25rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 4px 18px rgba(1, 1, 255, 0.45);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.island-enroll-btn:hover {
+  background-color: #0000e6;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 24px rgba(1, 1, 255, 0.65);
+}
+
+.island-enroll-btn:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.enroll-bolt {
+  font-size: 0.9rem;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+}
+
+.enroll-arrow {
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+
+.island-enroll-btn:hover .enroll-arrow {
+  transform: translateX(2px);
+}
+
+@media (max-width: 768px) {
+  .course-floating-island {
+    bottom: 16px;
+    width: calc(100% - 24px);
+    max-width: 460px;
+  }
+
+  .island-inner-dock {
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.3rem 0.4rem;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+
+  .island-nav-link {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.78rem;
+  }
+
+  .island-enroll-btn {
+    padding: 0.48rem 0.95rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ==========================================================================
+   PAGE ENTRANCE, SCROLL REVEAL & MICRO-INTERACTION ANIMATIONS
+   ========================================================================== */
+@keyframes archHeroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.arch-eyebrow-line {
+  animation: archHeroFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.arch-hero-title {
+  animation: archHeroFadeUp 0.65s 0.08s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.arch-hero-desc {
+  animation: archHeroFadeUp 0.7s 0.16s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.arch-hero-cta-row {
+  animation: archHeroFadeUp 0.75s 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.arch-stats-ribbon {
+  animation: archHeroFadeUp 0.8s 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Fluid Hover Lift Transitions on Architectural Cards */
+.strip-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+.strip-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(184, 240, 0, 0.35);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+.arch-pillar-box {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease;
+}
+
+.arch-pillar-box:hover {
+  transform: translateY(-4px);
+  border-color: rgba(184, 240, 0, 0.35);
+}
+
+.offering-bento-card,
+.arch-why-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              background-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+.offering-bento-card:hover,
+.arch-why-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(184, 240, 0, 0.4);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.arch-elig-box {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s ease,
+              background-color 0.22s ease;
+}
+
+.arch-elig-box:hover {
+  transform: translateY(-3px);
+  border-color: rgba(184, 240, 0, 0.3);
+  background-color: #1a1a22;
+}
+
+.arch-review-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+.arch-review-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.arch-course-item {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s ease,
+              box-shadow 0.28s ease;
+}
+
+.arch-course-item:hover {
+  transform: translateY(-6px);
+  border-color: rgba(184, 240, 0, 0.4);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* Accordion Drawer Smooth Expansion */
+@keyframes drawerFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.drawer-body-content {
+  animation: drawerFadeIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Architectural Bottom Chevron Infinite Ticker Glide */
+.chevron-repeater span {
+  display: inline-block;
+  animation: chevronInfiniteScroll 32s linear infinite;
+  will-change: transform;
+}
+
+@keyframes chevronInfiniteScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-40%); }
+}
+
+/* Buttons Hover Micro-interactions */
+.arch-btn-primary:hover,
+.lime-action-btn:hover,
+.package-enroll-btn:hover {
+  transform: translateY(-1px) scale(1.02);
+  filter: brightness(1.05);
+}
+
+.arch-btn-primary:active,
+.lime-action-btn:active,
+.package-enroll-btn:active {
+  transform: translateY(0) scale(0.99);
+}

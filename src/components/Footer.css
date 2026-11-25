@@ -1,0 +1,270 @@
+/* ==========================================================================
+   FOOTER SECTION - CLEAN, PROFESSIONAL & COMPLIANT
+   ========================================================================== */
+
+.finanzo-footer {
+  width: 100%;
+  background-color: #0b0c10;
+  color: #94a3b8;
+  padding: 5.5rem 1.5rem 2.5rem;
+  border-top: 1px solid #1e1e28;
+  position: relative;
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   TOP GRID (4 COLUMNS)
+   -------------------------------------------------------------------------- */
+.footer-top-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.1fr;
+  gap: 3.5rem 2.5rem;
+  align-items: flex-start;
+}
+
+/* Brand Column */
+.footer-brand-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.footer-brand-logo-link {
+  display: inline-block;
+}
+
+.footer-brand-logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.footer-brand-desc {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #94a3b8;
+  max-width: 340px;
+}
+
+.footer-tally-partner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  background-color: rgba(1, 1, 255, 0.12);
+  border: 1px solid rgba(1, 1, 255, 0.25);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #93c5fd;
+}
+
+.badge-check {
+  color: #10b981;
+  font-weight: 900;
+}
+
+/* Social Icon Buttons */
+.footer-social-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.social-icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background-color: #161620;
+  border: 1px solid #282836;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.social-icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.social-icon-btn:hover {
+  background-color: var(--primary, #0101ff);
+  color: #ffffff;
+  border-color: var(--primary, #0101ff);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(1, 1, 255, 0.35);
+}
+
+/* Links Columns */
+.footer-links-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.footer-col-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.footer-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-nav-list a {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.15s ease, transform 0.15s ease;
+  display: inline-block;
+}
+
+.footer-nav-list a:hover {
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+/* Contact Column */
+.footer-contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+  color: #94a3b8;
+}
+
+.contact-row svg {
+  width: 17px;
+  height: 17px;
+  stroke: var(--primary, #0101ff);
+  flex-shrink: 0;
+}
+
+.contact-row a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.contact-row a:hover {
+  color: #ffffff;
+}
+
+.footer-startup-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.startup-tag {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  background-color: #14141e;
+  border: 1px solid #262638;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+/* --------------------------------------------------------------------------
+   BOTTOM COPYRIGHT & LEGAL BAR
+   -------------------------------------------------------------------------- */
+.footer-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #1a1a24;
+  font-size: 0.85rem;
+}
+
+.footer-copyright-text {
+  color: #64748b;
+}
+
+.footer-legal-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.footer-legal-links a {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer-legal-links a:hover {
+  color: #ffffff;
+}
+
+.sep {
+  color: #475569;
+}
+
+.footer-disclaimer-note {
+  font-size: 0.74rem;
+  color: #64748b;
+  line-height: 1.5;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1080px) {
+  .footer-top-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem 2rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .finanzo-footer {
+    padding: 4rem 1.25rem 2rem;
+  }
+
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-bottom-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .footer-legal-links {
+    gap: 0.5rem;
+  }
+}
