@@ -38,7 +38,36 @@ function App() {
         setActivePage('home');
         if (hash.startsWith('#courses')) {
           setTimeout(() => {
-w, .pillar-card, .course-card'
+            const el = document.getElementById('courses');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 80);
+        }
+      }
+    };
+
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  useEffect(() => {
+    // Universal smooth scroll observer for reveal animations
+    const observerCallback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    const elementsToAnimate = document.querySelectorAll(
+      '.animate-on-scroll, .animate-scale-up, .arch-content-section, .arch-stat-block, .strip-card, .arch-pillar-box, .offering-bento-card, .arch-why-card, .arch-drawer-item, .arch-elig-box, .arch-review-card, .about-section, .about-grid-card, .pillar-card, .course-card'
     );
     elementsToAnimate.forEach((el) => observer.observe(el));
 

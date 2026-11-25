@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './CourseAccounting.css';
-import CourseFloatingIsland from './CourseFloatingIsland';
 
 const CourseTaxProfessional = ({ onBackToHome = () => {}, onSelectCourse = () => {} }) => {
   const [openCurriculum, setOpenCurriculum] = useState(0);
@@ -974,9 +973,6 @@ const CourseTaxProfessional = ({ onBackToHome = () => {}, onSelectCourse = () =>
           </div>
         </div>
       </footer>
-
-      {/* Floating Island Quick Navigation Bar */}
-      <CourseFloatingIsland price="₹5,999" onEnroll={handlePayNow} />
 
     </div>
   );

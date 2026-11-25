@@ -58,9 +58,7 @@ const CourseFloatingIsland = ({ price = '₹7,999', onEnroll = () => {} }) => {
           className="island-enroll-btn"
           title={`Enroll Now for ${price}`}
         >
-          <span className="enroll-bolt">⚡</span>
           <span className="enroll-text">Enroll • {price}</span>
-          <span className="enroll-arrow">→</span>
         </button>
 
         <a
