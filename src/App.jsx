@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Accreditation from './components/Accreditation';
 import Courses from './components/Courses';
+import WhyFinanzo from './components/WhyFinanzo';
 import Certifications from './components/Certifications';
 import Stats from './components/Stats';
 import Testimonials from './components/Testimonials';
@@ -115,6 +116,7 @@ function App() {
               <Hero />
               <Accreditation />
               <Courses onSelectCourse={handleNavigateToCourse} />
+              <WhyFinanzo />
               <Certifications />
               <Stats />
               <Testimonials />
@@ -125,7 +127,7 @@ function App() {
       </main>
 
       {/* Floating Island Dock for Course Detail Pages */}
-      {['course-accounting', 'course-gst', 'course-tax'].includes(activePage) && (
+      {['course-tax'].includes(activePage) && (
         <CourseFloatingIsland
           price={
             activePage === 'course-gst'

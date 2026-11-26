@@ -1,9 +1,290 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './CourseAccounting.css';
+
+const AnimatedStat = ({ target, decimals = 0, suffix = '', formatComma = false, active }) => {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (!active) return;
+
+    let frameId;
+    const duration = 1600;
+    const startTime = performance.now();
+
+    const animate = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(target * eased);
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(animate);
+      } else {
+        setValue(target);
+      }
+    };
+
+    frameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frameId);
+  }, [active, target]);
+
+  const formatted =
+    decimals > 0
+      ? value.toFixed(decimals)
+      : formatComma
+        ? Math.round(value).toLocaleString('en-US')
+        : Math.round(value).toString();
+
+  return (
+    <>
+      {formatted}
+      {suffix}
+    </>
+  );
+};
 
 const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { } }) => {
   const [openCurriculum, setOpenCurriculum] = useState(0);
   const [openFaq, setOpenFaq] = useState(0);
+  const [statsVisible, setStatsVisible] = useState(false);
+  const [activeOfferIndex, setActiveOfferIndex] = useState(0);
+  const [activeWhyIndex, setActiveWhyIndex] = useState(0);
+  const statsRef = useRef(null);
+  const offeringsContainerRef = useRef(null);
+  const trackRef = useRef(null);
+  const whyItemRefs = useRef([]);
+
+  const whyStickyItems = [
+    {
+      n: '01',
+      tag: 'Mentorship',
+      title: 'Expert Instructors',
+      desc: 'Learn from seasoned professionals with extensive knowledge of Tally Prime and GST regulations.',
+      image: '/whychoose/instructor.jpg',
+      alt: 'Expert Instructors'
+    },
+    {
+      n: '02',
+      tag: 'Practical learning',
+      title: 'Hands-On Training',
+      desc: 'Real-time practical exercises and live assistance during interactive sessions, tailored for learners in regional languages.',
+      image: '/whychoose/Hands-On Training.avif',
+      alt: 'Hands-On Training'
+    },
+    {
+      n: '03',
+      tag: 'Career ready',
+      title: 'Industry Relevant Skill',
+      desc: 'Stay updated with the latest digital accounting practices and GST regulations to stay ahead in the finance industry.',
+      image: '/whychoose/Industry Relevant Skill.avif',
+      alt: 'Industry Relevant Skill'
+    },
+    {
+      n: '04',
+      tag: 'Learn anywhere',
+      title: 'Flexible Learning',
+      desc: 'Attend from anywhere via live online sessions with expert guidance, and get your queries resolved promptly.',
+      image: '/whychoose/flexiblelearn.jpg',
+      alt: 'Flexible Learning'
+    },
+    {
+      n: '05',
+      tag: 'Placements',
+      title: 'Exclusive Tally Job Portal Access',
+      desc: 'Students enrolled in this course will have exclusive access to Tally’s job portal, expanding their career opportunities with direct employer applications.',
+      image: '/whychoose/Exclusive Tally Job Portal Access.jpg',
+      alt: 'Exclusive Tally Job Portal Access'
+    }
+  ];
+
+  const offeringsData = [
+    {
+      title: 'Practice Exercise',
+      desc: 'Hands-on practical vouchers and simulated cases'
+    },
+    {
+      title: 'Certification',
+      desc: 'Accredited by Tally Education (TEPL) with verified credential ID'
+    },
+    {
+      title: 'Live Doubt Sessions',
+      desc: 'Clear your questions directly with expert trainers'
+    },
+    {
+      title: 'Placement Support',
+      desc: 'Resume building, mock interviews and job referrals'
+    }
+  ];
+
+  const eligibilityAudience = [
+    {
+      cat: 'Students',
+      sub: 'Commerce degree',
+      title: 'Students pursuing Commerce degree (B.Com, BBA, M.Com, MBA)',
+      img: '/eligibility/card-1.jpg',
+    },
+    {
+      cat: 'Professionals',
+      sub: 'Tally Prime upskilling',
+      title: 'Working accountants & finance executives upskilling to Tally Prime',
+      img: '/eligibility/card-2.jpg',
+    },
+    {
+      cat: 'Entrepreneurs',
+      sub: 'Day-to-day accounts',
+      title: 'Small business owners & entrepreneurs managing day-to-day accounts',
+      img: '/eligibility/card-3.jpg',
+    },
+    {
+      cat: 'Job seekers',
+      sub: 'Accounts & GST roles',
+      title: 'Job seekers preparing for Accounts Executive & GST roles',
+      img: '/eligibility/card-4.jpg',
+    },
+  ];
+
+  useEffect(() => {
+    const sec = offeringsContainerRef.current;
+    const track = trackRef.current;
+    if (!sec || !track) return;
+
+    let cards = [].slice.call(track.children);
+    let mobile = window.matchMedia('(max-width: 800px)');
+    let firstC, lastC, range;
+
+    const getNavHeight = () => {
+      const nav = document.querySelector('.prime-navbar-wrapper') || document.querySelector('nav');
+      return nav ? nav.offsetHeight : 80;
+    };
+
+    const measure = () => {
+      if (mobile.matches) {
+        sec.style.height = '';
+        track.style.transform = '';
+        return;
+      }
+      cards = [].slice.call(track.children);
+      if (!cards.length) return;
+
+      const navH = getNavHeight();
+      const pinnedH = window.innerHeight - navH;
+
+      // Exact centers of the first and last cards
+      firstC = cards[0].offsetTop + cards[0].offsetHeight / 2;
+      lastC = cards[cards.length - 1].offsetTop + cards[cards.length - 1].offsetHeight / 2;
+      range = Math.max(0, lastC - firstC);
+
+      // Section height = pinned area height + distance between card centers * generous scroll factor for smooth spacing
+      sec.style.height = `${pinnedH + range * 1.35}px`;
+      update();
+    };
+
+    const update = () => {
+      if (mobile.matches) return;
+      cards = [].slice.call(track.children);
+      if (!cards.length || range === undefined) return;
+
+      const navH = getNavHeight();
+      const pinnedH = window.innerHeight - navH;
+      const totalScroll = sec.offsetHeight - pinnedH;
+      if (totalScroll <= 0) return;
+
+      const r = sec.getBoundingClientRect();
+      const scrolled = -(r.top - navH);
+      // Strictly clamp progress between 0 and 1 (never past the end)
+      const p = Math.min(1, Math.max(0, scrolled / totalScroll));
+      const y = firstC + p * range - pinnedH / 2;
+
+      track.style.transform = `translate3d(0, ${-y}px, 0)`;
+
+      const act = Math.min(cards.length - 1, Math.max(0, Math.round(p * (cards.length - 1))));
+      setActiveOfferIndex(act);
+    };
+
+    const onScroll = () => {
+      requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure);
+    if (mobile.addEventListener) {
+      mobile.addEventListener('change', measure);
+    }
+
+    // Measure initially and when fonts or images finish loading
+    measure();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(measure);
+    }
+    const timer = setTimeout(measure, 150);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measure);
+      if (mobile.removeEventListener) {
+        mobile.removeEventListener('change', measure);
+      }
+    };
+  }, [offeringsData.length]);
+
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStatsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    let tick = false;
+    const update = () => {
+      tick = false;
+      const nav = 80;
+      const mobile = window.innerWidth <= 800;
+      const mid = mobile
+        ? (nav + window.innerHeight * 0.36 + (window.innerHeight - nav - window.innerHeight * 0.36) / 2)
+        : (nav + (window.innerHeight - nav) / 2);
+      let best = 0;
+      let bd = 1e9;
+      whyItemRefs.current.forEach((el, k) => {
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const d = Math.abs(r.top + r.height / 2 - mid);
+        if (d < bd) {
+          bd = d;
+          best = k;
+        }
+      });
+      setActiveWhyIndex(best);
+    };
+
+    const handleScroll = () => {
+      if (!tick) {
+        tick = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
 
   // Curriculum Modules (10 Detailed Modules)
   const curriculumGuideList = [
@@ -184,43 +465,59 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
       <header className="arch-hero-section">
         <div className="arch-container">
 
-          {/* Top Editorial Nav Header */}
-          <div className="arch-top-bar">
-            <button className="arch-back-btn" onClick={onBackToHome}>
-              <span className="back-arrow">←</span>
-              <span>Back to Home</span>
-            </button>
-            <div className="arch-org-badge">
-              Finanzo Institute of Professional Finance &amp; Taxation
-            </div>
-          </div>
-
           {/* Hero Statement */}
-          <div className="arch-hero-statement-wrap">
-            <div className="arch-eyebrow-line">
-              Finanzo Professional Certification • Accredited by Tally Education (TEPL)
+          <div className="arch-hero-content-split">
+            <div className="arch-hero-statement-wrap">
+              <div className="arch-eyebrow-line">
+                FINANZO PROFESSIONAL CERTIFICATION • ACCREDITED BY TALLY EDUCATION (TEPL)
+              </div>
+
+              <h1 className="arch-hero-title">
+                <span className="arch-hero-line">Advanced Accounting &amp; Taxation</span>
+                <span className="arch-hero-line">with</span>
+                <span className="arch-hero-line">
+                  <span className="hero-lime-highlight">Professional</span> Practice
+                </span>
+              </h1>
+
+              <p className="arch-hero-desc">
+                Explore Finanzo: The course equips learners with the skills to handle various accounting functions, taxation and financial reporting digitally. Enroll now!
+              </p>
+
+              {/* Price & CTA Action Line */}
+              <div className="arch-hero-cta-row">
+                <div className="arch-price-group">
+                  <span className="arch-price-val">₹7,999</span>
+                  <span className="arch-price-old">₹9,999</span>
+                  <span className="arch-discount-tag">20% OFF</span>
+                </div>
+                <button onClick={handlePayNow} className="arch-btn-primary">
+                  <span>PAY NOW</span>
+                  <span className="btn-chevron">→</span>
+                </button>
+              </div>
             </div>
 
-            <h1 className="arch-hero-title">
-              Advanced Accounting &amp; Taxation with<br />
-              <span className="arch-title-highlight">Professional Practice</span>
-            </h1>
-
-            <p className="arch-hero-desc">
-              Explore Finanzo: The course equips learners with the skills to handle various accounting functions, taxation and financial reporting digitally. Enroll now!
-            </p>
-
-            {/* Price & CTA Action Line */}
-            <div className="arch-hero-cta-row">
-              <div className="arch-price-group">
-                <span className="arch-price-val">₹7,999</span>
-                <span className="arch-price-old">₹9,999</span>
-                <span className="arch-discount-tag">20% OFF</span>
-              </div>
-              <button onClick={handlePayNow} className="arch-btn-primary">
-                <span>PAY NOW</span>
-                <span className="btn-chevron">→</span>
-              </button>
+            {/* Right Side 3D Metallic Rupee Coins with Ladders Visual */}
+            <div
+              className="arch-hero-visual-wrap"
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                e.currentTarget.style.setProperty('--mouse-x', `${x.toFixed(1)}%`);
+                e.currentTarget.style.setProperty('--mouse-y', `${y.toFixed(1)}%`);
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.setProperty('--mouse-x', '50%');
+                e.currentTarget.style.setProperty('--mouse-y', '50%');
+              }}
+            >
+              <img
+                src="/hero-new.png"
+                alt="3D Metallic Rupee Coin Stacks with Ladders"
+                className="arch-hero-coins-img"
+              />
             </div>
           </div>
 
@@ -228,366 +525,368 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
       </header>
 
       {/* ================= 2. STATS RIBBON STRIP ================= */}
-      <section className="arch-stats-ribbon">
+      <section className="arch-stats-ribbon" ref={statsRef}>
         <div className="arch-container arch-stats-grid">
           <div className="arch-stat-block">
-            <span className="stat-num">4.9</span>
+            <span className="stat-num">
+              <AnimatedStat target={4.9} decimals={1} active={statsVisible} />
+            </span>
             <span className="stat-sub">(3,200) Verified Reviews</span>
           </div>
           <div className="arch-stat-divider"></div>
           <div className="arch-stat-block">
-            <span className="stat-num">12,500+</span>
+            <span className="stat-num">
+              <AnimatedStat target={12500} formatComma suffix="+" active={statsVisible} />
+            </span>
             <span className="stat-sub">Active Learners</span>
           </div>
           <div className="arch-stat-divider"></div>
           <div className="arch-stat-block">
-            <span className="stat-num">35 Hours</span>
+            <span className="stat-num">
+              <AnimatedStat target={35} suffix=" Hours" active={statsVisible} />
+            </span>
             <span className="stat-sub">Self-Paced Learning</span>
           </div>
           <div className="arch-stat-divider"></div>
           <div className="arch-stat-block">
-            <span className="stat-num">6-Week</span>
+            <span className="stat-num">
+              <AnimatedStat target={6} suffix="-Week" active={statsVisible} />
+            </span>
             <span className="stat-sub">Internship Included</span>
           </div>
         </div>
       </section>
 
-      {/* ================= 3. HORIZONTAL VISUAL FEATURE STRIP (TEMPLATE MIRROR) ================= */}
-      <section className="arch-feature-strip">
-        <div className="arch-container">
-          <div className="strip-grid">
-            <div className="strip-card">
-              <div className="strip-thumb thumb-tally">
-                <span className="strip-badge">Simulation</span>
-              </div>
-              <div className="strip-info">
-                <span className="strip-cat">Core Engine</span>
-                <h4 className="strip-title">Tally Prime 4.0 Practice</h4>
-              </div>
-            </div>
-
-            <div className="strip-card">
-              <div className="strip-thumb thumb-gst">
-                <span className="strip-badge">Compliance</span>
-              </div>
-              <div className="strip-info">
-                <span className="strip-cat">Tax Portal</span>
-                <h4 className="strip-title">GST &amp; E-Invoicing Live</h4>
-              </div>
-            </div>
-
-            <div className="strip-card">
-              <div className="strip-thumb thumb-internship">
-                <span className="strip-badge">Experiential</span>
-              </div>
-              <div className="strip-info">
-                <span className="strip-cat">Corporate Work</span>
-                <h4 className="strip-title">6-Week Real Internship</h4>
-              </div>
-            </div>
-
-            <div className="strip-card">
-              <div className="strip-thumb thumb-tepl">
-                <span className="strip-badge">Credential</span>
-              </div>
-              <div className="strip-info">
-                <span className="strip-cat">Accreditation</span>
-                <h4 className="strip-title">TEPL Dual Certification</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= 4. SECTION: COURSE OVERVIEW & ABOUT FINANZO (ASYMMETRIC SPLIT) ================= */}
+      {/* ================= 4. SECTION: COURSE OVERVIEW & ARCHITECTURAL BLUEPRINT ================= */}
       <section className="arch-content-section" id="overview">
-        <div className="arch-container arch-split-2col">
-
-          {/* Left Column: Overview Prose */}
-          <div className="arch-col-left">
-            <span className="arch-kicker-label">SECTION 01 / OVERVIEW</span>
-            <h2 className="arch-section-title">Course Overview</h2>
-            <p className="arch-body-lead">
-              This course comprehensively introduces GST Fundamentals using Tally Prime, a leading accounting software. Designed for professionals, small business owners, and students, it focuses on the practical applications of accounting principles in a digital environment.
-            </p>
-            <p className="arch-body-text">
-              Participants will gain hands-on experience managing financial transactions, generating financial statements, handling taxes, and ensuring GST compliance—all through live interactive sessions, real-time doubt resolution, and expert assistance in regional languages.
-            </p>
-          </div>
-
-          {/* Right Column: 4 Key Pillars */}
-          <div className="arch-col-right">
-            <div className="arch-pillars-grid">
-              <div className="arch-pillar-box">
-                <span className="pillar-num">01</span>
-                <h4 className="pillar-title">Industry Mentors</h4>
-                <p className="pillar-desc">Learn with experienced corporate professionals</p>
-              </div>
-
-              <div className="arch-pillar-box">
-                <span className="pillar-num">02</span>
-                <h4 className="pillar-title">Self Paced Learning</h4>
-                <p className="pillar-desc">Complete 25 hours at your own convenience</p>
-              </div>
-
-              <div className="arch-pillar-box">
-                <span className="pillar-num">03</span>
-                <h4 className="pillar-title">Tally Certification</h4>
-                <p className="pillar-desc">Accredited by Tally Education (TEPL)</p>
-              </div>
-
-              <div className="arch-pillar-box">
-                <span className="pillar-num">04</span>
-                <h4 className="pillar-title">Access to TEPL Job Portal</h4>
-                <p className="pillar-desc">Apply directly to verified partner employers</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ================= 5. SECTION: EXCLUSIVE COURSE OFFERINGS (BENTO GRID) ================= */}
-      <section className="arch-content-section section-offerings">
         <div className="arch-container">
-          <div className="arch-section-header-row">
-            <div>
-              <span className="arch-kicker-label">SECTION 02 / VALUE ADDITIONS</span>
-              <h2 className="arch-section-title">Exclusive Course Offerings</h2>
-            </div>
-            <p className="arch-header-desc">
-              Comprehensive features and value additions bundled with your program enrollment
-            </p>
-          </div>
+          <div className="overview-grid-split">
 
-          <div className="arch-offerings-bento-grid">
-            <div className="offering-bento-card">
-              <span className="bento-indicator">✦</span>
-              <h4 className="bento-title">Practice Exercise</h4>
-              <p className="bento-desc">Hands-on practical vouchers and simulated cases</p>
-            </div>
+            {/* Left Column: Narrative & Key Highlights */}
+            <div className="overview-narrative-col">
+              <span className="overview-eyebrow">ACCREDITED PROFESSIONAL PROGRAM</span>
+              <h2 className="overview-main-title">
+                Course <span className="hero-lime-highlight">Overview</span>
+              </h2>
+              <p className="overview-lead-text">
+                Master digital accounting, corporate taxation, and GST compliance using Tally Prime 4.0—India’s leading business management and financial software.
+              </p>
+              <p className="overview-body-desc">
+                Engineered for commerce graduates, aspiring accountants, and business owners, this program bridges academic knowledge with enterprise-grade accounting workflows. Gain practical command over real business ledgers, multi-warehouse inventory, automated bank reconciliations, E-Invoicing, and statutory filings with expert guidance in regional languages.
+              </p>
 
-            <div className="offering-bento-card">
-              <span className="bento-indicator">✦</span>
-              <h4 className="bento-title">Certification</h4>
-              <p className="bento-desc">Accredited by Tally Education (TEPL) with verified credential ID</p>
-            </div>
-
-            <div className="offering-bento-card">
-              <span className="bento-indicator">✦</span>
-              <h4 className="bento-title">Weekly Live Sessions</h4>
-              <p className="bento-desc">Live interactive doubt resolution and mentoring</p>
-            </div>
-
-            <div className="offering-bento-card">
-              <span className="bento-indicator">✦</span>
-              <h4 className="bento-title">Email Support</h4>
-              <p className="bento-desc">Prompt expert technical assistance &amp; guidance</p>
-            </div>
-
-            <div className="offering-bento-card">
-              <span className="bento-indicator">✦</span>
-              <h4 className="bento-title">Experienced Faculty</h4>
-              <p className="bento-desc">Direct mentoring from seasoned finance educators</p>
-            </div>
-
-            <div className="offering-bento-card">
-              <span className="bento-indicator">✦</span>
-              <h4 className="bento-title">Access to TEPL Job Portal</h4>
-              <p className="bento-desc">Apply directly to verified partner employers</p>
-            </div>
-
-            <div className="offering-bento-card">
-              <span className="bento-indicator">✦</span>
-              <h4 className="bento-title">Placement Support</h4>
-              <p className="bento-desc">Resume formatting and hiring firm referrals</p>
-            </div>
-
-            <div className="offering-bento-card">
-              <span className="bento-indicator">✦</span>
-              <h4 className="bento-title">Self Paced Learning</h4>
-              <p className="bento-desc">Complete 25 hours at your own convenience</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= 6. ⚡ ELECTRIC LIME MID-PAGE STATEMENT BANNER ================= */}
-      <section className="arch-lime-banner">
-        <div className="arch-container arch-lime-inner">
-          <h2 className="lime-main-title">Stay on top of everything.</h2>
-          <p className="lime-main-desc">
-            The course equips learners with practical accounting, digital taxation, and TEPL certification.<br />
-            Join 12,500+ ambitious commerce professionals and master digital Tally Prime with industry recognition.
-          </p>
-          <button onClick={handlePayNow} className="lime-action-btn">
-            ENROLL NOW • ₹7,999
-          </button>
-        </div>
-      </section>
-
-      {/* ================= 7. SECTION: INTERNSHIP PROGRAM INTEGRATION (FEATURED EXPERIENCE) ================= */}
-      <section className="arch-content-section" id="internship">
-        <div className="arch-container">
-          <div className="arch-section-header-row">
-            <div>
-              <span className="arch-kicker-label">SECTION 03 / EXPERIENTIAL PRACTICE</span>
-              <h2 className="arch-section-title">Internship Program Integration</h2>
-            </div>
-            <div className="arch-tag-group">
-              <span className="arch-lime-tag">6-WEEK IMMERSIVE</span>
-              <span className="arch-dark-tag">ONLINE</span>
-            </div>
-          </div>
-
-          <p className="arch-body-lead-wide">
-            The Integrated Internship Program offers a 6–week immersive experience, providing hands-on, real-world accounting practice using Tally Prime. Throughout the program, learners will work on three practical accounting case studies, enabling them to build essential skills in digital accounting and GST fundamentals aligned with the National Education Policy 2020 (NEP 2020).
-          </p>
-
-          <div className="arch-internship-asymmetric-split">
-            {/* Left: 5 Numbered Steps */}
-            <div className="internship-steps-col">
-              <h3 className="sub-section-kicker">What Learners Will Achieve from the Internship</h3>
-
-              <div className="arch-steps-editorial">
-                <div className="arch-step-row">
-                  <span className="step-index">01</span>
-                  <div className="step-body">
-                    <h4 className="step-headline">Gain Real–World Experience</h4>
-                    <p className="step-text">
-                      Complete case studies that simulate actual business scenarios, enhancing your ability to handle real-world accounting tasks.
-                    </p>
-                  </div>
+              {/* 4 Feature Check Pills */}
+              <div className="overview-feature-pills-grid">
+                <div className="overview-pill-item">
+                  <span className="overview-pill-icon">✓</span>
+                  <span>Tally Prime 4.0 Industry Standard</span>
                 </div>
-
-                <div className="arch-step-row">
-                  <span className="step-index">02</span>
-                  <div className="step-body">
-                    <h4 className="step-headline">Practical Application of Skills</h4>
-                    <p className="step-text">
-                      Apply your theoretical knowledge in real-time, practical situations through hands-on tasks.
-                    </p>
-                  </div>
+                <div className="overview-pill-item">
+                  <span className="overview-pill-icon">✓</span>
+                  <span>Live GST Portal Simulations (GSTR-1 &amp; 3B)</span>
                 </div>
-
-                <div className="arch-step-row">
-                  <span className="step-index">03</span>
-                  <div className="step-body">
-                    <h4 className="step-headline">Boost Your Resume</h4>
-                    <p className="step-text">
-                      Experience in Tally Prime will significantly enhance your resume, adding valuable, in-demand skills to your portfolio.
-                    </p>
-                  </div>
+                <div className="overview-pill-item">
+                  <span className="overview-pill-icon">✓</span>
+                  <span>Automated BRS &amp; Multi-Tier Invoicing</span>
                 </div>
-
-                <div className="arch-step-row">
-                  <span className="step-index">04</span>
-                  <div className="step-body">
-                    <h4 className="step-headline">NEP20–Aligned Skill Development</h4>
-                    <p className="step-text">
-                      The internship aligns with the National Education Policy 2020 (NEP20), offering skill-based learning and broadening job opportunities.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="arch-step-row">
-                  <span className="step-index">05</span>
-                  <div className="step-body">
-                    <h4 className="step-headline">Official Tally Internship Certification</h4>
-                    <p className="step-text">
-                      Upon completion, receive a certification that strengthens your resume and improves your career prospects by showcasing hands-on experience.
-                    </p>
-                  </div>
+                <div className="overview-pill-item">
+                  <span className="overview-pill-icon">✓</span>
+                  <span>NEP 2020 Aligned &amp; TEPL Accredited</span>
                 </div>
               </div>
             </div>
 
-            {/* Right: Featured 3 Case Studies Card (Like "Featured tall building" in template) */}
-            <div className="internship-showcase-col">
-              <div className="internship-featured-case-box">
-                <span className="case-kicker">FEATURED 3 REAL-WORLD CASE STUDIES</span>
-                <h4 className="case-main-title">Corporate Simulation Dockets</h4>
+            {/* Right Column: Kept blank per design */}
+            <div className="overview-blueprint-col" />
 
-                <div className="case-entry-item">
-                  <span className="case-num">Case 01</span>
-                  <h5 className="case-title">Multi-State Retail GST &amp; E-Way Bill</h5>
-                  <p className="case-desc">GSTR-1, GSTR-3B reconciliation with 2B mismatch handling on live government simulation ledger.</p>
-                </div>
+          </div>
+        </div>
+      </section>
 
-                <div className="case-entry-item">
-                  <span className="case-num">Case 02</span>
-                  <h5 className="case-title">Manufacturing Inventory &amp; Bill of Materials</h5>
-                  <p className="case-desc">Multi-warehouse stock valuation, automated BRS, and debit/credit note adjustments.</p>
-                </div>
+      {/* ================= SECTION: ABOUT TALLY PRIME WITH GST FUNDAMENTALS ================= */}
+      <section className="arch-content-section section-about-tally" id="about-tally">
+        <div className="arch-container">
+          <div className="about-tally-header-wrap">
+            <h2 className="arch-section-title about-tally-title">
+              About <span className="hero-lime-highlight">Tally Prime</span> with GST Fundamentals
+            </h2>
+          </div>
 
-                <div className="case-entry-item">
-                  <span className="case-num">Case 03</span>
-                  <h5 className="case-title">Corporate TDS &amp; Balance Sheet Finalization</h5>
-                  <p className="case-desc">Section 194C/J TDS deduction, Form 26Q preparation, and year-end audit trail verification.</p>
-                </div>
-
-                <div className="case-box-footer">
-                  <span className="case-footer-tag">NEP 2020 Skill Certified</span>
-                </div>
+          {/* 4 Narrow Key Pillar Image Cards */}
+          <div className="about-tally-pillars-grid">
+            <div className="tally-pillar-card">
+              <img
+                src="/abouttally/mentor.jpg"
+                alt="Industry Mentors"
+                className="tally-pillar-bg"
+              />
+              <div className="tally-pillar-overlay" />
+              <div className="tally-pillar-content">
+                <span className="tally-pillar-num">01</span>
+                <h3 className="tally-pillar-title">INDUSTRY MENTORS</h3>
+                <p className="tally-pillar-desc">Learn with experienced corporate professionals</p>
               </div>
+            </div>
+
+            <div className="tally-pillar-card">
+              <img
+                src="/abouttally/selflearing.jpg"
+                alt="Self Paced Learning"
+                className="tally-pillar-bg"
+              />
+              <div className="tally-pillar-overlay" />
+              <div className="tally-pillar-content">
+                <span className="tally-pillar-num">02</span>
+                <h3 className="tally-pillar-title">SELF PACED LEARNING</h3>
+                <p className="tally-pillar-desc">Complete 25 hours at your own convenience</p>
+              </div>
+            </div>
+
+            <div className="tally-pillar-card">
+              <img
+                src="/abouttally/certification.jpg"
+                alt="Tally Certification"
+                className="tally-pillar-bg"
+              />
+              <div className="tally-pillar-overlay" />
+              <div className="tally-pillar-content">
+                <span className="tally-pillar-num">03</span>
+                <h3 className="tally-pillar-title">TALLY CERTIFICATION</h3>
+                <p className="tally-pillar-desc">Accredited by Tally Education (TEPL)</p>
+              </div>
+            </div>
+
+            <div className="tally-pillar-card">
+              <img
+                src="/abouttally/access.jpg"
+                alt="Access to TEPL Job Portal"
+                className="tally-pillar-bg"
+              />
+              <div className="tally-pillar-overlay" />
+              <div className="tally-pillar-content">
+                <span className="tally-pillar-num">04</span>
+                <h3 className="tally-pillar-title">TEPL JOB PORTAL</h3>
+                <p className="tally-pillar-desc">Apply directly to verified partner employers</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= 5. SECTION: EXCLUSIVE COURSE OFFERINGS (SPLIT TRACK CAROUSEL) ================= */}
+      <section className="offer" id="offer" ref={offeringsContainerRef}>
+        <div className="stick">
+          <div className="left">
+            <h2>Exclusive Course Offerings</h2>
+            <p>Comprehensive features and value additions bundled with your program enrollment</p>
+            <div className="dots" id="dots">
+              {offeringsData.map((_, i) => (
+                <i key={i} className={i === activeOfferIndex ? 'on' : ''} />
+              ))}
+            </div>
+          </div>
+          <div className="view">
+            <div className="track" id="track" ref={trackRef}>
+              {offeringsData.map((item, idx) => (
+                <div
+                  key={idx}
+                  className={`card ${idx === activeOfferIndex ? 'on' : ''}`}
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      d="M12 0c.6 6.6 5.4 11.4 12 12-6.6.6-11.4 5.4-12 12-.6-6.600-5.4-11.4-12-12C6.600 11.400 11.400 6.600 12 0z"
+                    />
+                  </svg>
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= 6. SECTION: INTERNSHIP PROGRAM INTEGRATION (REDESIGNED LIGHT THEME) ================= */}
+      <section className="arch-content-section section-internship-light" id="internship">
+        <div className="arch-container">
+
+          {/* Section Header */}
+          <div className="internship-header-block">
+            <h2 className="internship-main-title">
+              <span className="internship-title-highlight">Internship Program Integration</span>
+            </h2>
+
+            <p className="internship-lead-paragraph">
+              The Integrated Internship Program offers an intensive 6–week hands-on corporate learning experience using Tally Prime. Bridge academic knowledge with authentic workplace practice, master digital accounting and GST workflows, and earn dual verifiable credentials recognized across corporate industries.
+            </p>
+          </div>
+
+          {/* 4 Cards Unified Banner below Internship Description */}
+          <div className="internship-specs-strip">
+            <div className="internship-spec-card">
+              <div className="internship-spec-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3c0 4.5-3.5 8-8 8 4.5 0 8 3.5 8 8 0-4.5 3.5-8 8-8-4.5 0-8-3.5-8-8z" />
+                  <path d="M19 3v4M17 5h4" strokeWidth="1.75" />
+                  <circle cx="5" cy="19" r="1.5" strokeWidth="1.75" />
+                </svg>
+              </div>
+              <h4 className="spec-name">6–Week Immersive Training</h4>
+              <p className="spec-sub">Hands-on corporate simulation projects, not just theory.</p>
+            </div>
+
+            <div className="internship-spec-card">
+              <div className="internship-spec-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3c0 4.5-3.5 8-8 8 4.5 0 8 3.5 8 8 0-4.5 3.5-8 8-8-4.5 0-8-3.5-8-8z" />
+                  <path d="M19 3v4M17 5h4" strokeWidth="1.75" />
+                  <circle cx="5" cy="19" r="1.5" strokeWidth="1.75" />
+                </svg>
+              </div>
+              <h4 className="spec-name">100% Practical Workflows</h4>
+              <p className="spec-sub">Real Tally Prime vouchers, inventory, and GST compliance.</p>
+            </div>
+
+            <div className="internship-spec-card">
+              <div className="internship-spec-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3c0 4.5-3.5 8-8 8 4.5 0 8 3.5 8 8 0-4.5 3.5-8 8-8-4.5 0-8-3.5-8-8z" />
+                  <path d="M19 3v4M17 5h4" strokeWidth="1.75" />
+                  <circle cx="5" cy="19" r="1.5" strokeWidth="1.75" />
+                </svg>
+              </div>
+              <h4 className="spec-name">NEP 2020 Aligned</h4>
+              <p className="spec-sub">Credit-ready skill curriculum aligned with national policy.</p>
+            </div>
+
+            <div className="internship-spec-card">
+              <div className="internship-spec-icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3c0 4.5-3.5 8-8 8 4.5 0 8 3.5 8 8 0-4.5 3.5-8 8-8-4.5 0-8-3.5-8-8z" />
+                  <path d="M19 3v4M17 5h4" strokeWidth="1.75" />
+                  <circle cx="5" cy="19" r="1.5" strokeWidth="1.75" />
+                </svg>
+              </div>
+              <h4 className="spec-name">Dual TEPL Certification</h4>
+              <p className="spec-sub">Verifiable credentials with direct TEPL job portal access.</p>
+            </div>
+          </div>
+
+          {/* Section Heading: Styled like "OUR AI ADVANTAGE" */}
+          <div className="internship-achieve-centered-header">
+            <h3 className="internship-achieve-main-title">
+              WHAT LEARNERS WILL ACHIEVE <span className="highlight-blue">FROM INTERNSHIP</span>
+            </h3>
+            <p className="internship-achieve-subtitle">
+              We equip you with practical digital accounting mastery, simulated corporate workflows, and verified skills that employers actively seek. No prior corporate experience required.
+            </p>
+          </div>
+
+          {/* 4 Cards surrounding Center Glowing Orb */}
+          <div className="internship-achieve-grid-stage">
+            {/* Top-Left Card */}
+            <div className="achieve-dark-card card-tl">
+              <h4 className="achieve-card-title">REAL–WORLD EXPERIENCE</h4>
+              <p className="achieve-card-desc">
+                Work through authentic corporate case studies that simulate daily business operations, equipping you to handle end-to-end accounting tasks independently from day one.
+              </p>
+            </div>
+
+            {/* Bottom-Left Card */}
+            <div className="achieve-dark-card card-bl">
+              <h4 className="achieve-card-title">PRACTICAL APPLICATION</h4>
+              <p className="achieve-card-desc">
+                Apply theoretical knowledge in real time through hands-on tasks, including chart of accounts setup, multi-tier invoicing, E-Way Bill generation, and ledger reconciliations.
+              </p>
+            </div>
+
+            {/* Center Simple Badge */}
+            <div className="achieve-center-orb-wrapper">
+              <div className="achieve-center-orb">
+                <span className="orb-text-main">TEPL</span>
+              </div>
+            </div>
+
+            {/* Top-Right Card */}
+            <div className="achieve-dark-card card-tr">
+              <h4 className="achieve-card-title">BOOST YOUR RESUME</h4>
+              <p className="achieve-card-desc">
+                Documented practical experience in Tally Prime significantly distinguishes your profile, providing verified evidence of corporate readiness that catches the attention of hiring managers.
+              </p>
+            </div>
+
+            {/* Bottom-Right Card */}
+            <div className="achieve-dark-card card-br">
+              <h4 className="achieve-card-title">NEP 2020 ALIGNED</h4>
+              <p className="achieve-card-desc">
+                The internship adheres strictly to National Education Policy 2020 (NEP 2020) guidelines, offering credit-ready vocational learning that broadens employment avenues nationwide.
+              </p>
+            </div>
+          </div>
+
+          {/* Official TEPL Dual Certification Card (Matching Dark Card UI) */}
+          <div className="achieve-cert-card-wrap">
+            <div className="achieve-dark-card card-cert">
+              <h4 className="achieve-card-title">OFFICIAL TEPL DUAL CERTIFICATION</h4>
+              <p className="achieve-card-desc">
+                Upon program completion, receive dual verified credentials: the official TEPL Accredited Course Completion Certificate and 6–Week Corporate Practical Internship Certificate with verifiable QR codes recognized nationwide.
+              </p>
             </div>
           </div>
 
         </div>
       </section>
 
-      {/* ================= 8. SECTION: WHY CHOOSE THIS COURSE? ================= */}
-      <section className="arch-content-section" id="why-choose">
-        <div className="arch-container">
-          <div className="arch-section-header-row">
-            <div>
-              <span className="arch-kicker-label">SECTION 04 / COMPETITIVE ADVANTAGE</span>
-              <h2 className="arch-section-title">Why Choose This Course?</h2>
-            </div>
-            <p className="arch-header-desc">
-              Designed to give you practical accounting mastery and industry career readiness
-            </p>
+      {/* ================= 8. SECTION: WHY CHOOSE THIS COURSE? (STICKY SPLIT-SCROLL) ================= */}
+      <section className="why-sticky-section" id="why-choose">
+        <div className="why-sticky-container">
+          <div className="why-sticky-head">
+            <h2>
+              Why Choose <span className="why-title-highlight">This Course?</span>
+            </h2>
+            <p>Designed to give you practical accounting mastery and industry career readiness</p>
           </div>
-
-          <div className="arch-why-bento-grid">
-            <div className="arch-why-card">
-              <span className="why-marker">✦</span>
-              <h4 className="why-title">Expert Instructors</h4>
-              <p className="why-desc">
-                Learn from seasoned professionals with extensive knowledge of Tally Prime and GST regulations.
-              </p>
+          <div className="why-sticky-split">
+            <div className="why-sticky-panel" id="panel">
+              {whyStickyItems.map((item, idx) => (
+                <img
+                  key={idx}
+                  src={item.image}
+                  alt={item.alt}
+                  className={idx === activeWhyIndex ? 'on' : ''}
+                />
+              ))}
+              <div className="why-sticky-segs" id="segs">
+                {whyStickyItems.map((_, idx) => (
+                  <i
+                    key={idx}
+                    className={idx <= activeWhyIndex ? 'on' : ''}
+                    onClick={() => {
+                      setActiveWhyIndex(idx);
+                      whyItemRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }}
+                  />
+                ))}
+              </div>
             </div>
-
-            <div className="arch-why-card">
-              <span className="why-marker">✦</span>
-              <h4 className="why-title">Hands–On Training</h4>
-              <p className="why-desc">
-                Real-time practical exercises and live assistance during interactive sessions, tailored for learners in regional languages.
-              </p>
-            </div>
-
-            <div className="arch-why-card">
-              <span className="why-marker">✦</span>
-              <h4 className="why-title">Industry Relevant Skill</h4>
-              <p className="why-desc">
-                Stay updated with the latest digital accounting practices and GST regulations to stay ahead in the finance industry.
-              </p>
-            </div>
-
-            <div className="arch-why-card">
-              <span className="why-marker">✦</span>
-              <h4 className="why-title">Flexible Learning</h4>
-              <p className="why-desc">
-                Attend from anywhere via live online sessions with expert guidance, and get your queries resolved promptly.
-              </p>
-            </div>
-
-            <div className="arch-why-card full-span">
-              <span className="why-marker lime">✦</span>
-              <h4 className="why-title">Exclusive Tally Job Portal Access</h4>
-              <p className="why-desc">
-                Students enrolled in this course will have exclusive access to Tally’s job portal, expanding their career opportunities with direct employer applications.
-              </p>
+            <div className="why-sticky-list" id="list">
+              {whyStickyItems.map((item, idx) => (
+                <article
+                  key={idx}
+                  ref={(el) => (whyItemRefs.current[idx] = el)}
+                  className={`why-sticky-item ${idx === activeWhyIndex ? 'on' : ''}`}
+                  onClick={() => {
+                    setActiveWhyIndex(idx);
+                    whyItemRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}
+                >
+                  <div className="n">{item.n}</div>
+                  <div className="tag">{item.tag}</div>
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </article>
+              ))}
             </div>
           </div>
         </div>
@@ -599,8 +898,9 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
 
           {/* Left Column: Intro & Download Callout */}
           <div className="curriculum-intro-col">
-            <span className="arch-kicker-label">SECTION 05 / CURRICULUM</span>
-            <h2 className="arch-section-title">Our Curriculum Guide</h2>
+            <h2 className="arch-section-title">
+              <span className="hero-lime-highlight">Our Curriculum Guide</span>
+            </h2>
             <div className="curriculum-badge-pill">
               11 MODULES • 35 HOURS
             </div>
@@ -664,72 +964,76 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
         <div className="arch-container">
           <div className="arch-section-header-row">
             <div>
-              <span className="arch-kicker-label">SECTION 06 / ELIGIBILITY &amp; CREDENTIALS</span>
-              <h2 className="arch-section-title">Tally Course Eligibility</h2>
+              <h2 className="arch-section-title">
+                <span className="hero-lime-highlight">Tally Course Eligibility</span>
+              </h2>
             </div>
             <p className="arch-header-desc">
               Those with a background in commerce at graduate or postgraduate level, along with students or working professionals interested in upskilling, are eligible.
             </p>
           </div>
 
-          <div className="arch-eligibility-grid">
-            <div className="arch-elig-box">
-              <span className="box-check">✓</span>
-              <span className="box-text">Students pursuing Commerce degree (B.Com, BBA, M.Com, MBA)</span>
-            </div>
-            <div className="arch-elig-box">
-              <span className="box-check">✓</span>
-              <span className="box-text">Working accountants &amp; finance executives upskilling to Tally Prime</span>
-            </div>
-            <div className="arch-elig-box">
-              <span className="box-check">✓</span>
-              <span className="box-text">Small business owners &amp; entrepreneurs managing day-to-day accounts</span>
-            </div>
-            <div className="arch-elig-box">
-              <span className="box-check">✓</span>
-              <span className="box-text">Job seekers preparing for Accounts Executive &amp; GST roles</span>
-            </div>
+          <div className="elig-audience-grid">
+            {eligibilityAudience.map((item, idx) => (
+              <article key={idx} className="elig-card" tabIndex={0}>
+                <div className="elig-media">
+                  <img src={item.img} alt={item.cat} loading="lazy" />
+                </div>
+                <div className="elig-body">
+                  <span className="elig-cat">{item.cat}</span>
+                  <span className="elig-sub">{item.sub}</span>
+                  <h3 className="elig-title">{item.title}</h3>
+                </div>
+                <div className="elig-go">DISCOVER</div>
+              </article>
+            ))}
           </div>
+        </div>
+      </section>
 
-          {/* Full Width Credential Banner */}
-          <div className="arch-cert-showcase">
-            <div className="cert-top-pill">
-              ACCREDITED BY TALLY EDUCATION (TEPL)
+      {/* ================= 10B. SECTION: TALLY & INTERNSHIP CERTIFICATION ================= */}
+      <section className="cert-sec" id="certification">
+        <div className="arch-container">
+          <div className="cert-sec-head">
+            <h2 className="arch-section-title">
+              Earn an Industry–Recognized <span className="hero-lime-highlight">Tally &amp; Internship Certificate</span>
+            </h2>
+          </div>
+          <div className="cert-grid-body">
+            <div className="cert-copy-col">
+              <h3>Tally &amp; Internship Certificate</h3>
+              <p>Upon completing the 25 hours curriculum and 6–week internship case studies, receive dual verified credentials directly shareable on LinkedIn and recognized by employers nationwide.</p>
+              <div className="cert-stats-grid">
+                <div><b>25</b><span>Hours curriculum</span></div>
+                <div><b>6</b><span>Weeks internship case studies</span></div>
+                <div><b>✓</b><span>Shareable on LinkedIn</span></div>
+                <div><b>✓</b><span>Recognized by employers nationwide</span></div>
+              </div>
             </div>
-            <h3 className="cert-title">
-              Earn an Industry–Recognized Tally &amp; Internship Certificate
-            </h3>
-            <p className="cert-lead">
-              Upon completing the 25 hours curriculum and 6–week internship case studies, receive dual verified credentials directly shareable on LinkedIn and recognized by employers nationwide.
-            </p>
-
-            <div className="cert-details-grid">
-              <div className="cert-graphic-box">
-                <div className="cert-svg-frame">
-                  <svg viewBox="0 0 200 130" width="100%" height="100%">
-                    <rect x="5" y="5" width="190" height="120" rx="4" fill="#0d0d11" stroke="#33333d" strokeWidth="2" />
-                    <rect x="15" y="15" width="170" height="100" rx="2" fill="#14141a" />
-                    <circle cx="100" cy="50" r="14" fill="#b8f000" opacity="0.3" />
-                    <circle cx="100" cy="50" r="8" fill="#b8f000" />
-                    <rect x="35" y="75" width="130" height="5" rx="2" fill="#71717a" />
-                    <rect x="55" y="86" width="90" height="4" rx="2" fill="#52525b" />
+            <div className="cert-show-col">
+              <div className="cert-mockup" role="img" aria-label="Sample Tally and Internship certificate">
+                <div className="c-top">
+                  <h4>Certificate of Completion</h4>
+                  <p>Tally &amp; Internship Programme</p>
+                </div>
+                <div className="c-mid">
+                  <small>This is to certify that</small>
+                  <div className="nm">Student Name</div>
+                  <small>has successfully completed the requirements of</small>
+                  <div className="pr">Tally Prime &amp; Internship Programme</div>
+                  <div className="dt">25 Hours Curriculum · 6–Week Internship Case Studies</div>
+                  <div className="c-logo">finanzo</div>
+                  <svg className="c-sig" viewBox="0 0 120 40" fill="none" stroke="#1a2a86" strokeWidth="1.6" strokeLinecap="round">
+                    <path d="M4 28c10-24 14-24 10-4s8 6 14-8c-2 14 6 12 12 2 4-6 6-4 4 4 8-10 20-14 40-12" />
+                    <path d="M6 34h100" stroke="#bbb" strokeWidth="1" />
+                  </svg>
+                  <svg className="c-seal" viewBox="0 0 80 90">
+                    <path d="M40 2l34 12v28c0 24-16 38-34 46C22 80 6 66 6 42V14z" fill="#1a2a86" />
+                    <path d="M40 10l26 9v23c0 18-12 30-26 36-14-6-26-18-26-36V19z" fill="#0a1ea8" stroke="#fff" strokeWidth="2" />
+                    <path d="M40 28l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z" fill="#fff" />
                   </svg>
                 </div>
-                <span className="cert-caption">[ Official Credential ID &amp; QR Verification Badge ]</span>
-              </div>
-
-              <div className="cert-spec-list">
-                <div className="cert-spec-head">
-                  <span className="lime-dot">●</span>
-                  <strong>Verifiable Credential with TEPL ID &amp; QR Code</strong>
-                </div>
-                <p className="cert-spec-desc">
-                  Each certificate is registered in the official Tally Education Candidate Verification Portal with authentic endorsement from Finanzo and TEPL.
-                </p>
-                <ul className="cert-checklist">
-                  <li>— TEPL Accredited Course Completion Certificate</li>
-                  <li>— 6–Week Practical Accounting &amp; GST Internship Certificate</li>
-                </ul>
+                <div className="c-foot">Verified credential · ID: FNZ-XXXXXX</div>
               </div>
             </div>
           </div>
@@ -737,12 +1041,13 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
       </section>
 
       {/* ================= 11. SECTION: COURSE FEE & COMPLETE ENROLLMENT PACKAGE ================= */}
-      <section className="arch-content-section section-pricing-package" id="pricing">
+      <section className="arch-content-section section-pricing-package section-pricing-light" id="pricing">
         <div className="arch-container">
           <div className="arch-section-header-row">
             <div>
-              <span className="arch-kicker-label">SECTION 07 / ENROLLMENT</span>
-              <h2 className="arch-section-title">Complete Course Package &amp; Fees</h2>
+              <h2 className="arch-section-title">
+                Complete Course Package &amp; Fees
+              </h2>
             </div>
             <p className="arch-header-desc">
               All-inclusive program fee with software access, mentoring, internship, and official certifications
@@ -818,15 +1123,16 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
       </section>
 
       {/* ================= 12. SECTION: STUDENT REVIEWS & FEEDBACK (3-COLUMN GRID) ================= */}
-      <section className="arch-content-section" id="reviews">
+      <section className="arch-content-section section-reviews-light" id="reviews">
         <div className="arch-container">
           <div className="arch-section-header-row">
             <div>
-              <span className="arch-kicker-label">SECTION 08 / SOCIAL PROOF</span>
-              <h2 className="arch-section-title">Student Reviews &amp; Feedback</h2>
+              <h2 className="arch-section-title">
+                Student Reviews &amp; Feedback
+              </h2>
             </div>
-            <div className="score-pill-header">
-              <span className="lime-star">★</span>
+            <div className="score-pill-header score-pill-light">
+              <span className="gold-star">★</span>
               <span>4.9 / 5.0 (3,200 Reviews)</span>
             </div>
           </div>
@@ -882,8 +1188,9 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
         <div className="arch-container">
           <div className="arch-section-header-row">
             <div>
-              <span className="arch-kicker-label">SECTION 09 / FREQUENTLY ASKED QUESTIONS</span>
-              <h2 className="arch-section-title">Frequently Asked Questions</h2>
+              <h2 className="arch-section-title">
+                <span className="hero-lime-highlight">Frequently Asked Questions</span>
+              </h2>
             </div>
             <div className="arch-faq-count-pill">10 QUESTIONS</div>
           </div>
@@ -944,8 +1251,9 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
         <div className="arch-container">
           <div className="arch-section-header-row">
             <div>
-              <span className="arch-kicker-label">SECTION 10 / RELATED CERTIFICATIONS</span>
-              <h2 className="arch-section-title">Related Certification Courses</h2>
+              <h2 className="arch-section-title">
+                <span className="hero-lime-highlight">Related Certification Courses</span>
+              </h2>
             </div>
             <a href="#courses" className="arch-view-all">View All Courses →</a>
           </div>
@@ -987,89 +1295,6 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
           </div>
         </div>
       </section>
-
-      {/* ================= 15. CONTRAST WHITE ACCREDITATION & PROGRAM PARTNERS BAND ================= */}
-      <section className="arch-partners-white-section">
-        <div className="arch-container">
-          <div className="partners-header">
-            <div>
-              <h3 className="partners-title">Accredited Program &amp; Industry Standards</h3>
-              <p className="partners-desc">
-                Aligned with National Education Policy (NEP 2020) and authorized by official certification bodies.
-              </p>
-            </div>
-            <a href="#about" className="partners-link">Learn more about accreditation →</a>
-          </div>
-
-          <div className="partners-logo-row">
-            <div className="partner-logo-item">
-              <span className="p-brand">TALLY EDUCATION</span>
-              <span className="p-sub">TEPL Accredited</span>
-            </div>
-            <div className="partner-logo-item">
-              <span className="p-brand">NEP 2020</span>
-              <span className="p-sub">Skill-Based Curriculum</span>
-            </div>
-            <div className="partner-logo-item">
-              <span className="p-brand">MCA COMPLIANT</span>
-              <span className="p-sub">Audit Trail Ready</span>
-            </div>
-            <div className="partner-logo-item">
-              <span className="p-brand">GST PORTAL</span>
-              <span className="p-sub">Live Return Simulation</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= 16. ARCHITECTURAL MINIMALIST FOOTER & CHEVRON STRIP ================= */}
-      <footer className="arch-footer">
-        <div className="arch-container arch-footer-grid">
-          <div className="footer-col brand-col">
-            <h4 className="footer-logo">finanzo</h4>
-            <p className="footer-tagline">
-              Digital Accounting &amp; Taxation Excellence.<br />
-              Accredited by Tally Education (TEPL).
-            </p>
-          </div>
-
-          <div className="footer-col">
-            <h5 className="footer-heading">Curriculum</h5>
-            <ul className="footer-links">
-              <li><a href="#overview">Course Overview</a></li>
-              <li><a href="#curriculum">11 Modules</a></li>
-              <li><a href="#internship">6-Week Internship</a></li>
-              <li><a href="#eligibility">Eligibility Criteria</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-col">
-            <h5 className="footer-heading">Certifications</h5>
-            <ul className="footer-links">
-              <li><a href="#eligibility">TEPL Credential</a></li>
-              <li><a href="#eligibility">Internship Letter</a></li>
-              <li><a href="#pricing">Job Portal Access</a></li>
-              <li><a href="#faqs">Verification Portal</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-col">
-            <h5 className="footer-heading">Contact</h5>
-            <ul className="footer-links">
-              <li>support@finanzo.in</li>
-              <li>+91 73585 70881</li>
-              <li>Chennai • Coimbatore • Bengaluru</li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Geometric Architectural Chevron Bottom Pattern Strip */}
-        <div className="arch-bottom-chevron-pattern">
-          <div className="chevron-repeater">
-            <span>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span>
-          </div>
-        </div>
-      </footer>
 
     </div>
   );

@@ -1,9 +1,94 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './About.css';
 import Accreditation from '../Accreditation';
 import CTA from '../CTA';
 
 const About = () => {
+  const tilesRef = useRef(null);
+  const galleryRef = useRef(null);
+
+  useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 1. Photo mosaic wipe-open reveal on scroll
+    const galleryEl = galleryRef.current;
+    if (galleryEl) {
+      const phs = galleryEl.querySelectorAll('.who-ph');
+      if ('IntersectionObserver' in window && !reduce) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+
+        phs.forEach((p) => io.observe(p));
+      } else {
+        phs.forEach((p) => p.classList.add('in'));
+      }
+    }
+
+    // 2. Gradient 3D grid flattening on scroll
+    const tilesEl = tilesRef.current;
+    if (tilesEl) {
+      if (reduce) {
+        tilesEl.style.setProperty('--p', '1');
+      } else {
+        let ticking = false;
+        const updateTiles = () => {
+          ticking = false;
+          if (!tilesEl) return;
+          const r = tilesEl.getBoundingClientRect();
+          const vh = window.innerHeight;
+          let p = (vh - r.top) / (vh * 0.75);
+          p = Math.max(0, Math.min(1, p));
+          tilesEl.style.setProperty('--p', p.toFixed(3));
+        };
+
+        const onScroll = () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(updateTiles);
+          }
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        updateTiles();
+
+        return () => {
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('resize', onScroll);
+        };
+      }
+    }
+  }, []);
+
+  const handleTilePointer = (e, isEnter) => {
+    const tile = e.currentTarget;
+    const r = tile.getBoundingClientRect();
+    tile.style.setProperty('--x', `${Math.max(0, Math.min(r.width, e.clientX - r.left))}px`);
+    tile.style.setProperty('--y', `${Math.max(0, Math.min(r.height, e.clientY - r.top))}px`);
+    if (isEnter) {
+      tile.classList.add('on');
+    } else {
+      tile.classList.remove('on');
+    }
+  };
+
+  const handleTileFocus = (e, isFocus) => {
+    const tile = e.currentTarget;
+    tile.style.setProperty('--x', '50%');
+    tile.style.setProperty('--y', '50%');
+    if (isFocus) {
+      tile.classList.add('on');
+    } else {
+      tile.classList.remove('on');
+    }
+  };
+
   const mentors = [
     {
       name: 'CA Rajesh Sharma',
@@ -123,83 +208,229 @@ const About = () => {
   return (
     <div className="about-page-wrapper">
       
-      {/* 1. ABOUT HERO SECTION */}
+      {/* 1. ABOUT HERO SECTION (Exact UI from About Us – Finanzo.html) */}
       <section className="about-hero-section">
-        <div className="about-container">
-          <div className="about-hero-grid">
-            <div className="about-hero-text">
-              <h1 className="about-hero-title">
-                Pioneering Practical Finance & Accounting Education
-              </h1>
-              <p className="about-hero-desc">
-                Finanzo is an Authorised Tally Learning Partner dedicated to transforming theoretical commerce education into job-ready technical mastery through real-world industry simulation.
-              </p>
-              <div className="about-hero-highlights">
-                <div className="highlight-pill">
-                  <span className="dot" />
-                  <span>Authorised Tally Partner</span>
-                </div>
-                <div className="highlight-pill">
-                  <span className="dot" />
-                  <span>Startup India Recognized</span>
-                </div>
-                <div className="highlight-pill">
-                  <span className="dot" />
-                  <span>10,000+ Alumni</span>
-                </div>
-              </div>
-            </div>
+        <header className="about-hero-canvas">
+          <div className="about-blob about-b1" />
+          <div className="about-blob about-b2" />
+          <div className="about-blob about-b3" />
+          <div className="about-hero-grain" />
 
-            {/* Image Placeholder: Hero Visual */}
-            <div className="about-image-frame hero-image-space">
-              <div className="placeholder-canvas">
-                <div className="placeholder-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                    <circle cx="8.5" cy="8.5" r="1.5" />
-                    <polyline points="21 15 16 10 5 21" />
-                  </svg>
-                </div>
-                <span className="placeholder-label">[ Image Space: Finanzo Classroom / Learning Hub ]</span>
-                <span className="placeholder-dimensions">Recommended: 800 x 540 px</span>
-              </div>
+          <div className="about-hero-copy">
+            <h1 className="about-hero-h1">
+              About{' '}
+              <span className="about-hero-u">
+                Us
+                <svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M1 4C25 9 60 9 99 2" vectorEffect="non-scaling-stroke" />
+                </svg>
+              </span>
+            </h1>
+
+            <p className="about-hero-lead">
+              Finanzo is on a mission to empower aspiring finance and commerce professionals with industry-grade practical education, live GST filing expertise, and placement-ready credentials.
+            </p>
+
+            <div className="about-hero-cta">
+              <a className="about-hero-btn" id="courses" href="#courses">
+                Explore Courses <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </header>
+
+        {/* 3 Value Pillars */}
+        <div className="about-hero-points-wrap">
+          <div className="about-hero-points" aria-label="What we offer">
+            <div className="about-pt">
+              <span>01</span>
+              <h2>Industry-grade practical education</h2>
+            </div>
+            <div className="about-pt">
+              <span>02</span>
+              <h2>Live GST filing expertise</h2>
+            </div>
+            <div className="about-pt">
+              <span>03</span>
+              <h2>Placement-ready credentials</h2>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. WHO WE ARE */}
-      <section className="about-section who-we-are-section">
-        <div className="about-container">
-          <div className="split-content-grid">
-            
-            {/* Image Placeholder: Who We Are */}
-            <div className="about-image-frame">
-              <div className="placeholder-canvas">
-                <div className="placeholder-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
-                </div>
-                <span className="placeholder-label">[ Image Space: Our Founders & Campus Team ]</span>
-                <span className="placeholder-dimensions">Recommended: 700 x 480 px</span>
-              </div>
-            </div>
-
-            <div className="split-text-col">
-              <h2 className="section-heading">Who We Are</h2>
-              <p className="body-paragraph">
+      {/* 2. WHO WE ARE (Interactive UI from who-we-are.html) */}
+      <section className="about-section who-we-are-section" aria-labelledby="who" id="who-we-are">
+        <div className="who-container">
+          
+          {/* Left Column: Story & 3D Tilted Blue Grid */}
+          <div className="who-left">
+            <div className="who-copy">
+              <h2 id="who">Who We Are</h2>
+              <p>
                 Founded by practicing Chartered Accountants and educational innovators, Finanzo was born to solve a critical industry reality: while millions of students graduate with commerce degrees each year, few possess the practical muscle memory required to operate TallyPrime, execute GST returns, or balance company ledgers on Day 1.
               </p>
-              <p className="body-paragraph">
+              <p>
                 Today, Finanzo operates as an official Authorised Learning Partner of Tally Education (TEPL) and is recognized under the Startup India and Startup TN government initiatives. We provide college students, career switchers, and working professionals with direct, hands-on access to the tools and workflows of modern corporate finance.
               </p>
             </div>
 
+            {/* 3D Tilted Interactive Blue Grid */}
+            <div className="who-tiles-wrap">
+              <div className="who-tiles" id="tiles" ref={tilesRef}>
+                
+                {/* Tile 1 */}
+                <button
+                  className="who-tile"
+                  type="button"
+                  aria-label="Practicing Chartered Accountants"
+                  onPointerEnter={(e) => handleTilePointer(e, true)}
+                  onPointerLeave={(e) => handleTilePointer(e, false)}
+                  onFocus={(e) => handleTileFocus(e, true)}
+                  onBlur={(e) => handleTileFocus(e, false)}
+                >
+                  <span className="tile-in tile-base">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z" />
+                      <path d="M8.5 12l2.5 2.5 4.5-5" />
+                    </svg>
+                    <em className="tile-lbl">Founded by practicing CAs</em>
+                  </span>
+                  <span className="tile-in tile-fill" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z" />
+                      <path d="M8.5 12l2.5 2.5 4.5-5" />
+                    </svg>
+                    <em className="tile-lbl">Founded by practicing CAs</em>
+                  </span>
+                </button>
+
+                {/* Tile 2 */}
+                <button
+                  className="who-tile"
+                  type="button"
+                  aria-label="Authorised Learning Partner of Tally Education"
+                  onPointerEnter={(e) => handleTilePointer(e, true)}
+                  onPointerLeave={(e) => handleTilePointer(e, false)}
+                  onFocus={(e) => handleTileFocus(e, true)}
+                  onBlur={(e) => handleTileFocus(e, false)}
+                >
+                  <span className="tile-in tile-base">
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="9" r="5" />
+                      <path d="M8.8 13.3L7.5 21l4.5-2.6 4.5 2.6-1.3-7.7" />
+                    </svg>
+                    <em className="tile-lbl">Authorised Learning Partner, TEPL</em>
+                  </span>
+                  <span className="tile-in tile-fill" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="9" r="5" />
+                      <path d="M8.8 13.3L7.5 21l4.5-2.6 4.5 2.6-1.3-7.7" />
+                    </svg>
+                    <em className="tile-lbl">Authorised Learning Partner, TEPL</em>
+                  </span>
+                </button>
+
+                {/* Tile 3 */}
+                <button
+                  className="who-tile"
+                  type="button"
+                  aria-label="Recognized under Startup India"
+                  onPointerEnter={(e) => handleTilePointer(e, true)}
+                  onPointerLeave={(e) => handleTilePointer(e, false)}
+                  onFocus={(e) => handleTileFocus(e, true)}
+                  onBlur={(e) => handleTileFocus(e, false)}
+                >
+                  <span className="tile-in tile-base">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M5 19c0-6 4-12 14-14 0 10-6 14-12 14" />
+                      <path d="M5 19l5-5" />
+                      <circle cx="14.5" cy="9.5" r="1.2" />
+                    </svg>
+                    <em className="tile-lbl">Recognized under Startup India</em>
+                  </span>
+                  <span className="tile-in tile-fill" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M5 19c0-6 4-12 14-14 0 10-6 14-12 14" />
+                      <path d="M5 19l5-5" />
+                      <circle cx="14.5" cy="9.5" r="1.2" />
+                    </svg>
+                    <em className="tile-lbl">Recognized under Startup India</em>
+                  </span>
+                </button>
+
+                {/* Tile 4 */}
+                <button
+                  className="who-tile"
+                  type="button"
+                  aria-label="Recognized under Startup TN"
+                  onPointerEnter={(e) => handleTilePointer(e, true)}
+                  onPointerLeave={(e) => handleTilePointer(e, false)}
+                  onFocus={(e) => handleTileFocus(e, true)}
+                  onBlur={(e) => handleTileFocus(e, false)}
+                >
+                  <span className="tile-in tile-base">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z" />
+                      <circle cx="12" cy="10" r="2.4" />
+                    </svg>
+                    <em className="tile-lbl">Recognized under Startup TN</em>
+                  </span>
+                  <span className="tile-in tile-fill" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z" />
+                      <circle cx="12" cy="10" r="2.4" />
+                    </svg>
+                    <em className="tile-lbl">Recognized under Startup TN</em>
+                  </span>
+                </button>
+
+              </div>
+            </div>
           </div>
+
+          {/* Right Column: Photo Mosaic Gallery with Wipe-Open Reveal */}
+          <div className="who-gallery" id="gallery" ref={galleryRef}>
+            <div className="who-ph who-wide">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="8" r="3.2" />
+                <path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5" />
+                <path d="M16 5.2a3.2 3.2 0 010 5.6M18 14c2 .6 3.5 2.3 3.5 5" />
+              </svg>
+              <b>[ Image: Our Founders &amp; Campus Team ]</b>
+              <small>Recommended: 700 x 440 px</small>
+            </div>
+
+            <div className="who-ph who-sq">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <circle cx="9" cy="10" r="1.8" />
+                <path d="M21 16l-5-5-8 9" />
+              </svg>
+              <b>[ Image ]</b>
+              <small>Recommended: 340 x 400 px</small>
+            </div>
+
+            <div className="who-ph who-sq">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <circle cx="9" cy="10" r="1.8" />
+                <path d="M21 16l-5-5-8 9" />
+              </svg>
+              <b>[ Image ]</b>
+              <small>Recommended: 340 x 400 px</small>
+            </div>
+
+            <div className="who-ph who-wide">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <circle cx="9" cy="10" r="1.8" />
+                <path d="M21 16l-5-5-8 9" />
+              </svg>
+              <b>[ Image ]</b>
+              <small>Recommended: 700 x 440 px</small>
+            </div>
+          </div>
+
         </div>
       </section>
 

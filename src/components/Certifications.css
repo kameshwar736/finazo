@@ -1,212 +1,479 @@
 /* ==========================================================================
-   CERTIFICATIONS & INTERNSHIPS - CLEAN, AIRY & UNCLUTTERED DESIGN
+   INDUSTRY CERTIFICATION & PRACTICAL INTERNSHIPS SECTION
+   Theme: High-contrast Dark Luxury with Gold & Emerald Certificate Previews
    ========================================================================== */
+
+:root {
+  --cert-bg: #05070d;
+  --cert-bg2: #0a1220;
+  --cert-line: #1a2030;
+  --cert-text: #ffffff;
+  --cert-muted: #7d8594;
+  --cert-soft: #aab1bf;
+  --cert-blue: #7c8cff;
+  --cert-blue-bg: #141a4a;
+  --cert-green: #34d399;
+  --cert-green-bg: #0d2a22;
+  --cert-tick-bg: #171c3a;
+}
 
 .cert-section {
-  width: 100%;
-  background-color: #0c0c10;
-  color: #ffffff;
-  padding: 6.5rem 1.5rem 7rem;
-  border-bottom: 1px solid #1c1c24;
   position: relative;
+  width: 100%;
+  background: radial-gradient(900px 400px at 50% 100%, #0b1a33 0%, transparent 70%), var(--cert-bg);
+  color: var(--cert-text);
+  font-family: Outfit, "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  overflow-x: clip;
+  padding: 0 1.5rem;
 }
 
-.cert-container {
-  max-width: 1200px;
+.cert-frame {
+  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 3.5rem;
+  border-left: 1px solid var(--cert-line);
+  border-right: 1px solid var(--cert-line);
+  padding: 72px clamp(1.25rem, 3vw, 2.5rem) 120px;
+  box-sizing: border-box;
 }
 
 /* --------------------------------------------------------------------------
-   HEADER WITH GENEROUS BREATHING ROOM
+   HEADER
    -------------------------------------------------------------------------- */
-.cert-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+.cert-eyebrow {
   text-align: center;
-  max-width: 760px;
-  margin: 0 auto;
-}
-
-.cert-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  color: #60a5fa;
-  background-color: rgba(1, 1, 255, 0.12);
-  border: 1px solid rgba(1, 1, 255, 0.25);
-  padding: 0.35rem 0.95rem;
-  border-radius: 9999px;
-  margin-bottom: 1rem;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: var(--cert-soft);
+  margin: 0 0 18px;
 }
 
-.cert-badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: var(--primary, #0101ff);
-  box-shadow: 0 0 8px var(--primary, #0101ff);
-}
-
-.cert-main-title {
-  font-size: clamp(2.1rem, 3.4vw, 2.9rem);
-  font-weight: 800;
-  letter-spacing: -0.035em;
+.cert-h1 {
+  margin: 0 auto;
+  text-align: center;
+  font-size: clamp(32px, 4.6vw, 56px);
+  font-weight: 600;
+  line-height: 1.1;
+  max-width: 18ch;
+  letter-spacing: -0.01em;
   color: #ffffff;
-  line-height: 1.18;
-  margin-bottom: 1rem;
 }
 
-.cert-subtext {
-  font-size: 1.05rem;
-  line-height: 1.65;
-  color: #a1a1aa;
-  font-weight: 400;
+.cert-lede {
+  text-align: center;
+  color: var(--cert-muted);
+  font-size: 19px;
+  line-height: 1.6;
+  max-width: 56ch;
+  margin: 22px auto 0;
+}
+
+.cert-rule {
+  border: 0;
+  border-top: 1px solid var(--cert-line);
+  margin: 56px 0 0;
 }
 
 /* --------------------------------------------------------------------------
-   2 CLEAN PILLARS (NO OVERCROWDING, NO MOCKUP CLUTTER)
+   2-COLUMN ROWS (STANDARD & FLIPPED)
    -------------------------------------------------------------------------- */
-.cert-two-pillars {
+
+.cert-rows {
+  display: block;
+}
+
+.cert-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2.5rem;
-  align-items: stretch;
+  column-gap: 80px;
+  align-items: start;
+  padding: 64px 0;
+  min-width: 0;
 }
 
-.cert-pillar-card {
-  background-color: #14141c;
-  border: 1px solid #242432;
-  border-radius: 16px;
-  padding: 3rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.25s ease;
-  position: relative;
+.cert-row+.cert-row {
+  border-top: 1px solid var(--cert-line);
 }
 
-.cert-pillar-card:hover {
-  transform: translateY(-4px);
-  border-color: #38384e;
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(1, 1, 255, 0.1);
+.cert-row>*:not(.cert-preview) {
+  grid-column: 1;
 }
 
-.pillar-header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+.cert-row>.cert-preview {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+  align-self: center;
+  margin: 0;
+  width: 100%;
+  max-width: 600px;
+  justify-self: center;
 }
 
-.pillar-tag {
-  font-size: 0.7rem;
-  font-weight: 800;
+.cert-row.flip>*:not(.cert-preview) {
+  grid-column: 2;
+}
+
+.cert-row.flip>.cert-preview {
+  grid-column: 1;
+}
+
+.cert-row>.cert-chip {
+  justify-self: start;
+}
+
+/* Chips */
+.cert-chip {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  width: fit-content;
-  padding: 0.25rem 0.65rem;
-  border-radius: 4px;
+  padding: 9px 14px;
+  border-radius: 6px;
+  border: 1px solid;
 }
 
-.pillar-tag.official {
-  background-color: rgba(1, 1, 255, 0.18);
-  color: #93c5fd;
-  border: 1px solid rgba(1, 1, 255, 0.3);
+.cert-chip.blue {
+  color: var(--cert-blue);
+  background: var(--cert-blue-bg);
+  border-color: #232c7a;
 }
 
-.pillar-tag.internship {
-  background-color: rgba(16, 185, 129, 0.16);
-  color: #6ee7b7;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+.cert-chip.green {
+  color: var(--cert-green);
+  background: var(--cert-green-bg);
+  border-color: #14513f;
 }
 
-.pillar-title {
-  font-size: 1.7rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+.cert-h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 22px 0 10px;
   color: #ffffff;
+  letter-spacing: -0.01em;
 }
 
-.pillar-description {
-  font-size: 0.96rem;
-  line-height: 1.65;
-  color: #a1a1aa;
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #22222e;
-}
-
-/* Feature Items List */
-.pillar-features-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.35rem;
-  margin-top: auto;
-}
-
-.pillar-feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
-}
-
-.feature-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background-color: rgba(1, 1, 255, 0.15);
-  color: #60a5fa;
-  font-size: 0.78rem;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.pillar-feature-item strong {
-  display: block;
-  font-size: 0.96rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 0.2rem;
-}
-
-.pillar-feature-item p {
-  font-size: 0.84rem;
-  line-height: 1.45;
-  color: #94a3b8;
-  margin: 0;
+.cert-desc {
+  color: var(--cert-muted);
+  font-size: 19px;
+  line-height: 1.6;
+  margin: 0 0 34px;
+  max-width: 46ch;
 }
 
 /* --------------------------------------------------------------------------
-   RESPONSIVE MEDIA QUERIES
-   ========================================================================== */
-@media (max-width: 960px) {
-  .cert-two-pillars {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+   CERTIFICATE PREVIEWS
+   -------------------------------------------------------------------------- */
 
-  .cert-pillar-card {
-    padding: 2.25rem 1.75rem;
-  }
+.cert-preview {
+  position: relative;
+  aspect-ratio: 1.42 / 1;
+  max-width: 560px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1d2433;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
 }
 
-@media (max-width: 600px) {
-  .cert-section {
-    padding: 4.5rem 1.25rem 5rem;
+.cert-preview:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.cert-wm {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 96px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.05);
+  transform: rotate(-24deg);
+  pointer-events: none;
+  letter-spacing: 0.1em;
+}
+
+/* Gold Certificate (Row 1) */
+.cert-gold {
+  position: absolute;
+  inset: 12px;
+  border: 2px solid #d9b24c;
+  padding: 16px 22px;
+  box-sizing: border-box;
+}
+
+.cert-gold::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid #e8cf86;
+  pointer-events: none;
+}
+
+.cert-logos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.cert-tally {
+  color: #0b6b57;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+.cert-tally small {
+  display: block;
+  font-weight: 500;
+  font-size: 8px;
+  color: #6b7280;
+  letter-spacing: 0.03em;
+}
+
+.cert-candidate-id {
+  color: #6b7280;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.cert-ctitle {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #3b3a99;
+}
+
+.cert-ribbon {
+  display: block;
+  width: max-content;
+  margin: 6px auto 0;
+  background: #e9c453;
+  color: #5a4410;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 26px;
+  letter-spacing: 0.04em;
+}
+
+.cert-cbody {
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 20px;
+  color: #333333;
+}
+
+.cert-cbody b {
+  font-size: 13px;
+  color: #111111;
+}
+
+.cert-qr {
+  position: absolute;
+  right: 24px;
+  top: 92px;
+  width: 48px;
+  height: 48px;
+}
+
+.cert-sign {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  font-family: Georgia, serif;
+  font-size: 9px;
+  color: #444444;
+}
+
+.cert-sign span {
+  border-top: 1px solid #999999;
+  padding-top: 3px;
+  min-width: 34%;
+  text-align: center;
+}
+
+/* Green Certificate (Row 2) */
+.cert-preview.green {
+  background: #ffffff;
+}
+
+.cert-green-side {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 23%;
+  background: #0f6b4b;
+}
+
+.cert-green-side::after {
+  content: "Certification";
+  position: absolute;
+  left: 12px;
+  bottom: 40px;
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 22px;
+  font-weight: 600;
+  transform-origin: left;
+  transform: rotate(30deg);
+  letter-spacing: 0.05em;
+}
+
+.cert-green-main {
+  position: absolute;
+  left: 28%;
+  right: 5%;
+  top: 8%;
+  bottom: 6%;
+}
+
+.cert-green-tiny {
+  font-size: 8.5px;
+  color: #6b7280;
+  margin-bottom: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.cert-green-main h4 {
+  margin: 0 0 14px;
+  font-size: 23px;
+  font-weight: 600;
+  color: #111111;
+  letter-spacing: -0.01em;
+}
+
+.cert-green-main p {
+  margin: 0 0 6px;
+  font-size: 10.5px;
+  color: #555555;
+}
+
+.cert-green-main p b {
+  color: #111111;
+}
+
+.cert-date-range {
+  font-size: 9.5px !important;
+  color: #6b7280 !important;
+}
+
+.cert-green-sig {
+  font-family: "Brush Script MT", cursive, serif;
+  font-size: 24px;
+  color: #2c3e91;
+  margin-top: 14px;
+}
+
+.cert-green-who {
+  margin-top: 2px;
+  font-size: 9.5px;
+  color: #444444;
+  line-height: 1.35;
+}
+
+/* --------------------------------------------------------------------------
+   CHECKLIST
+   -------------------------------------------------------------------------- */
+
+.cert-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 26px;
+}
+
+.cert-list li {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.cert-tick {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--cert-tick-bg);
+  color: var(--cert-blue);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cert-list h3 {
+  margin: 3px 0 4px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.cert-list p {
+  margin: 0;
+  color: var(--cert-muted);
+  font-size: 16.5px;
+  line-height: 1.55;
+  max-width: 50ch;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE DESIGN
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .cert-frame {
+    padding: 48px 20px 100px;
+    border-left: none;
+    border-right: none;
   }
 
-  .pillar-title {
-    font-size: 1.45rem;
+  .cert-row {
+    grid-template-columns: 1fr;
+    padding: 44px 0;
+  }
+
+  .cert-row>.cert-preview,
+  .cert-row.flip>.cert-preview,
+  .cert-row>*:not(.cert-preview),
+  .cert-row.flip>*:not(.cert-preview) {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .cert-row>.cert-preview {
+    margin: 20px 0 38px;
+    max-width: 100%;
+  }
+
+  .cert-lede,
+  .cert-desc {
+    font-size: 17px;
+  }
+
+  .cert-ctitle {
+    font-size: 26px;
+  }
+
+  .cert-wm {
+    font-size: 64px !important;
   }
 }
