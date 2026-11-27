@@ -344,8 +344,7 @@ const CourseTaxProfessional = ({ onBackToHome = () => { }, onSelectCourse = () =
 
           {/* Left Column: Overview Prose (Image 5) */}
           <div className="arch-col-left">
-            <span className="arch-kicker-label">SECTION 01 / OVERVIEW</span>
-            <h2 className="arch-section-title">Course Overview</h2>
+            <h2 className="arch-section-title">Course <span className="hero-lime-highlight">Overview</span></h2>
             <p className="arch-body-lead">
               Start your accounting journey with Tally Prime. This course covers all the fundamentals you need to get started with Tally Prime and understand GST basics.
             </p>
@@ -705,8 +704,7 @@ const CourseTaxProfessional = ({ onBackToHome = () => { }, onSelectCourse = () =
         <div className="arch-container">
           <div className="arch-section-header-row">
             <div>
-              <span className="arch-kicker-label">SECTION 08 / FREQUENTLY ASKED QUESTIONS</span>
-              <h2 className="arch-section-title">Frequently Asked Questions</h2>
+              <h2 className="arch-section-title"><span className="hero-lime-highlight">Frequently Asked Questions</span></h2>
             </div>
             <div className="arch-faq-count-pill">10 QUESTIONS</div>
           </div>
@@ -757,57 +755,6 @@ const CourseTaxProfessional = ({ onBackToHome = () => { }, onSelectCourse = () =
                   </div>
                 );
               })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= 13. SECTION: RELATED CERTIFICATION COURSES (IMAGE 2) ================= */}
-      <section className="arch-content-section" id="related">
-        <div className="arch-container">
-          <div className="arch-section-header-row">
-            <div>
-              <span className="arch-kicker-label">SECTION 09 / RELATED CERTIFICATIONS</span>
-              <h2 className="arch-section-title">Related Certification Courses</h2>
-            </div>
-            <a href="#courses" className="arch-view-all">View All Courses →</a>
-          </div>
-
-          <div className="arch-related-grid">
-            {/* Card 1: Links to Advanced Accounting & Taxation */}
-            <div
-              className="arch-course-item clickable-course"
-              onClick={() => onSelectCourse(1)}
-              style={{ cursor: 'pointer' }}
-            >
-              <div className="course-thumb thumb-one">
-                <span className="thumb-tag">Tally Prime with GST Fundamentals (INTERNSHIP)</span>
-              </div>
-              <div className="course-meta">
-                <h4 className="course-title">Advanced Accounting &amp; Taxation with Professional Practice</h4>
-                <div className="course-pricing">
-                  <span className="old">₹9,999</span>
-                  <span className="curr">₹7,999</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2: Links to Professional Accounting & GST */}
-            <div
-              className="arch-course-item clickable-course"
-              onClick={() => onSelectCourse(2)}
-              style={{ cursor: 'pointer' }}
-            >
-              <div className="course-thumb thumb-two">
-                <span className="thumb-tag">TallyPrime with GST Compliance</span>
-              </div>
-              <div className="course-meta">
-                <h4 className="course-title">Professional Accounting &amp; GST</h4>
-                <div className="course-pricing">
-                  <span className="old">₹6,999</span>
-                  <span className="curr">₹4,999</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>

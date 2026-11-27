@@ -655,7 +655,9 @@
   line-height: 1.2;
 }
 
-.tax-page-clean .about-tally-title .hero-lime-highlight {
+.tax-page-clean .hero-lime-highlight,
+.tax-page-clean .about-tally-title .hero-lime-highlight,
+.tax-page-clean .arch-section-title .hero-lime-highlight {
   color: #0891b2;
   background: linear-gradient(135deg, #0891b2 0%, #0284c7 100%);
   -webkit-background-clip: text;
