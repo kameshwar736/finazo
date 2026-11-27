@@ -1,16 +1,19 @@
 import React from 'react';
 import './Footer.css';
+import useReveal from '../hooks/useReveal';
 
 const Footer = () => {
+  const footerRef = useReveal();
+
   return (
-    <footer className="finanzo-footer">
+    <footer className="finanzo-footer" ref={footerRef}>
       <div className="footer-container">
-        
+
         {/* Main Footer Grid */}
         <div className="footer-top-grid">
-          
+
           {/* Brand Info Column */}
-          <div className="footer-brand-col">
+          <div className="footer-brand-col reveal-up" style={{ '--delay': '0s' }}>
             <a href="#home" className="footer-brand-logo-link">
               <img
                 src="/LOGO.png"
@@ -60,7 +63,7 @@ const Footer = () => {
           </div>
 
           {/* Column 2: Popular Courses */}
-          <div className="footer-links-col">
+          <div className="footer-links-col reveal-up" style={{ '--delay': '0.12s' }}>
             <h4 className="footer-col-title">Popular Courses</h4>
             <ul className="footer-nav-list">
               <li><a href="#course-accounting">Advanced Accounting & Taxation</a></li>
@@ -73,7 +76,7 @@ const Footer = () => {
           </div>
 
           {/* Column 3: Platform & Ecosystem */}
-          <div className="footer-links-col">
+          <div className="footer-links-col reveal-up" style={{ '--delay': '0.24s' }}>
             <h4 className="footer-col-title">Finanzo Ecosystem</h4>
             <ul className="footer-nav-list">
               <li><a href="#about">About Our Mission</a></li>
@@ -86,7 +89,7 @@ const Footer = () => {
           </div>
 
           {/* Column 4: Support & Contact */}
-          <div className="footer-links-col">
+          <div className="footer-links-col reveal-up" style={{ '--delay': '0.36s' }}>
             <h4 className="footer-col-title">Contact & Helpdesk</h4>
             <div className="footer-contact-info">
               <div className="contact-row">
@@ -122,7 +125,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Disclaimer & Copyright Bar */}
-        <div className="footer-bottom-bar">
+        <div className="footer-bottom-bar reveal-up" style={{ '--delay': '0.48s' }}>
           <div className="footer-copyright-text">
             © {new Date().getFullYear()} Finanzo EdTech Private Limited. All rights reserved.
           </div>

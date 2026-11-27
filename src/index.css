@@ -38,7 +38,18 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: clip;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+@supports (overflow-x: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
 }
 
 a {
@@ -56,14 +67,94 @@ button {
 }
 
 /* ==========================================================================
-   GLOBAL SCROLL & ENTRANCE ANIMATIONS
+   GLOBAL SCROLL & ENTRANCE ANIMATIONS (REVEAL UTILITY CLASSES)
    ========================================================================== */
+
+/* Hidden initial states */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--delay, 0s);
+  will-change: transform, opacity;
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--delay, 0s);
+  will-change: transform, opacity;
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--delay, 0s);
+  will-change: transform, opacity;
+}
+
+.reveal-zoom {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--delay, 0s);
+  will-change: transform, opacity;
+}
+
+/* Visible active state */
+.reveal-up.is-visible,
+.reveal-left.is-visible,
+.reveal-right.is-visible,
+.reveal-zoom.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Fallback for no-js */
+@media (scripting: none) {
+  .reveal-up,
+  .reveal-left,
+  .reveal-right,
+  .reveal-zoom {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up,
+  .reveal-left,
+  .reveal-right,
+  .reveal-zoom {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Mobile responsiveness: smaller offset (24px) and fallback left/right to up */
+@media (max-width: 768px) {
+  .reveal-up {
+    transform: translateY(24px);
+  }
+  .reveal-left,
+  .reveal-right {
+    transform: translateY(24px);
+  }
+}
 
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
@@ -73,19 +164,36 @@ button {
 }
 
 /* Stagger Delays for Grid Elements */
-.stagger-1 { transition-delay: 0.06s; }
-.stagger-2 { transition-delay: 0.12s; }
-.stagger-3 { transition-delay: 0.18s; }
-.stagger-4 { transition-delay: 0.24s; }
-.stagger-5 { transition-delay: 0.30s; }
-.stagger-6 { transition-delay: 0.36s; }
+.stagger-1 {
+  transition-delay: 0.06s;
+}
+
+.stagger-2 {
+  transition-delay: 0.12s;
+}
+
+.stagger-3 {
+  transition-delay: 0.18s;
+}
+
+.stagger-4 {
+  transition-delay: 0.24s;
+}
+
+.stagger-5 {
+  transition-delay: 0.30s;
+}
+
+.stagger-6 {
+  transition-delay: 0.36s;
+}
 
 /* Scale-Up on Scroll */
 .animate-scale-up {
   opacity: 0;
   transform: scale(0.96) translateY(18px);
   transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .animate-scale-up.is-visible {
@@ -100,8 +208,8 @@ button {
 .testimonial-card,
 .cert-card {
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.28s ease;
+    box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.28s ease;
   will-change: transform, box-shadow;
 }
 
@@ -118,8 +226,8 @@ button {
 .explore-course-btn,
 .prime-cta-btn {
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.2s ease;
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s ease;
 }
 
 .btn-primary:active,
@@ -130,10 +238,13 @@ button {
 
 /* Keyframes */
 @keyframes ambientGlowPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.55;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.9;
     transform: scale(1.08);
@@ -141,9 +252,12 @@ button {
 }
 
 @keyframes subtleFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-4px);
   }
@@ -154,6 +268,7 @@ button {
     opacity: 0;
     transform: translateY(28px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -161,9 +276,12 @@ button {
 }
 
 @keyframes pulseGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 15px rgba(1, 1, 255, 0.4);
   }
+
   50% {
     box-shadow: 0 0 25px rgba(1, 1, 255, 0.7);
   }

@@ -1,5 +1,165 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './CourseAccounting.css';
+import './CourseProfessionalGST.css';
+
+const NOTE_TEXT = "Includes hands-on practical exercises and live mentor support.";
+
+const CURRICULUM_MODULES = [
+  {
+    title: "Fundamentals of Accounting",
+    lessons: 5,
+    summary: "Core accounting concepts, double-entry bookkeeping, debit/credit rules, and foundational voucher principles.",
+    topics: [
+      "Meaning of Accounting & Phases of the Accounting Cycle",
+      "Golden Rules of Accounting",
+      "Voucher Principles & Double-Entry Bookkeeping",
+      "Trial Balance and Financial Statements",
+      "Conclusion & Quiz"
+    ],
+    hasNote: true
+  },
+  {
+    title: "Introduction to Tally Prime",
+    lessons: 5,
+    summary: "Gateway navigation, company setup, configurations, and core digital accounting workflow.",
+    topics: [
+      "Introduction to Tally Prime",
+      "Company Creation and setting up of company features in Tally",
+      "Getting Started with Tally",
+      "Company Configurations",
+      "Conclusion & Quiz"
+    ],
+    hasNote: true
+  },
+  {
+    title: "Maintaining the Chart of Accounts",
+    lessons: 6,
+    summary: "Creating and managing ledger groups, primary accounts, cost centers, and subsidiary books.",
+    topics: [
+      "Introduction to Maintaining the Chart of Accounts",
+      "Creation of Accounting Masters in Tally Prime",
+      "Creation of Inventory Masters in Tally Prime",
+      "Alteration & Deletion of Masters in Tally Prime",
+      "Multi-Masters Creation and Display of Chart of Accounts",
+      "Conclusion & Quiz"
+    ],
+    hasNote: true
+  },
+  {
+    title: "Recording and Maintaining Accounting Transactions",
+    lessons: 12,
+    summary: "Payment, receipt, sales, purchase, contra, and journal voucher entries with live business documents.",
+    topics: [
+      "Introduction to Recording and Maintaining Accounting Transactions",
+      "Introduction to Recording Accounting Vouchers in Tally Prime",
+      "Receipt Voucher (F6)",
+      "Contra Voucher (F4)",
+      "Payment Voucher (F5)",
+      "Purchase Voucher (F9)",
+      "Sales Voucher (F8)",
+      "Debit Note Voucher (Alt + F5)",
+      "Credit Note Voucher (Alt + F6)",
+      "Journal Voucher (F7)",
+      "Recording for Provisions",
+      "Conclusion & Quiz"
+    ],
+    hasNote: true
+  },
+  {
+    title: "Banking",
+    lessons: 8,
+    summary: "Cheque printing, e-banking transactions, auto & manual bank reconciliation statements (BRS).",
+    topics: [
+      "Introduction to Banking",
+      "Banking Payments",
+      "Cheque Printing",
+      "Deposit Slips",
+      "Payment Advice",
+      "Overview of Bank Reconciliation and Manual Reconciliation Process",
+      "Auto Bank Reconciliation",
+      "Conclusion & Quiz"
+    ],
+    hasNote: true
+  },
+  {
+    title: "Generating Financial statements and MIS reports",
+    lessons: 6,
+    summary: "Trial balance, profit & loss statement, balance sheet finalisation, and managerial MIS reporting.",
+    topics: [
+      "Introduction to MIS",
+      "Final Accounts Reports in Tally",
+      "Cash Flow and Fund Flow Analysis Report and Receipts and Payments",
+      "MIS Reports in Tally",
+      "Books and Registers",
+      "Conclusion & Quiz"
+    ],
+    hasNote: false
+  },
+  {
+    title: "Data Security",
+    lessons: 5,
+    summary: "User role permissions, audit trails, multi-level password locks, and data access security.",
+    topics: [
+      "Introduction to Security Control & User Access Rights",
+      "Tally Vault & User Passwords",
+      "Audit Trails & Transaction Tracking",
+      "Security Configurations & Data Locks",
+      "Conclusion & Quiz"
+    ],
+    hasNote: true
+  },
+  {
+    title: "Company Data Management",
+    lessons: 5,
+    summary: "Company split, database backup, restore, data synchronization, and repair utilities.",
+    topics: [
+      "Learning Objectives",
+      "Company Data Split & Merge",
+      "Backup, Restore & Data Repair",
+      "Data Synchronization",
+      "Conclusion & Quiz"
+    ],
+    hasNote: true
+  },
+  {
+    title: "Goods and Services Tax",
+    lessons: 7,
+    summary: "CGST, SGST, IGST setup, HSN/SAC codes, e-Invoicing, e-Way bills, and generating GSTR-1 & GSTR-3B.",
+    topics: [
+      "Introduction to GST",
+      "GST in Tally Prime",
+      "Recording GST Compliant Transactions",
+      "Input Tax Credit set off against Liability",
+      "GST Tax Payment",
+      "Generating GST Returns for a Regular Dealer in Tally",
+      "Conclusion & Quiz"
+    ],
+    hasNote: true
+  },
+  {
+    title: "Assessment",
+    lessons: 3,
+    summary: "Comprehensive practice evaluation, simulated accounts exam, and certification readiness test.",
+    topics: [
+      "Comprehensive Practice Evaluation",
+      "Simulated Accounts & GST Exam",
+      "Certification Readiness Test"
+    ],
+    hasNote: false
+  },
+  {
+    title: "Internship - Accounting & Reporting (Three Case Studies)",
+    lessons: 4,
+    summary: "Work on three practical accounting case studies replicating live trading and manufacturing businesses.",
+    topics: [
+      "Three Live Business Accounting Case Studies",
+      "Real-Time Voucher Entries & Bank Reconciliation",
+      "Manufacturing & Trading GST Compliance",
+      "Management Report Finalisation & Mentor Review"
+    ],
+    hasNote: true
+  }
+];
 
 const AnimatedStat = ({ target, decimals = 0, suffix = '', formatComma = false, active }) => {
   const [value, setValue] = useState(0);
@@ -44,58 +204,19 @@ const AnimatedStat = ({ target, decimals = 0, suffix = '', formatComma = false, 
 };
 
 const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { } }) => {
-  const [openCurriculum, setOpenCurriculum] = useState(0);
+  const [openModules, setOpenModules] = useState([0]);
   const [openFaq, setOpenFaq] = useState(0);
+
+  const toggleModule = (index) => {
+    setOpenModules((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
   const [statsVisible, setStatsVisible] = useState(false);
   const [activeOfferIndex, setActiveOfferIndex] = useState(0);
-  const [activeWhyIndex, setActiveWhyIndex] = useState(0);
   const statsRef = useRef(null);
   const offeringsContainerRef = useRef(null);
   const trackRef = useRef(null);
-  const whyItemRefs = useRef([]);
-
-  const whyStickyItems = [
-    {
-      n: '01',
-      tag: 'Mentorship',
-      title: 'Expert Instructors',
-      desc: 'Learn from seasoned professionals with extensive knowledge of Tally Prime and GST regulations.',
-      image: '/whychoose/instructor.jpg',
-      alt: 'Expert Instructors'
-    },
-    {
-      n: '02',
-      tag: 'Practical learning',
-      title: 'Hands-On Training',
-      desc: 'Real-time practical exercises and live assistance during interactive sessions, tailored for learners in regional languages.',
-      image: '/whychoose/Hands-On Training.avif',
-      alt: 'Hands-On Training'
-    },
-    {
-      n: '03',
-      tag: 'Career ready',
-      title: 'Industry Relevant Skill',
-      desc: 'Stay updated with the latest digital accounting practices and GST regulations to stay ahead in the finance industry.',
-      image: '/whychoose/Industry Relevant Skill.avif',
-      alt: 'Industry Relevant Skill'
-    },
-    {
-      n: '04',
-      tag: 'Learn anywhere',
-      title: 'Flexible Learning',
-      desc: 'Attend from anywhere via live online sessions with expert guidance, and get your queries resolved promptly.',
-      image: '/whychoose/flexiblelearn.jpg',
-      alt: 'Flexible Learning'
-    },
-    {
-      n: '05',
-      tag: 'Placements',
-      title: 'Exclusive Tally Job Portal Access',
-      desc: 'Students enrolled in this course will have exclusive access to Tally’s job portal, expanding their career opportunities with direct employer applications.',
-      image: '/whychoose/Exclusive Tally Job Portal Access.jpg',
-      alt: 'Exclusive Tally Job Portal Access'
-    }
-  ];
 
   const offeringsData = [
     {
@@ -245,170 +366,6 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    let tick = false;
-    const update = () => {
-      tick = false;
-      const nav = 80;
-      const mobile = window.innerWidth <= 800;
-      const mid = mobile
-        ? (nav + window.innerHeight * 0.36 + (window.innerHeight - nav - window.innerHeight * 0.36) / 2)
-        : (nav + (window.innerHeight - nav) / 2);
-      let best = 0;
-      let bd = 1e9;
-      whyItemRefs.current.forEach((el, k) => {
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        const d = Math.abs(r.top + r.height / 2 - mid);
-        if (d < bd) {
-          bd = d;
-          best = k;
-        }
-      });
-      setActiveWhyIndex(best);
-    };
-
-    const handleScroll = () => {
-      if (!tick) {
-        tick = true;
-        requestAnimationFrame(update);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', update);
-    update();
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', update);
-    };
-  }, []);
-
-  // Curriculum Modules (10 Detailed Modules)
-  const curriculumGuideList = [
-    {
-      num: '01',
-      title: 'Fundamentals of Accounting',
-      lessonsCount: '5 Lessons',
-      topics: [
-        'Accounting principles, conventions & double-entry system',
-        'Types of accounts: Real, Personal, and Nominal rules',
-        'Journalizing transactions & voucher fundamentals',
-        'Ledger posting, ledger balances & Trial Balance preparation',
-        'Identification and rectification of accounting errors'
-      ]
-    },
-    {
-      num: '02',
-      title: 'Introduction to Tally Prime',
-      lessonsCount: '5 Lessons',
-      topics: [
-        'Downloading, installing & licensing Tally Prime 4.0',
-        'Company creation, alteration, configuration & shut company',
-        'Understanding Gateway of Tally navigation & menus',
-        'F11 Features & F12 Configurations setup',
-        'Essential keyboard shortcuts and navigation tricks'
-      ]
-    },
-    {
-      num: '03',
-      title: 'Maintaining the Chart of Accounts',
-      lessonsCount: '6 Lessons',
-      topics: [
-        'Understanding pre-defined groups in Tally Prime',
-        'Creating primary & secondary account groups',
-        'Creating single and multi-ledgers with opening balances',
-        'Configuring Cost Centers and Cost Categories',
-        'Chart of Accounts verification and bulk alterations'
-      ]
-    },
-    {
-      num: '04',
-      title: 'Recording and Maintaining Accounting Transactions',
-      lessonsCount: '12 Lessons',
-      topics: [
-        'Receipt and Payment voucher entries with cheque details',
-        'Contra vouchers for cash deposits and bank transfers',
-        'Purchase and Sales vouchers in item/accounting invoice mode',
-        'Debit Note and Credit Note voucher management',
-        'Journal vouchers for depreciation, provisions and adjustments',
-        'Day Book, Cash/Bank books and ledger transaction scrutiny'
-      ]
-    },
-    {
-      num: '05',
-      title: 'Banking',
-      lessonsCount: '8 Lessons',
-      topics: [
-        'Bank Reconciliation Statement (BRS) manual & automated',
-        'Configuring auto-bank reconciliation with MT940 / Excel',
-        'Cheque book management & cheque printing configuration',
-        'Post-dated cheques (PDC) and deposit slip generation',
-        'E-payments setup and payment instruction files'
-      ]
-    },
-    {
-      num: '06',
-      title: 'Generating Financial statements and MIS reports',
-      lessonsCount: '6 Lessons',
-      topics: [
-        'Generating and analyzing Balance Sheet (Vertical & Horizontal)',
-        'Profit & Loss Account review with schedule breakdowns',
-        'Cash Flow and Funds Flow statement generation',
-        'Key financial ratio analysis in Tally Prime',
-        'Exporting MIS reports to Excel, PDF and automated email'
-      ]
-    },
-    {
-      num: '07',
-      title: 'Data Security',
-      lessonsCount: '5 Lessons',
-      topics: [
-        'Setting up administrator credentials and Tally Vault',
-        'Creating user roles, security levels and permissions',
-        'Restricting back-dated voucher entries and print permissions',
-        'Audit Trail (Edit Log) compliance as per MCA regulations',
-        'Tracking voucher creation, alteration and deletion logs'
-      ]
-    },
-    {
-      num: '08',
-      title: 'Company Data Management',
-      lessonsCount: '5 Lessons',
-      topics: [
-        'Taking manual & scheduled automatic company backups',
-        'Restoring company data safely without corruption',
-        'Splitting financial years for clean period transition',
-        'Group company creation for consolidated multi-branch views',
-        'Data repair, rewrite and verification tools'
-      ]
-    },
-    {
-      num: '09',
-      title: 'Goods and Services Tax',
-      lessonsCount: '7 Lessons',
-      topics: [
-        'Activating GST features and setting tax rates (CGST, SGST, IGST)',
-        'Creating GST-compliant sales & purchase ledgers with HSN/SAC',
-        'Generating tax invoices with E-Way Bill and E-Invoicing details',
-        'Simulating GSTR-1 outward supplies return preparation',
-        'GSTR-3B monthly tax computation and Input Tax Credit (ITC) matching',
-        'Handling Reverse Charge Mechanism (RCM) transactions'
-      ]
-    },
-    {
-      num: '10',
-      title: 'Assessment',
-      lessonsCount: '3 Lessons',
-      topics: [
-        'Comprehensive capstone project on end-to-end accounting',
-        'Simulated business scenario audit & voucher scrutiny test',
-        'Official Tally Education TEPL certification examination'
-      ]
-    }
-  ];
 
   // 10 Detailed FAQs
   const faqList = [
@@ -564,7 +521,6 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
 
             {/* Left Column: Narrative & Key Highlights */}
             <div className="overview-narrative-col">
-              <span className="overview-eyebrow">ACCREDITED PROFESSIONAL PROGRAM</span>
               <h2 className="overview-main-title">
                 Course <span className="hero-lime-highlight">Overview</span>
               </h2>
@@ -596,8 +552,32 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
               </div>
             </div>
 
-            {/* Right Column: Kept blank per design */}
-            <div className="overview-blueprint-col" />
+            {/* Right Column: Course Image & Partner Logos */}
+            <div className="course-overview-media-col">
+              <div className="course-overview-image-wrap">
+                <img
+                  src="/course/course1.avif"
+                  alt="Advanced Accounting & Taxation Course Overview"
+                  className="course-overview-main-img"
+                />
+              </div>
+              <div className="course-overview-logos-row">
+                <div className="course-overview-logo-card">
+                  <img
+                    src="/course/Tally%20Power%20of%20Simplicity%20Logo.png"
+                    alt="Tally Power of Simplicity"
+                    className="course-overview-partner-logo"
+                  />
+                </div>
+                <div className="course-overview-logo-card">
+                  <img
+                    src="/course/TEPL%20Tally%20Education%20Logo.png"
+                    alt="Tally Education TEPL"
+                    className="course-overview-partner-logo"
+                  />
+                </div>
+              </div>
+            </div>
 
           </div>
         </div>
@@ -838,124 +818,62 @@ const CourseAccounting = ({ onBackToHome = () => { }, onSelectCourse = () => { }
         </div>
       </section>
 
-      {/* ================= 8. SECTION: WHY CHOOSE THIS COURSE? (STICKY SPLIT-SCROLL) ================= */}
-      <section className="why-sticky-section" id="why-choose">
-        <div className="why-sticky-container">
-          <div className="why-sticky-head">
-            <h2>
-              Why Choose <span className="why-title-highlight">This Course?</span>
-            </h2>
-            <p>Designed to give you practical accounting mastery and industry career readiness</p>
-          </div>
-          <div className="why-sticky-split">
-            <div className="why-sticky-panel" id="panel">
-              {whyStickyItems.map((item, idx) => (
-                <img
-                  key={idx}
-                  src={item.image}
-                  alt={item.alt}
-                  className={idx === activeWhyIndex ? 'on' : ''}
-                />
-              ))}
-              <div className="why-sticky-segs" id="segs">
-                {whyStickyItems.map((_, idx) => (
-                  <i
-                    key={idx}
-                    className={idx <= activeWhyIndex ? 'on' : ''}
-                    onClick={() => {
-                      setActiveWhyIndex(idx);
-                      whyItemRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="why-sticky-list" id="list">
-              {whyStickyItems.map((item, idx) => (
-                <article
-                  key={idx}
-                  ref={(el) => (whyItemRefs.current[idx] = el)}
-                  className={`why-sticky-item ${idx === activeWhyIndex ? 'on' : ''}`}
-                  onClick={() => {
-                    setActiveWhyIndex(idx);
-                    whyItemRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  }}
-                >
-                  <div className="n">{item.n}</div>
-                  <div className="tag">{item.tag}</div>
-                  <h3>{item.title}</h3>
-                  <p>{item.desc}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= 9. SECTION: OUR CURRICULUM GUIDE (EDITORIAL ACCORDION SPLIT) ================= */}
-      <section className="arch-content-section" id="curriculum">
-        <div className="arch-container arch-curriculum-split">
-
-          {/* Left Column: Intro & Download Callout */}
-          <div className="curriculum-intro-col">
-            <h2 className="arch-section-title">
-              <span className="hero-lime-highlight">Our Curriculum Guide</span>
-            </h2>
-            <div className="curriculum-badge-pill">
-              11 MODULES • 35 HOURS
-            </div>
-            <p className="arch-body-text">
-              The curriculum is designed to help you learn the skills required to become a successful digital accounting professional. From core ledger entries to statutory GST returns and audit trails.
+      {/* ================= SECTION: OUR CURRICULUM GUIDE (FINANZO GUIDE) ================= */}
+      <section className="gst-curriculum-guide-section" id="curriculum">
+        <div className="gst-curr-wrap">
+          <aside className="gst-curr-aside">
+            <span className="gst-curr-mark" />
+            <h2 className="gst-curr-heading">Our Curriculum Guide</h2>
+            <p className="gst-curr-subtext">
+              The curriculum is designed to help you learn the skills required to become a successful professional. From core ledger entries to statutory GST returns and audit trails.
             </p>
+            <span className="gst-curr-tag">11 Modules • 35 Hours</span>
+          </aside>
 
-            <button
-              onClick={() => alert('Finanzo Detailed Curriculum PDF is downloading...')}
-              className="arch-btn-outline"
-            >
-              <span>Download Full Syllabus</span>
-              <span className="arrow-sym">↓</span>
-            </button>
-          </div>
+          <ol className="gst-curr-list">
+            {CURRICULUM_MODULES.map((m, idx) => {
+              const numStr = String(idx + 1).padStart(2, '0');
+              const isOpen = openModules.includes(idx);
+              return (
+                <li key={idx} className={`gst-curr-item ${isOpen ? 'open' : ''}`}>
+                  <button
+                    type="button"
+                    className="gst-curr-head"
+                    onClick={() => toggleModule(idx)}
+                    aria-expanded={isOpen}
+                  >
+                    <div className="gst-curr-title-col">
+                      <span className="gst-curr-lab">Module {numStr} · {m.lessons} Lessons</span>
+                      <span className="gst-curr-ttl">{m.title}</span>
+                    </div>
+                    <span className="gst-curr-sum">{m.summary}</span>
+                    <span className="gst-curr-plus" aria-hidden="true" />
+                  </button>
 
-          {/* Right Column: 10 Accordion Modules */}
-          <div className="curriculum-drawers-col">
-            <div className="arch-accordion-stack">
-              {curriculumGuideList.map((item, index) => {
-                const isOpen = openCurriculum === index;
-                return (
-                  <div key={index} className={`arch-drawer-item ${isOpen ? 'active' : ''}`}>
-                    <button
-                      className="drawer-trigger-row"
-                      onClick={() => setOpenCurriculum(isOpen ? null : index)}
-                    >
-                      <div className="drawer-meta-left">
-                        <span className="drawer-num">{item.num}</span>
-                        <span className="drawer-title">{item.title}</span>
-                      </div>
-                      <div className="drawer-meta-right">
-                        <span className="drawer-lessons">{item.lessonsCount}</span>
-                        <span className="drawer-toggle">{isOpen ? '—' : '+'}</span>
-                      </div>
-                    </button>
-
-                    {isOpen && (
-                      <div className="drawer-body-content">
-                        <ul className="drawer-subtopics-list">
-                          {item.topics.map((t, idx) => (
-                            <li key={idx} className="subtopic-line">
-                              <span className="subtopic-dash">—</span>
-                              <span>{t}</span>
+                  <div className="gst-curr-panel">
+                    <div className="gst-curr-inner">
+                      <div className="gst-curr-body">
+                        <h3 className="gst-curr-body-title">Modules &amp; Hands-On Topics Covered</h3>
+                        <ol className="gst-curr-topics-ol">
+                          {m.topics.map((t, tIdx) => (
+                            <li key={tIdx} className="gst-curr-topic-li">
+                              <span className="gst-curr-topic-num">{tIdx + 1}</span>
+                              <span className="gst-curr-topic-name">{t}</span>
                             </li>
                           ))}
-                        </ul>
+                        </ol>
+                        {m.hasNote && (
+                          <div className="gst-curr-note">
+                            {NOTE_TEXT}
+                          </div>
+                        )}
                       </div>
-                    )}
+                    </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   FINANZO BRAND PRELOADER COMPONENT
+   FINANZO BRAND PRELOADER COMPONENT (MATCHING VIDEO REFERENCE)
    ========================================================================== */
 
 .finanzo-preloader {
@@ -7,13 +7,13 @@
   inset: 0;
   z-index: 999999;
   background: #ffffff;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   visibility: visible;
   opacity: 1;
-  transition: opacity 0.7s ease, visibility 0s 0.7s;
+  transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0s 0.6s;
 }
 
 .finanzo-preloader.done {
@@ -22,43 +22,48 @@
   pointer-events: none;
 }
 
-.finanzo-preloader-logo {
-  width: min(220px, 54vw);
-  height: auto;
-  display: block;
-  transition: opacity 0.45s ease, transform 0.45s ease;
-  animation: lg-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+.finanzo-preloader-content {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+}
+
+.finanzo-preloader-brand {
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: clamp(2rem, 3.8vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: #0101ff;
+  text-transform: lowercase;
+  margin: 0;
+  user-select: none;
 }
 
 .finanzo-preloader-track {
-  width: min(220px, 54vw);
+  width: 100%;
   height: 2px;
   background: #e3e6f4;
   overflow: hidden;
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  margin-top: 10px;
   border-radius: 2px;
 }
 
 .finanzo-preloader-bar {
   display: block;
+  width: 100%;
   height: 100%;
   background: #0101ff;
   transform: scaleX(0);
   transform-origin: left;
-  animation: lg-fill 2s cubic-bezier(0.65, 0, 0.35, 1) 0.35s forwards;
+  animation: lg-fill 1.8s cubic-bezier(0.65, 0, 0.35, 1) 0.15s forwards;
 }
 
-.finanzo-preloader.done .finanzo-preloader-logo,
-.finanzo-preloader.done .finanzo-preloader-track {
+.finanzo-preloader.done .finanzo-preloader-content {
   opacity: 0;
-  transform: scale(0.93);
-}
-
-@keyframes lg-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
+  transform: scale(0.96);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 @keyframes lg-fill {

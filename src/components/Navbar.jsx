@@ -13,10 +13,10 @@ const Navbar = ({ activePage = 'home', setActivePage = () => { } }) => {
       page: 'about',
       hasDropdown: true,
       subItems: [
-        { title: 'Who We Are', desc: 'Our mission and founding story' },
-        { title: 'Why Choose Finanzo', desc: 'Practical lab & internship advantages' },
-        { title: 'Team & Mentors', desc: 'Learn from practicing CAs & ERP experts' },
-        { title: 'Our Partners', desc: 'Official Authorised Tally collaboration' }
+        { title: 'Who We Are', desc: 'Our mission and founding story', href: '#who-we-are', page: 'about' },
+        { title: 'Why Choose Finanzo', desc: 'Practical lab & internship advantages', href: '#why-choose-about', page: 'about' },
+        { title: 'Team & Mentors', desc: 'Learn from practicing CAs & ERP experts', href: '#team-mentors', page: 'about' },
+        { title: 'Our Partners', desc: 'Official Authorised Tally collaboration', href: '#our-partners', page: 'about' }
       ]
     },
     {
@@ -41,7 +41,7 @@ const Navbar = ({ activePage = 'home', setActivePage = () => { } }) => {
         { title: 'Upcoming Webinars', desc: 'Free sessions with financial analysts' }
       ]
     },
-    { name: 'Career', href: '#career', page: 'home' },
+    { name: 'Career', href: '#careers', page: 'careers' },
     { name: 'Contact', href: '#contact', page: 'contact' },
   ];
 
@@ -51,10 +51,22 @@ const Navbar = ({ activePage = 'home', setActivePage = () => { } }) => {
     { title: 'Account Settings', desc: 'Manage your profile and subscriptions' }
   ];
 
-  const handleNavClick = (item) => {
+  const handleNavClick = (item, targetHref = null) => {
     if (item.page) {
       setActivePage(item.page);
-      if (item.page === 'about' || item.page === 'contact' || item.name === 'Home') {
+      const hash = targetHref || item.href;
+      if (hash) {
+        window.location.hash = hash;
+      }
+      if (hash && hash !== '#about' && hash !== '#contact' && hash !== '#careers' && hash !== '#home') {
+        setTimeout(() => {
+          const id = hash.replace('#', '');
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 120);
+      } else if (item.page === 'about' || item.page === 'contact' || item.page === 'careers' || item.name === 'Home') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
@@ -131,15 +143,25 @@ const Navbar = ({ activePage = 'home', setActivePage = () => { } }) => {
                         href={sub.href || item.href}
                         className="prime-dropdown-item"
                         onClick={(e) => {
-                          if (sub.page) {
-                            e.preventDefault();
-                            setActivePage(sub.page);
-                            window.location.hash = sub.href;
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                          } else {
-                            handleNavClick(item);
-                          }
+                          e.preventDefault();
+                          const targetPage = sub.page || item.page;
+                          const targetHref = sub.href || item.href;
                           setActiveDropdown(null);
+                          if (targetPage) {
+                            setActivePage(targetPage);
+                            window.location.hash = targetHref;
+                            setTimeout(() => {
+                              const id = targetHref.replace('#', '');
+                              const el = document.getElementById(id);
+                              if (el) {
+                                el.scrollIntoView({ behavior: 'smooth' });
+                              } else {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }
+                            }, 120);
+                          } else {
+                            handleNavClick(item, targetHref);
+                          }
                         }}
                       >
                         <span className="dropdown-title">{sub.title}</span>

@@ -56,8 +56,8 @@
 
 .gst-hero-split-grid {
   display: grid;
-  grid-template-columns: 1.18fr 0.92fr;
-  gap: clamp(3rem, 5vw, 5.5rem);
+  grid-template-columns: 1.08fr 1fr;
+  gap: clamp(2.5rem, 4.5vw, 5rem);
   align-items: center;
 }
 
@@ -250,67 +250,66 @@
   padding: 40px 20px;
 }
 
-/* 3D GST Showcase Image Container with Merged Seamless Border & Hover Glow */
-.gst-3d-image-frame {
+/* Standalone 3D GST Logo in Hero (Card style & framing removed, enlarged with radiant glow) */
+.gst-logo-standalone-wrap {
   position: relative;
-  width: clamp(280px, 34vw, 470px);
-  aspect-ratio: 16 / 11;
-  border-radius: 32px;
-  overflow: hidden;
-  border: 2px solid rgba(56, 189, 248, 0.32);
-  box-shadow:
-    0 16px 45px rgba(0, 0, 0, 0.6),
-    0 0 25px rgba(2, 132, 199, 0.25),
-    inset 0 0 15px rgba(0, 240, 255, 0.15);
-  animation: deviceFloat 6s ease-in-out infinite;
-  z-index: 2;
-  background: radial-gradient(circle at 50% 45%, rgba(14, 165, 233, 0.18) 0%, rgba(8, 20, 52, 0.95) 70%, rgba(4, 10, 26, 0.98) 100%);
+  width: 100%;
+  max-width: 580px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(16px, 2.5vw, 24px);
-  box-sizing: border-box;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: deviceFloat 6s ease-in-out infinite;
+  z-index: 2;
 }
 
-/* Interactive Hover State: Border and Glow Intensify Vividly */
-.gst-3d-image-frame:hover {
-  border-color: #00f0ff;
-  border-width: 2.5px;
-  box-shadow:
-    0 0 35px rgba(0, 240, 255, 0.85),
-    0 0 70px rgba(37, 99, 235, 0.65),
-    0 25px 60px rgba(0, 0, 0, 0.8),
-    inset 0 0 25px rgba(0, 240, 255, 0.45);
-  transform: translateY(-8px) scale(1.02);
+/* Radiant Cyan/Azure Gradient Glow Aura Behind Image */
+.gst-hero-image-glow {
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(56, 189, 248, 0.45) 0%,
+    rgba(14, 165, 233, 0.28) 35%,
+    rgba(2, 132, 199, 0.12) 58%,
+    transparent 74%
+  );
+  filter: blur(52px);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  transition: all 0.4s ease;
 }
 
-.gst-3d-hero-img {
+.gst-hero-logo-img {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  height: 100%;
+  max-width: 560px;
+  height: auto;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 12px 24px rgba(0, 240, 255, 0.4));
+  filter: drop-shadow(0 20px 40px rgba(56, 189, 248, 0.35));
   transition: transform 0.4s ease, filter 0.4s ease;
 }
 
-.gst-3d-image-frame:hover .gst-3d-hero-img {
-  transform: scale(1.06);
-  filter: drop-shadow(0 18px 36px rgba(0, 240, 255, 0.75));
+.gst-logo-standalone-wrap:hover .gst-hero-logo-img {
+  transform: scale(1.05);
+  filter: drop-shadow(0 28px 55px rgba(56, 189, 248, 0.6));
 }
 
-.gst-image-glow-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: 28px;
-  box-shadow: inset 0 0 25px rgba(0, 240, 255, 0.2);
-  transition: box-shadow 0.4s ease;
-}
-
-.gst-3d-image-frame:hover .gst-image-glow-overlay {
-  box-shadow: inset 0 0 35px rgba(0, 240, 255, 0.45);
+.gst-logo-standalone-wrap:hover .gst-hero-image-glow {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(56, 189, 248, 0.58) 0%,
+    rgba(14, 165, 233, 0.38) 38%,
+    rgba(2, 132, 199, 0.18) 62%,
+    transparent 75%
+  );
+  filter: blur(58px);
 }
 
 /* Glowing Neon Blue Bezel Device (Fallback/Alternative) */
@@ -682,14 +681,16 @@
   margin-bottom: 3.5rem;
 }
 
-.about-tally-title {
+.about-tally-title,
+#about-tally .about-tally-title,
+.section-about-tally .about-tally-title {
   margin: 0;
   text-align: center;
   max-width: 850px;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   font-size: clamp(30px, 3.8vw, 48px);
   font-weight: 800;
-  color: #0f172a;
+  color: #000000 !important;
   letter-spacing: -0.03em;
   line-height: 1.2;
 }
@@ -1226,7 +1227,7 @@
   flex-wrap: wrap;
 }
 
-.arch-section-title {
+#eligibility .arch-section-title {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   font-size: clamp(1.8rem, 3.2vw, 2.5rem);
   font-weight: 850;
@@ -1414,4 +1415,590 @@
   .elig-card {
     height: 400px;
   }
+}
+
+
+/* ==========================================================================
+   SECTION: COURSE PACKAGE & FEES (PRICING LIGHT THEME)
+   ========================================================================== */
+#pricing.section-pricing-light {
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 5.5rem 0 6rem;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+#pricing.section-pricing-light .arch-title-dark,
+#pricing.section-pricing-light .arch-section-title {
+  color: #0f172a;
+}
+
+#pricing.section-pricing-light .arch-header-desc {
+  color: #475569;
+}
+
+.section-pricing-light .arch-pricing-package-card {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 3rem;
+  background-color: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  box-shadow: 0 20px 45px -15px rgba(15, 23, 42, 0.07), 0 1px 3px rgba(15, 23, 42, 0.04);
+  padding: 3rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.section-pricing-light .pricing-col-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-right: 1px solid #e2e8f0;
+  padding-right: 3rem;
+  box-sizing: border-box;
+}
+
+.section-pricing-light .package-tag {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #0101ff;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.section-pricing-light .package-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.section-pricing-light .pkg-curr {
+  font-size: 3.2rem;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.section-pricing-light .pkg-old {
+  font-size: 1.35rem;
+  color: #94a3b8;
+  text-decoration: line-through;
+  font-weight: 600;
+}
+
+.section-pricing-light .pkg-discount {
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #059669;
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+}
+
+.section-pricing-light .pkg-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.15rem;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 1.4rem 0;
+}
+
+.section-pricing-light .spec-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.section-pricing-light .spec-box .label {
+  font-size: 0.72rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.section-pricing-light .spec-box .val {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.section-pricing-light .package-enroll-btn {
+  background: linear-gradient(135deg, #0101ff 0%, #2563eb 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 1.25rem 2rem;
+  font-size: 1rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 25px -5px rgba(1, 1, 255, 0.4);
+}
+
+.section-pricing-light .package-enroll-btn:hover {
+  background: linear-gradient(135deg, #0000cc 0%, #0101ff 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px -4px rgba(1, 1, 255, 0.5);
+}
+
+.section-pricing-light .pricing-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+.section-pricing-light .inclusions-title {
+  font-size: 1.2rem;
+  font-weight: 850;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.section-pricing-light .inclusions-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.5rem;
+}
+
+.section-pricing-light .inclusions-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.section-pricing-light .inclusions-checklist .chk {
+  color: #16a34a;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 900;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.section-pricing-light .advisor-strip {
+  border-top: 1px solid #f1f5f9;
+  padding-top: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.section-pricing-light .advisor-note {
+  font-size: 0.88rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.section-pricing-light .advisor-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.section-pricing-light .pkg-advisor-link {
+  text-decoration: none;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  color: #1e293b;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 0.55rem 1.15rem;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+.section-pricing-light .pkg-advisor-link:hover {
+  background: #ffffff;
+  border-color: #0101ff;
+  color: #0101ff;
+  box-shadow: 0 4px 14px rgba(1, 1, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .section-pricing-light .arch-pricing-package-card {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .section-pricing-light .pricing-col-left {
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+    padding-right: 0;
+    padding-bottom: 2rem;
+  }
+
+  .section-pricing-light .inclusions-checklist {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ==========================================================================
+   SECTION: STUDENT REVIEWS & FEEDBACK (LIGHT THEME)
+   ========================================================================== */
+#reviews.section-reviews-light {
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 5.5rem 0 6rem;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+#reviews.section-reviews-light .arch-section-title {
+  color: #0f172a;
+}
+
+.score-pill-header.score-pill-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  color: #0f172a;
+  font-size: 0.9rem;
+  font-weight: 800;
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.gold-star {
+  color: #f59e0b;
+  font-size: 1.1rem;
+}
+
+.section-reviews-light .arch-reviews-3col-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  box-sizing: border-box;
+}
+
+.section-reviews-light .arch-review-card {
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.35rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.04);
+  box-sizing: border-box;
+}
+
+.section-reviews-light .arch-review-card:hover {
+  background-color: #ffffff;
+  border-color: rgba(1, 1, 255, 0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 35px -10px rgba(1, 1, 255, 0.12);
+}
+
+.section-reviews-light .review-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-reviews-light .stars-gold {
+  color: #f59e0b;
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+}
+
+.section-reviews-light .review-time {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.section-reviews-light .review-body {
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: #334155;
+  font-style: normal;
+  margin: 0;
+  flex: 1;
+}
+
+.section-reviews-light .review-author-meta {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1rem;
+}
+
+.section-reviews-light .author-name {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 0.15rem 0;
+}
+
+.section-reviews-light .author-role {
+  font-size: 0.82rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .section-reviews-light .arch-reviews-3col-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+
+/* ==========================================================================
+   SECTION: FAQS (2-COLUMN SPLIT ACCORDION)
+   ========================================================================== */
+#faqs.arch-content-section {
+  background-color: #000000;
+  padding: 6rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+#faqs .arch-section-title {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.arch-faq-count-pill {
+  background-color: #141418;
+  border: 1px solid #26262b;
+  color: #a1a1aa;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.arch-faq-2col-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+  box-sizing: border-box;
+}
+
+.faq-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.arch-drawer-item {
+  background-color: #141418;
+  border: 1px solid #26262b;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.arch-drawer-item:hover {
+  border-color: #3b82f6;
+}
+
+.arch-drawer-item.active {
+  border-color: #0066ff;
+  background-color: #16161e;
+  box-shadow: 0 4px 20px rgba(0, 102, 255, 0.12);
+}
+
+.drawer-trigger-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  gap: 1rem;
+}
+
+.faq-question-label {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.arch-drawer-item.active .faq-question-label {
+  color: #38bdf8;
+}
+
+.drawer-toggle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #00d2ff;
+  min-width: 20px;
+  text-align: center;
+  line-height: 1;
+}
+
+.drawer-body-content {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1.25rem 1.4rem 1.4rem;
+  background-color: #0d0d12;
+}
+
+.faq-answer-p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #94a3b8;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .arch-faq-2col-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* ==========================================================================
+   GST OVERVIEW GRID SPLIT & MEDIA / LOGOS
+   ========================================================================== */
+.gst-overview-grid-split {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+  width: 100%;
+}
+
+.gst-overview-col-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+@media (max-width: 900px) {
+  .gst-overview-grid-split {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.course-overview-media-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.course-overview-image-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  background: #0d111a;
+}
+
+.course-overview-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.course-overview-image-wrap:hover .course-overview-main-img {
+  transform: scale(1.03);
+}
+
+.course-overview-logos-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.course-overview-logo-card {
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.course-overview-logo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.course-overview-partner-logo {
+  max-width: 100%;
+  max-height: 44px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }

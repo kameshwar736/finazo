@@ -71,7 +71,7 @@ const Testimonials = () => {
   return (
     <section className="testimonials-section">
       <div className="testimonials-container">
-        
+
         {/* Centered Clean Header (No buttons!) */}
         <div className="testimonials-header">
           <h2 className="testimonials-title">
@@ -118,7 +118,7 @@ const Testimonials = () => {
             {infiniteCards.map((item, index) => (
               <div key={index} className="testimonial-card-slide">
                 <div className="testimonial-card">
-                  
+
                   {/* Card Top: Google Red Badge & Blue Stars */}
                   <div className="card-rating-row">
                     <div className="google-badge-circle">

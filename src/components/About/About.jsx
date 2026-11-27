@@ -1,16 +1,60 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './About.css';
 import Accreditation from '../Accreditation';
 import CTA from '../CTA';
+import useReveal from '../../hooks/useReveal';
+
+const AnimatedStat = ({ end, suffix = '', formatComma = false, duration = 1800, started }) => {
+  const [val, setVal] = useState(0);
+
+  useEffect(() => {
+    if (!started) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setVal(end);
+      return;
+    }
+
+    let startTimestamp = null;
+    let frameId;
+
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const elapsed = timestamp - startTimestamp;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out cubic: 1 - (1 - t)^3
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(easeOut * end);
+      setVal(current);
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(step);
+      } else {
+        setVal(end);
+      }
+    };
+
+    frameId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frameId);
+  }, [started, end, duration]);
+
+  const formatted = formatComma ? val.toLocaleString('en-US') : val;
+  return (
+    <span className="impact-number">
+      {started ? formatted : 0}{suffix}
+    </span>
+  );
+};
 
 const About = () => {
-  const tilesRef = useRef(null);
+  const containerRef = useReveal();
   const galleryRef = useRef(null);
+  const impactRef = useRef(null);
+  const [impactInView, setImpactInView] = useState(false);
 
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // 1. Photo mosaic wipe-open reveal on scroll
+    // Photo mosaic wipe-open reveal on scroll
     const galleryEl = galleryRef.current;
     if (galleryEl) {
       const phs = galleryEl.querySelectorAll('.who-ph');
@@ -30,64 +74,47 @@ const About = () => {
       }
     }
 
-    // 2. Gradient 3D grid flattening on scroll
-    const tilesEl = tilesRef.current;
-    if (tilesEl) {
-      if (reduce) {
-        tilesEl.style.setProperty('--p', '1');
+    // Impact in view observer for number counter
+    const impactEl = impactRef.current;
+    if (impactEl) {
+      if ('IntersectionObserver' in window && !reduce) {
+        const ioImpact = new IntersectionObserver((entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setImpactInView(true);
+              obs.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.15,
+          rootMargin: '0px 0px -60px 0px'
+        });
+        ioImpact.observe(impactEl);
       } else {
-        let ticking = false;
-        const updateTiles = () => {
-          ticking = false;
-          if (!tilesEl) return;
-          const r = tilesEl.getBoundingClientRect();
-          const vh = window.innerHeight;
-          let p = (vh - r.top) / (vh * 0.75);
-          p = Math.max(0, Math.min(1, p));
-          tilesEl.style.setProperty('--p', p.toFixed(3));
-        };
-
-        const onScroll = () => {
-          if (!ticking) {
-            ticking = true;
-            requestAnimationFrame(updateTiles);
-          }
-        };
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', onScroll);
-        updateTiles();
-
-        return () => {
-          window.removeEventListener('scroll', onScroll);
-          window.removeEventListener('resize', onScroll);
-        };
+        setImpactInView(true);
       }
     }
   }, []);
 
-  const handleTilePointer = (e, isEnter) => {
-    const tile = e.currentTarget;
-    const r = tile.getBoundingClientRect();
-    tile.style.setProperty('--x', `${Math.max(0, Math.min(r.width, e.clientX - r.left))}px`);
-    tile.style.setProperty('--y', `${Math.max(0, Math.min(r.height, e.clientY - r.top))}px`);
-    if (isEnter) {
-      tile.classList.add('on');
-    } else {
-      tile.classList.remove('on');
-    }
-  };
+  useEffect(() => {
+    // Smooth scroll to section if hash is present
+    const scrollToHash = () => {
+      const hash = window.location.hash;
+      if (hash && hash !== '#about') {
+        const id = hash.replace('#', '');
+        setTimeout(() => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 120);
+      }
+    };
 
-  const handleTileFocus = (e, isFocus) => {
-    const tile = e.currentTarget;
-    tile.style.setProperty('--x', '50%');
-    tile.style.setProperty('--y', '50%');
-    if (isFocus) {
-      tile.classList.add('on');
-    } else {
-      tile.classList.remove('on');
-    }
-  };
+    scrollToHash();
+    window.addEventListener('hashchange', scrollToHash);
+    return () => window.removeEventListener('hashchange', scrollToHash);
+  }, []);
 
   const mentors = [
     {
@@ -122,94 +149,77 @@ const About = () => {
 
   const whyChoosePoints = [
     {
+      num: '01',
       title: 'Live GST Portal Simulation',
       desc: 'No theoretical dummy mockups. Learn directly on live government portal interfaces for GSTR-1, 3B, and E-Way bills.',
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        <svg viewBox="0 0 24 24">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
         </svg>
       )
     },
     {
+      num: '02',
       title: 'Official Authorised Tally Partner',
       desc: 'Curriculum co-designed with Tally Education (TEPL) with verified digital certifications and 30-day free software licenses.',
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+        <svg viewBox="0 0 24 24">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         </svg>
       )
     },
     {
+      num: '03',
       title: '6-Week Client Ledger Internship',
       desc: 'Handle actual audited books of active businesses to graduate with verifiable work experience and Letters of Recommendation.',
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-          <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="7" width="20" height="14" rx="2" />
           <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
         </svg>
       )
     },
     {
+      num: '04',
       title: 'Practicing CA Mentorship',
       desc: 'Weekly 1-on-1 review sessions, career mentoring, and technical ledger audits guided by senior Chartered Accountants.',
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <svg viewBox="0 0 24 24">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
           <circle cx="9" cy="7" r="4" />
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          <path d="M22 21v-2a4 4 0 0 0-3-3.9" />
+          <path d="M16 3.1a4 4 0 0 1 0 7.8" />
         </svg>
       )
     },
     {
+      num: '05',
       title: 'Dedicated Placement Cell',
       desc: 'Direct hiring pipeline with 100+ partner CA firms, audit practices, and multinational corporate accounting departments.',
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-          <circle cx="12" cy="8" r="7" />
-          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="6" />
+          <path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5" />
         </svg>
       )
     },
     {
+      num: '06',
       title: 'Govt. Recognized Ecosystem',
       desc: 'Officially recognized by Startup India (DPIIT) and Startup TN, incubated at Crescent Innovation & Incubation Council (CIIC).',
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        <svg viewBox="0 0 24 24">
+          <path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z" />
         </svg>
       )
-    }
-  ];
-
-  const approachPhases = [
-    {
-      step: '01',
-      phase: 'Conceptual Rigor',
-      detail: 'Demystifying direct & indirect taxation, debit-credit foundations, and statutory Indian accounting standards without jargon.'
-    },
-    {
-      step: '02',
-      phase: 'Software Mastery',
-      detail: 'Hands-on keyboard training in TallyPrime, advanced Excel spreadsheet automation, and portal reconciliation tools.'
-    },
-    {
-      step: '03',
-      phase: 'Live Client Audit',
-      detail: 'Managing authentic commercial client ledgers, balancing cash flows, and filing real-time return simulations.'
-    },
-    {
-      step: '04',
-      phase: 'Industry Induction',
-      detail: 'Technical interview bootcamps, resume vetting by CAs, and guaranteed placement drives with top accounting employers.'
     }
   ];
 
   return (
-    <div className="about-page-wrapper">
+    <div className="about-page-wrapper" id="about" ref={containerRef}>
       
       {/* 1. ABOUT HERO SECTION (Exact UI from About Us – Finanzo.html) */}
-      <section className="about-hero-section">
+      <section className="about-hero-section" id="about-hero">
         <header className="about-hero-canvas">
           <div className="about-blob about-b1" />
           <div className="about-blob about-b2" />
@@ -239,18 +249,21 @@ const About = () => {
           </div>
         </header>
 
-        {/* 3 Value Pillars */}
+        {/* 2. Three highlights strip (01 / 02 / 03) */}
         <div className="about-hero-points-wrap">
           <div className="about-hero-points" aria-label="What we offer">
-            <div className="about-pt">
+            <div className="about-pt reveal-up" style={{ '--delay': '0s' }}>
+              <div className="about-pt-line" />
               <span>01</span>
               <h2>Industry-grade practical education</h2>
             </div>
-            <div className="about-pt">
+            <div className="about-pt reveal-up" style={{ '--delay': '0.12s' }}>
+              <div className="about-pt-line" />
               <span>02</span>
               <h2>Live GST filing expertise</h2>
             </div>
-            <div className="about-pt">
+            <div className="about-pt reveal-up" style={{ '--delay': '0.24s' }}>
+              <div className="about-pt-line" />
               <span>03</span>
               <h2>Placement-ready credentials</h2>
             </div>
@@ -258,138 +271,25 @@ const About = () => {
         </div>
       </section>
 
-      {/* 2. WHO WE ARE (Interactive UI from who-we-are.html) */}
+      {/* 3. WHO WE ARE (Interactive UI from who-we-are.html) */}
       <section className="about-section who-we-are-section" aria-labelledby="who" id="who-we-are">
         <div className="who-container">
           
           {/* Left Column: Story & 3D Tilted Blue Grid */}
           <div className="who-left">
             <div className="who-copy">
-              <h2 id="who">Who We Are</h2>
-              <p>
+              <h2 id="who" className="reveal-left" style={{ '--delay': '0s' }}>Who We Are</h2>
+              <p className="reveal-up" style={{ '--delay': '0.12s' }}>
                 Founded by practicing Chartered Accountants and educational innovators, Finanzo was born to solve a critical industry reality: while millions of students graduate with commerce degrees each year, few possess the practical muscle memory required to operate TallyPrime, execute GST returns, or balance company ledgers on Day 1.
               </p>
-              <p>
+              <p className="reveal-up" style={{ '--delay': '0.24s' }}>
                 Today, Finanzo operates as an official Authorised Learning Partner of Tally Education (TEPL) and is recognized under the Startup India and Startup TN government initiatives. We provide college students, career switchers, and working professionals with direct, hands-on access to the tools and workflows of modern corporate finance.
               </p>
-            </div>
-
-            {/* 3D Tilted Interactive Blue Grid */}
-            <div className="who-tiles-wrap">
-              <div className="who-tiles" id="tiles" ref={tilesRef}>
-                
-                {/* Tile 1 */}
-                <button
-                  className="who-tile"
-                  type="button"
-                  aria-label="Practicing Chartered Accountants"
-                  onPointerEnter={(e) => handleTilePointer(e, true)}
-                  onPointerLeave={(e) => handleTilePointer(e, false)}
-                  onFocus={(e) => handleTileFocus(e, true)}
-                  onBlur={(e) => handleTileFocus(e, false)}
-                >
-                  <span className="tile-in tile-base">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z" />
-                      <path d="M8.5 12l2.5 2.5 4.5-5" />
-                    </svg>
-                    <em className="tile-lbl">Founded by practicing CAs</em>
-                  </span>
-                  <span className="tile-in tile-fill" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z" />
-                      <path d="M8.5 12l2.5 2.5 4.5-5" />
-                    </svg>
-                    <em className="tile-lbl">Founded by practicing CAs</em>
-                  </span>
-                </button>
-
-                {/* Tile 2 */}
-                <button
-                  className="who-tile"
-                  type="button"
-                  aria-label="Authorised Learning Partner of Tally Education"
-                  onPointerEnter={(e) => handleTilePointer(e, true)}
-                  onPointerLeave={(e) => handleTilePointer(e, false)}
-                  onFocus={(e) => handleTileFocus(e, true)}
-                  onBlur={(e) => handleTileFocus(e, false)}
-                >
-                  <span className="tile-in tile-base">
-                    <svg viewBox="0 0 24 24">
-                      <circle cx="12" cy="9" r="5" />
-                      <path d="M8.8 13.3L7.5 21l4.5-2.6 4.5 2.6-1.3-7.7" />
-                    </svg>
-                    <em className="tile-lbl">Authorised Learning Partner, TEPL</em>
-                  </span>
-                  <span className="tile-in tile-fill" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <circle cx="12" cy="9" r="5" />
-                      <path d="M8.8 13.3L7.5 21l4.5-2.6 4.5 2.6-1.3-7.7" />
-                    </svg>
-                    <em className="tile-lbl">Authorised Learning Partner, TEPL</em>
-                  </span>
-                </button>
-
-                {/* Tile 3 */}
-                <button
-                  className="who-tile"
-                  type="button"
-                  aria-label="Recognized under Startup India"
-                  onPointerEnter={(e) => handleTilePointer(e, true)}
-                  onPointerLeave={(e) => handleTilePointer(e, false)}
-                  onFocus={(e) => handleTileFocus(e, true)}
-                  onBlur={(e) => handleTileFocus(e, false)}
-                >
-                  <span className="tile-in tile-base">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M5 19c0-6 4-12 14-14 0 10-6 14-12 14" />
-                      <path d="M5 19l5-5" />
-                      <circle cx="14.5" cy="9.5" r="1.2" />
-                    </svg>
-                    <em className="tile-lbl">Recognized under Startup India</em>
-                  </span>
-                  <span className="tile-in tile-fill" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M5 19c0-6 4-12 14-14 0 10-6 14-12 14" />
-                      <path d="M5 19l5-5" />
-                      <circle cx="14.5" cy="9.5" r="1.2" />
-                    </svg>
-                    <em className="tile-lbl">Recognized under Startup India</em>
-                  </span>
-                </button>
-
-                {/* Tile 4 */}
-                <button
-                  className="who-tile"
-                  type="button"
-                  aria-label="Recognized under Startup TN"
-                  onPointerEnter={(e) => handleTilePointer(e, true)}
-                  onPointerLeave={(e) => handleTilePointer(e, false)}
-                  onFocus={(e) => handleTileFocus(e, true)}
-                  onBlur={(e) => handleTileFocus(e, false)}
-                >
-                  <span className="tile-in tile-base">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z" />
-                      <circle cx="12" cy="10" r="2.4" />
-                    </svg>
-                    <em className="tile-lbl">Recognized under Startup TN</em>
-                  </span>
-                  <span className="tile-in tile-fill" aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z" />
-                      <circle cx="12" cy="10" r="2.4" />
-                    </svg>
-                    <em className="tile-lbl">Recognized under Startup TN</em>
-                  </span>
-                </button>
-
-              </div>
             </div>
           </div>
 
           {/* Right Column: Photo Mosaic Gallery with Wipe-Open Reveal */}
-          <div className="who-gallery" id="gallery" ref={galleryRef}>
+          <div className="who-gallery reveal-zoom" style={{ '--delay': '0.15s' }} id="gallery" ref={galleryRef}>
             <div className="who-ph who-wide">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="9" cy="8" r="3.2" />
@@ -419,40 +319,17 @@ const About = () => {
               <b>[ Image ]</b>
               <small>Recommended: 340 x 400 px</small>
             </div>
-
-            <div className="who-ph who-wide">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="16" rx="2" />
-                <circle cx="9" cy="10" r="1.8" />
-                <path d="M21 16l-5-5-8 9" />
-              </svg>
-              <b>[ Image ]</b>
-              <small>Recommended: 700 x 440 px</small>
-            </div>
           </div>
 
         </div>
       </section>
 
-      {/* 3. MISSION & VISION */}
-      <section className="about-section mission-vision-section">
+      {/* 4. MISSION & VISION */}
+      <section className="about-section mission-vision-section" id="mission-vision">
         <div className="about-container">
           <div className="mission-vision-grid">
             
-            <div className="mv-card mission-card">
-              <div className="mv-icon-circle blue">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 14 14" />
-                </svg>
-              </div>
-              <h3 className="mv-card-title">Our Mission</h3>
-              <p className="mv-card-desc">
-                To bridge India's commerce-to-corporate skills gap by delivering authentic, software-driven accounting and taxation training—enabling every learner to enter the workforce with confidence, certified skills, and proven internship experience.
-              </p>
-            </div>
-
-            <div className="mv-card vision-card">
+            <div className="mv-card vision-card reveal-left" style={{ '--delay': '0s' }}>
               <div className="mv-icon-circle emerald">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
@@ -465,94 +342,80 @@ const About = () => {
               </p>
             </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* 4. WHY CHOOSE FINANZO */}
-      <section className="about-section why-choose-section">
-        <div className="about-container">
-          <div className="centered-header">
-            <h2 className="section-heading">Why Choose Finanzo</h2>
-            <p className="section-subtext">
-              The unfair competitive advantages that set Finanzo graduates apart from conventional textbook learners.
-            </p>
-          </div>
-
-          <div className="why-choose-grid">
-            {whyChoosePoints.map((item, idx) => (
-              <div key={idx} className="why-choose-card">
-                <div className="why-icon-wrap">{item.icon}</div>
-                <h3 className="why-card-title">{item.title}</h3>
-                <p className="why-card-desc">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. OUR LEARNING APPROACH */}
-      <section className="about-section learning-approach-section">
-        <div className="about-container">
-          <div className="centered-header">
-            <h2 className="section-heading">Our Learning Approach</h2>
-            <p className="section-subtext">
-              An industry-vetted 4-step pedagogical blueprint designed to build real workplace competency.
-            </p>
-          </div>
-
-          <div className="approach-phases-grid">
-            {approachPhases.map((phase, idx) => (
-              <div key={idx} className="phase-card">
-                <div className="phase-number">{phase.step}</div>
-                <h3 className="phase-title">{phase.phase}</h3>
-                <p className="phase-desc">{phase.detail}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Image Placeholder: Approach / Dashboard */}
-          <div className="about-image-frame approach-image-space">
-            <div className="placeholder-canvas">
-              <div className="placeholder-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                  <line x1="8" y1="21" x2="16" y2="21" />
-                  <line x1="12" y1="17" x2="12" y2="21" />
+            <div className="mv-card mission-card reveal-right" style={{ '--delay': '0.12s' }}>
+              <div className="mv-icon-circle blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 14 14" />
                 </svg>
               </div>
-              <span className="placeholder-label">[ Image Space: Practical Lab Simulation / Live TallyPrime Interface ]</span>
-              <span className="placeholder-dimensions">Recommended: 1200 x 480 px</span>
+              <h3 className="mv-card-title">Our Mission</h3>
+              <p className="mv-card-desc">
+                To bridge India's commerce-to-corporate skills gap by delivering authentic, software-driven accounting and taxation training—enabling every learner to enter the workforce with confidence, certified skills, and proven internship experience.
+              </p>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* 6. OUR IMPACT */}
-      <section className="about-section impact-overview-section">
+      {/* 5. WHY CHOOSE FINANZO */}
+      <section className="about-section why-choose-section" id="why-choose-about">
+        <div className="about-container why-choose-wrap">
+          <header className="why-choose-header">
+            <h1 className="why-choose-title reveal-up" style={{ '--delay': '0s' }}>Why choose Finanzo</h1>
+            <p className="why-choose-subtext reveal-up" style={{ '--delay': '0.12s' }}>
+              The unfair competitive advantages that set Finanzo graduates apart from conventional textbook learners.
+            </p>
+          </header>
+
+          <div className="why-choose-grid">
+            {whyChoosePoints.map((item, idx) => {
+              const isRow1 = idx < 3;
+              const revealClass = isRow1 ? 'reveal-left' : 'reveal-right';
+              const delay = `${(idx * 0.15).toFixed(2)}s`;
+              return (
+                <article
+                  key={idx}
+                  className={`why-choose-card ${revealClass}`}
+                  style={{ '--delay': delay }}
+                >
+                  <span className="why-card-num">{item.num}</span>
+                  <div className="why-icon-wrap">{item.icon}</div>
+                  <h2 className="why-card-title">{item.title}</h2>
+                  <p className="why-card-desc">{item.desc}</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. OUR IMPACT IN NUMBERS */}
+      <section className="about-section impact-overview-section" id="impact" ref={impactRef}>
         <div className="about-container">
           <div className="centered-header">
-            <h2 className="section-heading">Our Impact in Numbers</h2>
-            <p className="section-subtext">
+            <h2 className="section-heading reveal-up" style={{ '--delay': '0s' }}>Our Impact in Numbers</h2>
+            <p className="section-subtext reveal-up" style={{ '--delay': '0.12s' }}>
               Verified outcomes demonstrating the trust of students, universities, and corporate recruiters.
             </p>
           </div>
 
           <div className="about-impact-grid">
-            <div className="impact-box">
-              <span className="impact-number">10K+</span>
+            <div className="impact-box reveal-up" style={{ '--delay': '0s' }}>
+              <AnimatedStat end={10} suffix="K+" started={impactInView} />
               <span className="impact-label">TRUSTED STUDENTS</span>
             </div>
-            <div className="impact-box">
-              <span className="impact-number">2,800+</span>
+            <div className="impact-box reveal-up" style={{ '--delay': '0.12s' }}>
+              <AnimatedStat end={2800} formatComma={true} suffix="+" started={impactInView} />
               <span className="impact-label">CERTIFICATIONS AWARDED</span>
             </div>
-            <div className="impact-box">
-              <span className="impact-number">729+</span>
+            <div className="impact-box reveal-up" style={{ '--delay': '0.24s' }}>
+              <AnimatedStat end={729} suffix="+" started={impactInView} />
               <span className="impact-label">PLACED CANDIDATES</span>
             </div>
-            <div className="impact-box">
-              <span className="impact-number">140+</span>
+            <div className="impact-box reveal-up" style={{ '--delay': '0.36s' }}>
+              <AnimatedStat end={140} suffix="+" started={impactInView} />
               <span className="impact-label">INDUSTRY MENTORS</span>
             </div>
           </div>
@@ -560,19 +423,22 @@ const About = () => {
       </section>
 
       {/* 7. TEAM & MENTORS */}
-      <section className="about-section mentors-section">
+      <section className="about-section mentors-section" id="team-mentors">
         <div className="about-container">
           <div className="centered-header">
-            <h2 className="section-heading">Team & Industry Mentors</h2>
-            <p className="section-subtext">
+            <h2 className="section-heading reveal-up" style={{ '--delay': '0s' }}>Team & Industry Mentors</h2>
+            <p className="section-subtext reveal-up" style={{ '--delay': '0.12s' }}>
               Learn directly from certified Chartered Accountants, veteran tax advocates, and senior ERP corporate trainers.
             </p>
           </div>
 
           <div className="mentors-grid">
             {mentors.map((m, idx) => (
-              <div key={idx} className="mentor-card">
-                
+              <div
+                key={idx}
+                className="mentor-card reveal-up"
+                style={{ '--delay': `${(idx * 0.12).toFixed(2)}s` }}
+              >
                 {/* Image Placeholder: Mentor Headshot */}
                 <div className="mentor-photo-frame">
                   <div className="mentor-placeholder-canvas">
@@ -589,7 +455,6 @@ const About = () => {
                     <span>Focus: {m.specialty}</span>
                   </div>
                 </div>
-
               </div>
             ))}
           </div>
@@ -597,7 +462,9 @@ const About = () => {
       </section>
 
       {/* 8. OUR PARTNERS (Reusable Infinite White Marquee) */}
-      <Accreditation />
+      <section id="our-partners">
+        <Accreditation />
+      </section>
 
       {/* 9. CTA */}
       <CTA />

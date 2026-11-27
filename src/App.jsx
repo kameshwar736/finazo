@@ -13,8 +13,8 @@ import About from './components/About/About';
 import CourseAccounting from './components/CourseDetail/CourseAccounting';
 import CourseProfessionalGST from './components/CourseDetail/CourseProfessionalGST';
 import CourseTaxProfessional from './components/CourseDetail/CourseTaxProfessional';
-import CourseFloatingIsland from './components/CourseDetail/CourseFloatingIsland';
 import Contact from './components/Contact/Contact';
+import Careers from './components/Careers/Careers';
 import './App.css';
 
 function App() {
@@ -24,11 +24,32 @@ function App() {
     // Listen for hash changes to sync navigation state
     const handleHash = () => {
       const hash = window.location.hash.toLowerCase();
-      if (hash.startsWith('#about')) {
+      const aboutHashes = [
+        '#about',
+        '#who-we-are',
+        '#why-choose-about',
+        '#team-mentors',
+        '#our-partners',
+        '#mission-vision',
+        '#learning-approach',
+        '#impact'
+      ];
+      if (aboutHashes.some((h) => hash.startsWith(h))) {
         setActivePage('about');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (hash === '#about') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          setTimeout(() => {
+            const targetId = hash.replace('#', '');
+            const el = document.getElementById(targetId);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 120);
+        }
       } else if (hash.startsWith('#contact')) {
         setActivePage('contact');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash.startsWith('#career') || hash.startsWith('#careers')) {
+        setActivePage('careers');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (hash.startsWith('#course-accounting') || hash.startsWith('#course-1')) {
         setActivePage('course-accounting');
@@ -111,6 +132,8 @@ function App() {
             <About />
           ) : activePage === 'contact' ? (
             <Contact />
+          ) : activePage === 'careers' ? (
+            <Careers />
           ) : activePage === 'course-accounting' ? (
             <CourseAccounting onBackToHome={handleBackToHome} onSelectCourse={handleNavigateToCourse} />
           ) : activePage === 'course-gst' ? (
@@ -131,28 +154,6 @@ function App() {
           )}
         </div>
       </main>
-
-      {/* Floating Island Dock for Course Detail Pages */}
-      {['course-tax'].includes(activePage) && (
-        <CourseFloatingIsland
-          price={
-            activePage === 'course-gst'
-              ? '₹4,999'
-              : activePage === 'course-tax'
-              ? '₹5,999'
-              : '₹7,999'
-          }
-          onEnroll={() => {
-            const coursePrice =
-              activePage === 'course-gst'
-                ? '₹4,999'
-                : activePage === 'course-tax'
-                ? '₹5,999'
-                : '₹7,999';
-            alert(`Redirecting to Finanzo Secure Checkout for ${coursePrice}...`);
-          }}
-        />
-      )}
 
       <Footer />
     </div>

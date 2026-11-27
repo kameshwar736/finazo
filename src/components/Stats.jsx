@@ -14,7 +14,7 @@ const AnimatedNumber = ({ target, unit, useComma, startAnimation }) => {
     const step = (timestamp) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      
+
       // Cubic ease-out curve for a natural deceleration
       const easeOut = 1 - Math.pow(1 - progress, 3);
       const currentNumber = Math.floor(easeOut * target);
@@ -78,7 +78,7 @@ const Stats = () => {
   return (
     <section className="stats-section" ref={sectionRef}>
       <div className="stats-container">
-        
+
         {/* Section Header */}
         <div className="stats-header">
           <h2 className="stats-heading">

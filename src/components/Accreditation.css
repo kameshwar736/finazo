@@ -94,6 +94,14 @@
   background: linear-gradient(to left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
 }
 
+/* Rows Container for Multi-Row Carousel */
+.logo-carousel-rows-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+  width: 100%;
+}
+
 /* Marquee Track */
 .logo-carousel-track {
   display: flex;
@@ -104,7 +112,12 @@
   will-change: transform;
 }
 
-.logo-carousel-track:hover {
+.logo-carousel-track.reverse-direction {
+  animation: infiniteLogoScrollReverse 34s linear infinite;
+}
+
+.logo-carousel-track:hover,
+.logo-carousel-viewport:hover .logo-carousel-track {
   animation-play-state: paused;
 }
 
@@ -117,6 +130,15 @@
   }
 }
 
+@keyframes infiniteLogoScrollReverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 /* Logo Item (Zero Box Layout - Pure floating logos) */
 .logo-carousel-item {
   display: flex;
@@ -124,9 +146,25 @@
   justify-content: center;
   flex-shrink: 0;
   padding: 0.85rem 1.5rem;
-  transition: transform 0.25s ease;
   cursor: pointer;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+.logo-carousel-viewport.is-visible .logo-carousel-item {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.logo-carousel-viewport.is-visible .logo-carousel-item:nth-child(1) { transition-delay: 0.08s; }
+.logo-carousel-viewport.is-visible .logo-carousel-item:nth-child(2) { transition-delay: 0.16s; }
+.logo-carousel-viewport.is-visible .logo-carousel-item:nth-child(3) { transition-delay: 0.24s; }
+.logo-carousel-viewport.is-visible .logo-carousel-item:nth-child(4) { transition-delay: 0.32s; }
+.logo-carousel-viewport.is-visible .logo-carousel-item:nth-child(5) { transition-delay: 0.40s; }
+.logo-carousel-viewport.is-visible .logo-carousel-item:nth-child(6) { transition-delay: 0.48s; }
+.logo-carousel-viewport.is-visible .logo-carousel-item:nth-child(7) { transition-delay: 0.56s; }
 
 .carousel-partner-logo {
   height: 102px;
@@ -136,6 +174,17 @@
   display: block;
   opacity: 0.96;
   transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Reduced size for wide/prominent logos */
+.carousel-partner-logo.logo-reduced-srm {
+  height: 58px;
+  max-width: 180px;
+}
+
+.carousel-partner-logo.logo-reduced-sap {
+  height: 56px;
+  max-width: 120px;
 }
 
 .logo-carousel-item:hover .carousel-partner-logo {
@@ -155,6 +204,10 @@
     padding: 1.5rem 0;
   }
 
+  .logo-carousel-rows-container {
+    gap: 1.5rem;
+  }
+
   .logo-carousel-track {
     gap: 5rem;
     animation-duration: 25s;
@@ -163,6 +216,16 @@
   .carousel-partner-logo {
     height: 72px;
     max-width: 210px;
+  }
+
+  .carousel-partner-logo.logo-reduced-srm {
+    height: 42px;
+    max-width: 135px;
+  }
+
+  .carousel-partner-logo.logo-reduced-sap {
+    height: 40px;
+    max-width: 85px;
   }
 
   .carousel-fade-left,

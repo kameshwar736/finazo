@@ -13,7 +13,7 @@ const Loader = ({ duration = 2000, onComplete = () => {} }) => {
 
     const removeTimer = setTimeout(() => {
       setRemoved(true);
-    }, duration + 1000);
+    }, duration + 800);
 
     return () => {
       clearTimeout(timer);
@@ -24,10 +24,15 @@ const Loader = ({ duration = 2000, onComplete = () => {} }) => {
   if (removed) return null;
 
   return (
-    <div className={`finanzo-preloader ${done ? 'done' : ''}`} role="status" aria-label="Loading">
-      <img src="/LOGO.png" alt="Finanzo" className="finanzo-preloader-logo" />
-      <div className="finanzo-preloader-track">
-        <span className="finanzo-preloader-bar" style={{ animationDuration: `${duration / 1000}s` }} />
+    <div className={`finanzo-preloader ${done ? 'done' : ''}`} role="status" aria-label="Loading Finanzo">
+      <div className="finanzo-preloader-content">
+        <span className="finanzo-preloader-brand">finanzo</span>
+        <div className="finanzo-preloader-track">
+          <span
+            className="finanzo-preloader-bar"
+            style={{ animationDuration: `${duration / 1000}s` }}
+          />
+        </div>
       </div>
     </div>
   );

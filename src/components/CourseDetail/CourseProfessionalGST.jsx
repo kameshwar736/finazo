@@ -162,6 +162,50 @@ const CURRICULUM_MODULES = [
 ];
 
 
+
+const FAQ_LIST = [
+  {
+    q: 'What is the duration of the program?',
+    a: 'The program spans 25 hours of self-paced high-definition video modules combined with 3 comprehensive corporate internship case studies and weekly live mentoring sessions.'
+  },
+  {
+    q: 'Who are the instructors?',
+    a: 'Training is provided by practicing Chartered Accountants and seasoned corporate finance professionals with over 10+ years of real-world expertise in corporate accounting, Tally Prime, and Indian GST regulations.'
+  },
+  {
+    q: 'What is the mode of delivery?',
+    a: 'The program is delivered 100% online. You get instant access to structured self-paced modules, interactive weekend live mentoring, real-time doubt clearing sessions, and support in regional languages.'
+  },
+  {
+    q: 'Is there any support for job placement?',
+    a: 'Yes! Enrolled learners receive exclusive direct access to the official TEPL Job Portal to apply directly with verified partner employers. In addition, Finanzo provides resume formatting, mock interview prep, and hiring referrals.'
+  },
+  {
+    q: 'What tools and skills will I learn?',
+    a: 'You will gain comprehensive mastery of Tally Prime 4.0, GST portal filing (GSTR-1, GSTR-3B), Automated Bank Reconciliation, E-Invoicing, E-Way Bill generation, MIS Financial Reporting, and Edit Log audit trail compliance.'
+  },
+  {
+    q: 'What are the eligibility criteria?',
+    a: 'Students pursuing commerce or management degrees (B.Com, BBA, M.Com, MBA), working accountants and finance executives upskilling, and small business owners managing accounts are fully eligible.'
+  },
+  {
+    q: 'How does the practical internship work?',
+    a: 'The practical internship includes 3 comprehensive real-world business case studies where you perform live voucher entries, GST calculations, and financial report finalization with mentor reviews.'
+  },
+  {
+    q: 'Can I access the recorded sessions after the live classes?',
+    a: 'Yes! You get Lifetime Access to all recorded sessions, course materials, case study templates, and future curriculum updates via your personal Finanzo dashboard.'
+  },
+  {
+    q: 'What is unique about this program?',
+    a: 'This program uniquely integrates official accreditation by Tally Education (TEPL), NEP 2020 alignment, practical internship with 3 authentic case studies, verified credential, and direct access to the TEPL Job Portal.'
+  },
+  {
+    q: 'Will I receive a certification?',
+    a: 'Yes, upon successful completion you receive the official TEPL Accredited Course Completion Certificate with verifiable credentials and QR code recognized by employers nationwide.'
+  }
+];
+
 const ELIGIBILITY_AUDIENCE = [
   {
     cat: 'Students',
@@ -190,7 +234,11 @@ const ELIGIBILITY_AUDIENCE = [
 ];
 
 const CourseProfessionalGST = ({ onBackToHome = () => {}, onSelectCourse = () => {} }) => {
+  const handlePayNow = () => {
+    alert('Redirecting to Finanzo Secure Checkout for ₹4,999...');
+  };
   const [openModules, setOpenModules] = useState([0]);
+  const [openFaq, setOpenFaq] = useState(0);
 
   const toggleModule = (index) => {
     setOpenModules(prev => 
@@ -212,20 +260,6 @@ const CourseProfessionalGST = ({ onBackToHome = () => {}, onSelectCourse = () =>
           <div className="gst-hero-split-grid">
             {/* Left Column: Headlines, Matrix & CTAs */}
             <div className="gst-hero-content">
-              {/* Back to Courses Link */}
-              <button 
-                type="button" 
-                onClick={onBackToHome} 
-                className="gst-hero-back-btn"
-                aria-label="Back to Home"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="19" y1="12" x2="5" y2="12"></line>
-                  <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                <span>Back to Home</span>
-              </button>
-
               {/* Accreditation Kicker */}
               <div className="gst-hero-kicker">
                 FINANZO PROFESSIONAL CERTIFICATION • ACCREDITED BY TALLY EDUCATION (TEPL)
@@ -257,32 +291,15 @@ const CourseProfessionalGST = ({ onBackToHome = () => {}, onSelectCourse = () =>
               </div>
             </div>
 
-            {/* Right Column: 3D Glowing GST Image & Floating Elements */}
+            {/* Right Column: Standalone 3D GST Logo */}
             <div className="gst-hero-visual-col">
-              <div className="gst-device-scene">
-                {/* Floating Satellite Badge */}
-                <div className="gst-satellite-badge">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                  </svg>
-                </div>
-
-                {/* Glassmorphic Speech Bubble */}
-                <div className="gst-speech-bubble">
-                  <p className="gst-bubble-text">
-                    Master practical GST filing &amp; compliance with real business cases. 🚀
-                  </p>
-                </div>
-
-                {/* 3D GST Showcase Image Container */}
-                <div className="gst-3d-image-frame">
-                  <img 
-                    src="/gst-3d-hero.png" 
-                    alt="Professional GST 3D Illustration" 
-                    className="gst-3d-hero-img" 
-                  />
-                  <div className="gst-image-glow-overlay" />
-                </div>
+              <div className="gst-logo-standalone-wrap">
+                <div className="gst-hero-image-glow" aria-hidden="true" />
+                <img 
+                  src="/gst-3d-hero.png" 
+                  alt="Professional GST 3D Logo" 
+                  className="gst-hero-logo-img" 
+                />
               </div>
             </div>
           </div>
@@ -325,62 +342,88 @@ const CourseProfessionalGST = ({ onBackToHome = () => {}, onSelectCourse = () =>
           ========================================================================== */}
       <section className="gst-overview-section">
         <div className="gst-overview-container">
-          {/* Section Kicker */}
-          <div className="gst-overview-kicker">
-            SECTION 01 / OVERVIEW
-          </div>
+          <div className="gst-overview-grid-split">
+            <div className="gst-overview-col-left">
+              {/* Section Heading */}
+              <h2 className="gst-overview-title">
+                Course <span className="gst-overview-blue">Overview</span>
+              </h2>
 
-          {/* Section Heading */}
-          <h2 className="gst-overview-title">
-            Course <span className="gst-overview-blue">Overview</span>
-          </h2>
+              {/* Lead Paragraph */}
+              <p className="gst-overview-lead">
+                This course is designed to help you master Tally Prime with a strong focus on GST. You will learn through practical examples, real business cases, and hands-on training.
+              </p>
 
-          {/* Lead Paragraph */}
-          <p className="gst-overview-lead">
-            This course is designed to help you master Tally Prime with a strong focus on GST. You will learn through practical examples, real business cases, and hands-on training.
-          </p>
+              {/* Secondary Paragraph */}
+              <p className="gst-overview-sublead">
+                Along with technical knowledge, you will also gain internship support to gain industry exposure and build your career in accounts and finance.
+              </p>
 
-          {/* Secondary Paragraph */}
-          <p className="gst-overview-sublead">
-            Along with technical knowledge, you will also gain internship support to gain industry exposure and build your career in accounts and finance.
-          </p>
+              {/* 2x2 Feature Checklist */}
+              <div className="gst-overview-checklist">
+                <div className="gst-check-item">
+                  <span className="gst-check-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </span>
+                  <span className="gst-check-text">Tally Prime 4.0 Industry Standard</span>
+                </div>
 
-          {/* 2x2 Feature Checklist */}
-          <div className="gst-overview-checklist">
-            <div className="gst-check-item">
-              <span className="gst-check-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span className="gst-check-text">Tally Prime 4.0 Industry Standard</span>
+                <div className="gst-check-item">
+                  <span className="gst-check-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </span>
+                  <span className="gst-check-text">Live GST Portal Simulations (GSTR–1 &amp; 3B)</span>
+                </div>
+
+                <div className="gst-check-item">
+                  <span className="gst-check-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </span>
+                  <span className="gst-check-text">Automated BRS &amp; Multi–Tier Invoicing</span>
+                </div>
+
+                <div className="gst-check-item">
+                  <span className="gst-check-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </span>
+                  <span className="gst-check-text">NEP 2020 Aligned &amp; TEPL Accredited</span>
+                </div>
+              </div>
             </div>
 
-            <div className="gst-check-item">
-              <span className="gst-check-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span className="gst-check-text">Live GST Portal Simulations (GSTR–1 &amp; 3B)</span>
-            </div>
-
-            <div className="gst-check-item">
-              <span className="gst-check-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span className="gst-check-text">Automated BRS &amp; Multi–Tier Invoicing</span>
-            </div>
-
-            <div className="gst-check-item">
-              <span className="gst-check-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span className="gst-check-text">NEP 2020 Aligned &amp; TEPL Accredited</span>
+            {/* Right Column: Course Image & Partner Logos */}
+            <div className="course-overview-media-col">
+              <div className="course-overview-image-wrap">
+                <img
+                  src="/course/course2.jpg"
+                  alt="Professional Accounting & GST Compliance Course Overview"
+                  className="course-overview-main-img"
+                />
+              </div>
+              <div className="course-overview-logos-row">
+                <div className="course-overview-logo-card">
+                  <img
+                    src="/course/Tally%20Power%20of%20Simplicity%20Logo.png"
+                    alt="Tally Power of Simplicity"
+                    className="course-overview-partner-logo"
+                  />
+                </div>
+                <div className="course-overview-logo-card">
+                  <img
+                    src="/course/TEPL%20Tally%20Education%20Logo.png"
+                    alt="Tally Education TEPL"
+                    className="course-overview-partner-logo"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -392,7 +435,7 @@ const CourseProfessionalGST = ({ onBackToHome = () => {}, onSelectCourse = () =>
       <section className="arch-content-section section-about-tally" id="about-tally">
         <div className="arch-container">
           <div className="about-tally-header-wrap">
-            <h2 className="arch-section-title about-tally-title">
+            <h2 className="about-tally-title">
               About <span className="hero-lime-highlight">Tally Prime</span> with GST Fundamentals
             </h2>
           </div>
@@ -552,6 +595,223 @@ const CourseProfessionalGST = ({ onBackToHome = () => {}, onSelectCourse = () =>
           </div>
         </div>
       </section>
+
+      {/* ==========================================================================
+          SECTION: COURSE PACKAGE & FEES (PRICING SECTION)
+          ========================================================================== */}
+      <section className="arch-content-section section-pricing-package section-pricing-light" id="pricing">
+        <div className="arch-container">
+          <div className="arch-section-header-row">
+            <div>
+              <h2 className="arch-section-title arch-title-dark">
+                Complete Course Package &amp; Fees
+              </h2>
+            </div>
+            <p className="arch-header-desc">
+              All-inclusive program fee with software access, mentoring, internship, and official certifications
+            </p>
+          </div>
+
+          <div className="arch-pricing-package-card">
+            <div className="pricing-col-left">
+              <span className="package-tag">FULL ACCESS ENROLLMENT</span>
+              <div className="package-price-wrap">
+                <span className="pkg-curr">₹4,999</span>
+                <span className="pkg-old">₹6,999</span>
+                <span className="pkg-discount">29% DISCOUNT APPLIED</span>
+              </div>
+
+              <div className="pkg-specs-grid">
+                <div className="spec-box">
+                  <span className="label">Duration</span>
+                  <span className="val">25 Hours</span>
+                </div>
+                <div className="spec-box">
+                  <span className="label">Learning Mode</span>
+                  <span className="val">Self-Paced + Live</span>
+                </div>
+                <div className="spec-box">
+                  <span className="label">Internship</span>
+                  <span className="val">3 Case Studies</span>
+                </div>
+                <div className="spec-box">
+                  <span className="label">Certification</span>
+                  <span className="val">Tally (TEPL) Certified</span>
+                </div>
+              </div>
+
+              <button type="button" onClick={handlePayNow} className="package-enroll-btn">
+                <span>PAY NOW • ENROLL TODAY</span>
+                <span className="btn-arrow">→</span>
+              </button>
+            </div>
+
+            <div className="pricing-col-right">
+              <h4 className="inclusions-title">Package Inclusions</h4>
+              <ul className="inclusions-checklist">
+                <li><span className="chk">✓</span> 25 Hours Self-Paced Learning Modules</li>
+                <li><span className="chk">✓</span> Weekly Live Interactive Sessions with Mentors</li>
+                <li><span className="chk">✓</span> 3 Real-World Corporate Case Studies</li>
+                <li><span className="chk">✓</span> Accredited Tally Education (TEPL) Certification</li>
+                <li><span className="chk">✓</span> Exclusive TEPL Job Portal Direct Employer Access</li>
+                <li><span className="chk">✓</span> Hands-On GST Portal Simulation (GSTR-1 &amp; 3B)</li>
+                <li><span className="chk">✓</span> Real-Time Regional Doubt &amp; Mentor Support</li>
+                <li><span className="chk">✓</span> National Education Policy (NEP 2020) Aligned</li>
+              </ul>
+
+              <div className="advisor-strip">
+                <span className="advisor-note">Have questions before enrolling?</span>
+                <div className="advisor-actions">
+                  <a
+                    href="https://wa.me/917358570881?text=Hi%20Finanzo%20team,%20I%20have%20questions%20about%20the%20Professional%20Accounting%20and%20GST%20Compliance%20course"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pkg-advisor-link"
+                  >
+                    💬 WhatsApp Advisor
+                  </a>
+                  <a href="tel:+917358570881" className="pkg-advisor-link">
+                    📞 Call Support
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================================================
+          SECTION: STUDENT REVIEWS & FEEDBACK (3-COLUMN GRID)
+          ========================================================================== */}
+      <section className="arch-content-section section-reviews-light" id="reviews">
+        <div className="arch-container">
+          <div className="arch-section-header-row">
+            <div>
+              <h2 className="arch-section-title arch-title-dark">
+                Student Reviews &amp; Feedback
+              </h2>
+            </div>
+            <div className="score-pill-header score-pill-light">
+              <span className="gold-star">★</span>
+              <span>4.8 / 5.0 (2,100 Reviews)</span>
+            </div>
+          </div>
+
+          <div className="arch-reviews-3col-grid">
+            <div className="arch-review-card">
+              <div className="review-card-head">
+                <span className="stars-gold">★★★★★</span>
+                <span className="review-time">2 weeks ago</span>
+              </div>
+              <p className="review-body">
+                "The internship case studies were immensely helpful. Learning Tally Prime practically gave me the confidence to clear my interview for Junior Accountant!"
+              </p>
+              <div className="review-author-meta">
+                <h5 className="author-name">Kavitha R.</h5>
+                <span className="author-role">Commerce Graduate, Chennai</span>
+              </div>
+            </div>
+
+            <div className="arch-review-card">
+              <div className="review-card-head">
+                <span className="stars-gold">★★★★★</span>
+                <span className="review-time">1 month ago</span>
+              </div>
+              <p className="review-body">
+                "Clear explanation of GST fundamentals, e-Invoicing, and practical voucher entries. The dual certificates and TEPL Job Portal access make this truly worth every penny."
+              </p>
+              <div className="review-author-meta">
+                <h5 className="author-name">Suresh V.</h5>
+                <span className="author-role">Accounts &amp; GST Executive, Coimbatore</span>
+              </div>
+            </div>
+
+            <div className="arch-review-card">
+              <div className="review-card-head">
+                <span className="stars-gold">★★★★★</span>
+                <span className="review-time">3 weeks ago</span>
+              </div>
+              <p className="review-body">
+                "Self-paced video sessions combined with weekly live mentoring and regional language doubt support made complex accounting and GST return filing simple."
+              </p>
+              <div className="review-author-meta">
+                <h5 className="author-name">Ananya S.</h5>
+                <span className="author-role">B.Com Final Year Student, Madurai</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================================================
+          SECTION: FAQS (2-COLUMN SPLIT ACCORDION)
+          ========================================================================== */}
+      <section className="arch-content-section" id="faqs">
+        <div className="arch-container">
+          <div className="arch-section-header-row">
+            <div>
+              <h2 className="arch-section-title">
+                <span className="hero-lime-highlight">Frequently Asked Questions</span>
+              </h2>
+            </div>
+            <div className="arch-faq-count-pill">10 QUESTIONS</div>
+          </div>
+
+          <div className="arch-faq-2col-grid">
+            {/* Column 1: Items 0..4 */}
+            <div className="faq-column">
+              {FAQ_LIST.slice(0, 5).map((faq, index) => {
+                const isOpen = openFaq === index;
+                return (
+                  <div key={index} className={`arch-drawer-item ${isOpen ? 'active' : ''}`}>
+                    <button
+                      type="button"
+                      className="drawer-trigger-row"
+                      onClick={() => setOpenFaq(isOpen ? null : index)}
+                    >
+                      <span className="faq-question-label">{faq.q}</span>
+                      <span className="drawer-toggle">{isOpen ? '—' : '+'}</span>
+                    </button>
+                    {isOpen && (
+                      <div className="drawer-body-content">
+                        <p className="faq-answer-p">{faq.a}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Column 2: Items 5..9 */}
+            <div className="faq-column">
+              {FAQ_LIST.slice(5, 10).map((faq, index) => {
+                const actualIndex = index + 5;
+                const isOpen = openFaq === actualIndex;
+                return (
+                  <div key={actualIndex} className={`arch-drawer-item ${isOpen ? 'active' : ''}`}>
+                    <button
+                      type="button"
+                      className="drawer-trigger-row"
+                      onClick={() => setOpenFaq(isOpen ? null : actualIndex)}
+                    >
+                      <span className="faq-question-label">{faq.q}</span>
+                      <span className="drawer-toggle">{isOpen ? '—' : '+'}</span>
+                    </button>
+                    {isOpen && (
+                      <div className="drawer-body-content">
+                        <p className="faq-answer-p">{faq.a}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
 
     </div>
   );

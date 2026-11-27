@@ -1,23 +1,26 @@
 import React from 'react';
 import './CTA.css';
+import useReveal from '../hooks/useReveal';
 
 const CTA = () => {
+  const containerRef = useReveal();
+
   return (
     <section className="cta-section" id="contact">
       <div className="cta-ambient-glow" />
 
-      <div className="cta-container">
-        <div className="cta-card animate-scale-up">
+      <div className="cta-container" ref={containerRef}>
+        <div className="cta-card reveal-zoom">
           <div className="cta-content">
-            <h2 className="cta-title">
+            <h2 className="cta-title reveal-up" style={{ '--delay': '0.12s' }}>
               Ready to Accelerate Your Finance Career?
             </h2>
 
-            <p className="cta-description">
+            <p className="cta-description reveal-up" style={{ '--delay': '0.24s' }}>
               Join 10,000+ learners mastering TallyPrime, GST compliance, and corporate accounting with live business ledgers. Enroll today and unlock 30 days of free complimentary TallyPrime software access.
             </p>
 
-            <div className="cta-action-buttons">
+            <div className="cta-action-buttons reveal-up" style={{ '--delay': '0.36s' }}>
               <a href="#courses" className="cta-btn-primary">
                 <span>Explore All Courses</span>
                 <span className="cta-btn-arrow">
@@ -36,7 +39,7 @@ const CTA = () => {
               </a>
             </div>
 
-            <div className="cta-trust-checklist">
+            <div className="cta-trust-checklist reveal-up" style={{ '--delay': '0.48s' }}>
               <div className="checklist-item">
                 <span className="check-dot">✓</span>
                 <span>Official Tally Certification</span>
