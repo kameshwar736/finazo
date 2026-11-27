@@ -1,0 +1,528 @@
+/* ==========================================================================
+   CONTACT US PAGE - STYLESHEET
+   UI Reference: Blue/Black Hero Split, Clean Minimal Dark Form & Reach Out
+   ========================================================================== */
+
+.contact-page-root {
+  --contact-bg: #000000;
+  --contact-panel: #0b2a8a;
+  --contact-field: #0a0f1f;
+  --contact-line: #1c2744;
+  --contact-text: #ffffff;
+  --contact-muted: #9db0d9;
+  --contact-blue: #2563eb;
+  --contact-blue-h: #4a85ff;
+  --contact-font: "Inter Tight", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+
+  background-color: var(--contact-bg);
+  color: var(--contact-text);
+  font-family: var(--contact-font);
+  line-height: 1.5;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: clip;
+}
+
+/* ==========================================================================
+   HERO SECTION (SPLIT SCREEN BLUE / BLACK)
+   ========================================================================== */
+
+.contact-hero {
+  position: relative;
+  min-height: 85vh;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  overflow: hidden;
+}
+
+.contact-hero-left {
+  background: linear-gradient(135deg, #0b2a8a, #1d4ed8 140%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(100px, 14vh, 140px) 5vw clamp(100px, 14vh, 140px) 7vw;
+  position: relative;
+  z-index: 2;
+}
+
+.contact-hero-left > * {
+  animation: contactRise 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.contact-hero-left > :nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.contact-hero-left > :nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.contact-hero-left > :nth-child(3) {
+  animation-delay: 0.35s;
+}
+
+.contact-hero-left h1 {
+  font-size: clamp(3rem, 6.2vw, 5.4rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-weight: 800;
+  margin: 0 0 24px;
+  color: #ffffff;
+}
+
+.contact-hero-left p {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+  line-height: 1.6;
+  max-width: 30em;
+  margin: 0 0 36px;
+}
+
+.contact-hero-right {
+  position: relative;
+  overflow: hidden;
+  background: #000000;
+  z-index: 2;
+}
+
+.contact-hero-glow {
+  position: absolute;
+  width: 75%;
+  aspect-ratio: 1;
+  left: 12%;
+  top: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.8), rgba(37, 99, 235, 0) 65%);
+  filter: blur(35px);
+  animation: contactDrift 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.contact-scroll-btn {
+  position: absolute;
+  right: 8vw;
+  bottom: 22%;
+  width: 72px;
+  height: 72px;
+  border: 1px solid #6b7185;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.4rem;
+  transition: background 0.2s, border-color 0.2s;
+  animation: contactBob 2.2s ease-in-out infinite, contactRing 2.2s ease-out infinite;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.contact-scroll-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #ffffff;
+}
+
+/* Background Marquee Ghost Text */
+.contact-ghost {
+  position: absolute;
+  left: 0;
+  width: max-content;
+  bottom: -0.18em;
+  white-space: nowrap;
+  animation: contactMarq 40s linear infinite;
+  will-change: transform;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-size: clamp(5rem, 13vw, 11rem);
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.045);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  border: 0;
+  border-radius: 999px;
+  padding: 18px 30px;
+  font-family: var(--contact-font);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.25s, background 0.25s, color 0.25s, box-shadow 0.25s;
+}
+
+.contact-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-101%);
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.contact-btn:hover::before {
+  transform: none;
+}
+
+.contact-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px -12px rgba(37, 99, 235, 0.85);
+}
+
+.contact-btn:active {
+  transform: translateY(0);
+}
+
+.contact-btn span {
+  display: inline-block;
+  transition: transform 0.3s;
+}
+
+.contact-btn:hover span {
+  transform: translateY(4px);
+}
+
+.contact-btn.slate {
+  background: #ffffff;
+  color: #000000;
+}
+
+.contact-btn.slate::before {
+  background: var(--contact-blue);
+}
+
+.contact-btn.slate:hover {
+  color: #ffffff;
+}
+
+.contact-btn.blue {
+  background: var(--contact-blue);
+  padding: 18px 44px;
+}
+
+.contact-btn.blue:hover {
+  background: var(--contact-blue-h);
+}
+
+/* ==========================================================================
+   FORM WRAPPER & INPUTS
+   ========================================================================== */
+
+.contact-main-section {
+  background: #000000;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.contact-form-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 130px 24px 120px;
+  box-sizing: border-box;
+}
+
+.contact-form-wrap h2 {
+  font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin: 0 0 20px;
+  text-align: center;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.contact-form-wrap .contact-sub {
+  color: var(--contact-muted);
+  text-align: center;
+  font-size: 1.1rem;
+  max-width: 30em;
+  margin: 0 auto 64px;
+  line-height: 1.6;
+}
+
+.contact-group {
+  margin-bottom: 28px;
+}
+
+.contact-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #ffffff;
+  font-size: 0.98rem;
+}
+
+.contact-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  background: var(--contact-field);
+  border: 1px solid var(--contact-line);
+  border-radius: 4px;
+  color: var(--contact-text);
+  font-family: var(--contact-font);
+  font-size: 1rem;
+  padding: 16px 18px;
+  box-sizing: border-box;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #94a3b8;
+}
+
+.contact-form input:hover,
+.contact-form textarea:hover {
+  border-color: #2f4272;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 0;
+  border-color: var(--contact-blue-h);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.28);
+  background: #0d1430;
+}
+
+.contact-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.contact-wa {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--contact-muted);
+  font-size: 0.98rem;
+}
+
+.contact-wa a {
+  color: var(--contact-text);
+  font-weight: 700;
+  text-underline-offset: 4px;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.contact-wa a:hover {
+  color: var(--contact-blue-h);
+}
+
+.contact-status {
+  margin-top: 20px;
+  font-size: 0.95rem;
+  min-height: 1.5em;
+  transition: color 0.3s;
+}
+
+.contact-status.success {
+  color: #8fb4ff;
+}
+
+.contact-status.error {
+  color: #f87171;
+}
+
+/* ==========================================================================
+   REACH OUT SECTION
+   ========================================================================== */
+
+.contact-reach {
+  border-top: 1px solid var(--contact-line);
+  margin-top: 90px;
+  padding-top: 70px;
+}
+
+.contact-eyebrow {
+  color: var(--contact-muted);
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.contact-reach h3 {
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  margin: 0 0 40px;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.contact-cols {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 36px 48px;
+}
+
+.contact-col-item {
+  transition: transform 0.3s ease;
+}
+
+.contact-col-item:hover {
+  transform: translateX(6px);
+}
+
+.contact-col-item h4 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.contact-col-item p {
+  margin: 0;
+  color: var(--contact-muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.contact-col-item a {
+  color: var(--contact-muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s;
+}
+
+.contact-col-item a:hover {
+  color: var(--contact-blue-h);
+}
+
+.contact-follow {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   KEYFRAME ANIMATIONS
+   ========================================================================== */
+
+@keyframes contactRise {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes contactDrift {
+  0%, 100% {
+    transform: translate(-10%, -6%) scale(1);
+  }
+  50% {
+    transform: translate(12%, 10%) scale(1.25);
+  }
+}
+
+@keyframes contactBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(12px);
+  }
+}
+
+@keyframes contactRing {
+  from {
+    box-shadow: 0 0 0 0 rgba(74, 133, 255, 0.55);
+  }
+  to {
+    box-shadow: 0 0 0 28px rgba(74, 133, 255, 0);
+  }
+}
+
+@keyframes contactMarq {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Scroll Reveal Classes */
+.contact-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms),
+              transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms);
+}
+
+.contact-reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   RESPONSIVE QUERIES
+   ========================================================================== */
+
+@media (max-width: 820px) {
+  .contact-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-hero-left {
+    padding: 130px 7vw 110px;
+  }
+
+  .contact-hero-right {
+    display: none;
+  }
+
+  .contact-row,
+  .contact-cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .contact-hero-left > *,
+  .contact-hero-glow,
+  .contact-scroll-btn,
+  .contact-ghost {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,74 @@
+/* ==========================================================================
+   FINANZO BRAND PRELOADER COMPONENT
+   ========================================================================== */
+
+.finanzo-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: #ffffff;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 20px;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.7s ease, visibility 0s 0.7s;
+}
+
+.finanzo-preloader.done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.finanzo-preloader-logo {
+  width: min(220px, 54vw);
+  height: auto;
+  display: block;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  animation: lg-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+.finanzo-preloader-track {
+  width: min(220px, 54vw);
+  height: 2px;
+  background: #e3e6f4;
+  overflow: hidden;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  border-radius: 2px;
+}
+
+.finanzo-preloader-bar {
+  display: block;
+  height: 100%;
+  background: #0101ff;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: lg-fill 2s cubic-bezier(0.65, 0, 0.35, 1) 0.35s forwards;
+}
+
+.finanzo-preloader.done .finanzo-preloader-logo,
+.finanzo-preloader.done .finanzo-preloader-track {
+  opacity: 0;
+  transform: scale(0.93);
+}
+
+@keyframes lg-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes lg-fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .finanzo-preloader {
+    display: none !important;
+  }
+}

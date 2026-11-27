@@ -42,7 +42,7 @@ const Navbar = ({ activePage = 'home', setActivePage = () => { } }) => {
       ]
     },
     { name: 'Career', href: '#career', page: 'home' },
-    { name: 'Contact', href: '#contact', page: 'home' },
+    { name: 'Contact', href: '#contact', page: 'contact' },
   ];
 
   const accountSubItems = [
@@ -54,7 +54,7 @@ const Navbar = ({ activePage = 'home', setActivePage = () => { } }) => {
   const handleNavClick = (item) => {
     if (item.page) {
       setActivePage(item.page);
-      if (item.page === 'about' || item.name === 'Home') {
+      if (item.page === 'about' || item.page === 'contact' || item.name === 'Home') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }

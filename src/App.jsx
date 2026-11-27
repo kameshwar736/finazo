@@ -14,6 +14,7 @@ import CourseAccounting from './components/CourseDetail/CourseAccounting';
 import CourseProfessionalGST from './components/CourseDetail/CourseProfessionalGST';
 import CourseTaxProfessional from './components/CourseDetail/CourseTaxProfessional';
 import CourseFloatingIsland from './components/CourseDetail/CourseFloatingIsland';
+import Contact from './components/Contact/Contact';
 import './App.css';
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
       const hash = window.location.hash.toLowerCase();
       if (hash.startsWith('#about')) {
         setActivePage('about');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash.startsWith('#contact')) {
+        setActivePage('contact');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (hash.startsWith('#course-accounting') || hash.startsWith('#course-1')) {
         setActivePage('course-accounting');
@@ -105,6 +109,8 @@ function App() {
         <div key={activePage} className="page-transition-wrapper">
           {activePage === 'about' ? (
             <About />
+          ) : activePage === 'contact' ? (
+            <Contact />
           ) : activePage === 'course-accounting' ? (
             <CourseAccounting onBackToHome={handleBackToHome} onSelectCourse={handleNavigateToCourse} />
           ) : activePage === 'course-gst' ? (
