@@ -8,157 +8,39 @@
   <title>Finanzo | Finance Skills for a Brighter Future</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" />
   <style>
-    /* ==========================================================================
-         FULL-SCREEN PAGE LOADER (MATCHING UI & BEHAVIOUR SPECIFICATION)
-         ========================================================================== */
-    .loader {
-      position: fixed;
-      inset: 0;
-      z-index: 999999;
-      background: #ffffff;
-      display: grid;
-      place-content: center;
-      justify-items: center;
-      gap: 20px;
-      visibility: visible;
-      opacity: 1;
-      transition: opacity 0.7s ease, visibility 0s 0.7s;
-    }
-
-    .loader.done {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    /* 1. The logo fades in and rises about 14px (0.9s, ease-out) */
-    .loader img {
-      width: min(220px, 54vw);
-      height: auto;
-      display: block;
-      transition: opacity 0.45s ease, transform 0.45s ease;
-      animation: lg-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
-    }
-
-    /* Thin 2px progress line, same width as logo, with light grey track (#e3e6f4) */
-    .loader .track {
-      width: min(220px, 54vw);
-      height: 2px;
-      background: #e3e6f4;
-      overflow: hidden;
-      transition: opacity 0.45s ease, transform 0.45s ease;
-      border-radius: 2px;
-    }
-
-    /* 2. After 0.35s delay, blue progress bar fills left to right over 2s (#0101ff) */
-    .loader .bar {
-      display: block;
-      height: 100%;
-      background: #0101ff;
-      transform: scaleX(0);
-      transform-origin: left;
-      animation: lg-fill 2s cubic-bezier(0.65, 0, 0.35, 1) 0.35s forwards;
-    }
-
-    /* 3. When loading finishes, logo and bar fade out and shrink slightly (scale 0.93, 0.45s) */
-    .loader.done img,
-    .loader.done .track {
-      opacity: 0;
-      transform: scale(0.93);
-    }
-
-    @keyframes lg-in {
-      from {
-        opacity: 0;
-        transform: translateY(14px);
-      }
-    }
-
-    @keyframes lg-fill {
-      to {
-        transform: scaleX(1);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .loader {
-        display: none !important;
-      }
-
-      .loading,
-      html.loading,
-      html.loading body {
-        overflow: auto !important;
-      }
-
-      html.loading *:not(.loader, .loader *) {
-        animation-play-state: running !important;
-      }
-    }
+    html,body{margin:0;height:100%;background:#fff}
+    @media(prefers-reduced-motion:reduce){.loader{display:none!important}*,*::before{transition:none!important;animation:none!important}}
+    /* loader */
+    .loader{position:fixed;inset:0;z-index:999999;background:#fff;display:grid;place-content:center;justify-items:center;gap:20px;visibility:hidden;opacity:0;transition:opacity .7s ease,visibility 0s .7s}
+    .loading .loader{visibility:visible;opacity:1;transition:none}
+    .loading{overflow:hidden}
+    .loader img{width:min(220px,54vw);height:auto;display:block;transition:opacity .45s ease,transform .45s ease;animation:lg-in .9s cubic-bezier(.2,.7,.2,1) backwards}
+    .loader .track{width:min(220px,54vw);height:2px;background:#e3e6f4;overflow:hidden;transition:opacity .45s ease,transform .45s ease}
+    .loader .bar{display:block;height:100%;background:#0101ff;transform:scaleX(0);transform-origin:left;animation:lg-fill 2s cubic-bezier(.65,0,.35,1) .35s forwards}
+    .loader.done img,.loader.done .track{opacity:0;transform:scale(.93)}
+    @keyframes lg-in{from{opacity:0;transform:translateY(14px)}}
+    @keyframes lg-fill{to{transform:scaleX(1)}}
   </style>
+  <script>if(!matchMedia("(prefers-reduced-motion:reduce)").matches)document.documentElement.classList.add("loading")</script>
 </head>
 
 <body>
-  <!-- Full-screen Page Loader with Embedded Base64 Brand Logo -->
-  <div class="loader" id="loader" role="status" aria-label="Loading">
-    <img
-      src="data:image/png;base64,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"
-      alt="Finanzo" />
-    <div class="track"><span class="bar"></span></div>
-  </div>
+  <div class="loader" id="loader" role="status" aria-label="Loading"><img src="data:image/png;base64,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" alt="Finanzo"><div class="track"><span class="bar"></span></div></div>
 
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 
   <script>
     (function () {
-      // Respect prefers-reduced-motion by skipping the loader entirely
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.classList.remove('loading');
-        var el = document.getElementById('loader');
-        if (el && el.parentNode) el.parentNode.removeChild(el);
-        return;
-      }
-
-      var d = document.documentElement;
-      var l = document.getElementById('loader');
-      if (!l) return;
-      var t0 = Date.now();
-      var fin = false;
-
+      var d = document.documentElement, l = document.getElementById('loader'), t0 = Date.now(), fin = false;
       function end() {
-        if (fin) return;
-        fin = true;
-        // 3. Logo and bar fade out & shrink (scale 0.93, 0.45s)
+        if (fin) return; fin = true;
         l.classList.add('done');
-
-        // 4 & 5. White overlay fades out over 0.7s; page content animations unpause and play right after
-        setTimeout(function () {
-          d.classList.remove('loading');
-        }, 450);
-
-        // Remove loader DOM element from the page after transition completes
-        setTimeout(function () {
-          if (l && l.parentNode) {
-            l.parentNode.removeChild(l);
-          }
-        }, 1200);
+        setTimeout(function () { d.classList.remove('loading') }, 450);
+        setTimeout(function () { if (l && l.parentNode) l.parentNode.removeChild(l); }, 1400);
       }
-
-      function onReady() {
-        // Show for at least 2.5 seconds, and also wait for window.load to complete
-        var elapsed = Date.now() - t0;
-        var waitTime = Math.max(0, 2500 - elapsed);
-        setTimeout(end, waitTime);
-      }
-
-      if (document.readyState === 'complete') {
-        onReady();
-      } else {
-        window.addEventListener('load', onReady);
-      }
-
-      // Safety timeout so the loader never hangs longer than 6 seconds
+      function go() { setTimeout(end, Math.max(0, 2500 - (Date.now() - t0))) }
+      if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
       setTimeout(end, 6000);
     })();
   </script>

@@ -255,17 +255,17 @@ const About = () => {
             <div className="about-pt reveal-up" style={{ '--delay': '0s' }}>
               <div className="about-pt-line" />
               <span>01</span>
-              <h2>Industry-grade practical education</h2>
+              <h2>Financial Expertise</h2>
             </div>
             <div className="about-pt reveal-up" style={{ '--delay': '0.12s' }}>
               <div className="about-pt-line" />
               <span>02</span>
-              <h2>Live GST filing expertise</h2>
+              <h2>Industry Readiness</h2>
             </div>
             <div className="about-pt reveal-up" style={{ '--delay': '0.24s' }}>
               <div className="about-pt-line" />
               <span>03</span>
-              <h2>Placement-ready credentials</h2>
+              <h2>Professional Development</h2>
             </div>
           </div>
         </div>
